@@ -91,7 +91,7 @@ export function FAQ() {
                 <>
                   Common
                   <br />
-                  questions.
+                  questions
                 </>
               }
               description="The ones every prospective client asks. If yours isn't here, just send it over."

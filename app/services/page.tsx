@@ -153,10 +153,10 @@ export default function ServicesPage() {
               eyebrow="Services & pricing"
               title={
                 <>
-                  Three tiers.
+                  Three tiers
                   <br />
                   <span className="text-muted-foreground">
-                    No hidden fees.
+                    No hidden fees
                   </span>
                 </>
               }
@@ -241,7 +241,7 @@ export default function ServicesPage() {
                 <>
                   What&apos;s always
                   <br />
-                  <span className="text-muted-foreground">included.</span>
+                  <span className="text-muted-foreground">included</span>
                 </>
               }
               description="No matter which tier you pick, every project ships with these. They aren't add-ons."
@@ -270,7 +270,7 @@ export default function ServicesPage() {
                 <>
                   Pricing
                   <br />
-                  questions.
+                  questions
                 </>
               }
             />

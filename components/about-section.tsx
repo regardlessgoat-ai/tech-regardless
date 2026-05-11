@@ -1,6 +1,6 @@
-import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/reveal";
+import { BinaryTreeVisual } from "@/components/binary-tree-visual";
 
 export function AboutSection() {
   return (
@@ -12,20 +12,7 @@ export function AboutSection() {
       <div className="container-wide">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">
           <Reveal className="lg:col-span-5">
-            {/* TODO: Replace with my real headshot — drop a square image into /public/images/headshot.jpg */}
-            <div className="group relative aspect-square w-full max-w-md overflow-hidden rounded border border-border">
-              <Image
-                src="https://images.unsplash.com/photo-1539571696357-5a69c17a67c6?auto=format&fit=crop&w=900&q=80"
-                alt="Tech.Regardless founder portrait"
-                fill
-                sizes="(min-width: 1024px) 40vw, 90vw"
-                className="object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
-              />
-              <div
-                aria-hidden
-                className="pointer-events-none absolute inset-0 rounded ring-0 ring-accent/0 transition-all duration-500 group-hover:ring-2 group-hover:ring-accent/40 group-hover:shadow-glow"
-              />
-            </div>
+            <BinaryTreeVisual />
           </Reveal>
 
           <Reveal className="lg:col-span-7" delay={0.1}>
@@ -38,7 +25,7 @@ export function AboutSection() {
             >
               I build the web like
               <br />
-              <span className="text-muted-foreground">it&apos;s 2026 — because it is.</span>
+              <span className="text-muted-foreground">it&apos;s 2026 — because it is</span>
             </h2>
             <div className="mt-8 space-y-5 text-lg leading-relaxed text-muted-foreground">
               <p>

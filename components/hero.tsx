@@ -27,10 +27,10 @@ export function Hero() {
           >
             Websites that <br className="hidden sm:block" />
             <span className="relative">
-              work.
+              work
               <span className="absolute -bottom-1 left-0 right-0 h-[6px] rounded-full bg-accent/30 blur-sm" />
             </span>{" "}
-            <span className="text-muted-foreground/60">Regardless.</span>
+            <span className="text-muted-foreground/60">Regardless</span>
           </h1>
 
           <p className="max-w-2xl text-lg text-muted-foreground sm:text-xl">

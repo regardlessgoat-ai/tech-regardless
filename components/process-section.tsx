@@ -46,9 +46,9 @@ export function ProcessSection() {
             eyebrow="Process"
             title={
               <>
-                Four steps.
+                Four steps
                 <br />
-                <span className="text-muted-foreground">No surprises.</span>
+                <span className="text-muted-foreground">No surprises</span>
               </>
             }
             description="The same process every time, whether the project is two weeks or two months."

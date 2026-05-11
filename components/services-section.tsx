@@ -45,7 +45,7 @@ export function ServicesSection() {
               <>
                 What I build,
                 <br />
-                <span className="text-muted-foreground">how I build it.</span>
+                <span className="text-muted-foreground">how I build it</span>
               </>
             }
             description="Three ways to work together. Pick the one that matches where you are — I'll handle the rest."

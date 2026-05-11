@@ -30,7 +30,7 @@ export default function ContactPage() {
           <h1 className="mt-4 text-balance text-5xl font-medium tracking-tight sm:text-6xl md:text-7xl">
             Tell me about
             <br />
-            <span className="text-muted-foreground">your project.</span>
+            <span className="text-muted-foreground">your project</span>
           </h1>
           <p className="mt-6 max-w-xl text-lg text-muted-foreground">
             The more specific you are, the better the first reply will be.

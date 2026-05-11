@@ -176,7 +176,7 @@ export default async function CaseStudyPage({
             Results
           </p>
           <h2 className="mt-3 text-balance text-4xl font-medium tracking-tight sm:text-5xl">
-            What changed after launch.
+            What changed after launch
           </h2>
         </Reveal>
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">

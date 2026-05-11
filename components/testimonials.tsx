@@ -18,7 +18,7 @@ export function Testimonials() {
               <>
                 What clients
                 <br />
-                <span className="text-muted-foreground">actually say.</span>
+                <span className="text-muted-foreground">actually say</span>
               </>
             }
           />

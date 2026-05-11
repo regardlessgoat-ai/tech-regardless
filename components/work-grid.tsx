@@ -30,9 +30,9 @@ export function WorkGrid({ projects, variant = "home" }: Props) {
             eyebrow="Selected work"
             title={
               <>
-                Real projects.
+                Real projects
                 <br />
-                <span className="text-muted-foreground">Real outcomes.</span>
+                <span className="text-muted-foreground">Real outcomes</span>
               </>
             }
             description="A handful of recent builds. Each one started as a conversation and ended as a site that drives the business forward."
