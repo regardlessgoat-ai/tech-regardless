@@ -50,18 +50,19 @@ export function Hero() {
             </Button>
           </div>
 
-          <dl className="mt-6 grid grid-cols-3 gap-x-8 gap-y-2 border-t border-border pt-6 font-mono text-xs uppercase tracking-wider text-muted-foreground sm:gap-x-12">
+          <dl className="mt-6 grid grid-cols-1 gap-x-8 gap-y-4 border-t border-border pt-6 font-mono text-xs uppercase tracking-wider text-muted-foreground sm:grid-cols-2 sm:gap-x-12">
             <div>
               <dt className="text-muted-foreground/70">Response</dt>
               <dd className="mt-1 text-foreground">&lt; 24 hours</dd>
             </div>
             <div>
               <dt className="text-muted-foreground/70">Timeline</dt>
-              <dd className="mt-1 text-foreground">2–8 weeks</dd>
-            </div>
-            <div>
-              <dt className="text-muted-foreground/70">Based</dt>
-              <dd className="mt-1 text-foreground">Remote-first</dd>
+              <dd className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-foreground">
+                1–2 weeks
+                <span className="text-[10px] tracking-normal text-muted-foreground/80">
+                  Shorter deadlines available
+                </span>
+              </dd>
             </div>
           </dl>
         </div>

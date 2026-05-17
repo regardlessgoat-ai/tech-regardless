@@ -111,27 +111,6 @@ home page. `order: 1` is the featured slot on the home page.
 
 ---
 
-## Updating testimonials
-
-Testimonials live in `/content/testimonials.json`. Edit the file
-directly:
-
-```json
-[
-  {
-    "id": "unique-id",
-    "quote": "What the client said. Plain text — no HTML entities needed.",
-    "name": "Client Name",
-    "role": "Title, Company"
-  }
-]
-```
-
-The home page renders the first three. To show more, edit
-`/components/testimonials.tsx`.
-
----
-
 ## Swapping colors and fonts
 
 ### Colors
@@ -236,9 +215,9 @@ app/                    # App Router pages, API, sitemap, OG, layout
 components/             # All components (ui/ holds primitives)
 content/
   projects/             # Case study MDX files
-  testimonials.json     # Testimonials data
 lib/
   projects.ts           # MDX loader
+  telegram.ts           # Telegram bot helper for contact-form pings
   utils.ts              # cn(), SITE constants
 public/                 # Static assets
 mdx-components.tsx      # MDX → Tailwind component overrides

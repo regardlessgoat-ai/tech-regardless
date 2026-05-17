@@ -1,9 +1,7 @@
 import { Hero } from "@/components/hero";
-import { TrustBar } from "@/components/trust-bar";
 import { ServicesSection } from "@/components/services-section";
 import { WorkGrid } from "@/components/work-grid";
 import { ProcessSection } from "@/components/process-section";
-import { Testimonials } from "@/components/testimonials";
 import { FAQ } from "@/components/faq";
 import { CtaSection } from "@/components/cta-section";
 import { getAllProjects } from "@/lib/projects";
@@ -47,11 +45,9 @@ export default async function HomePage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
       <Hero />
-      <TrustBar />
       <ServicesSection />
       <WorkGrid projects={projects} variant="home" />
       <ProcessSection />
-      <Testimonials />
       <FAQ />
       <CtaSection />
     </>

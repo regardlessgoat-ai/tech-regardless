@@ -8,10 +8,9 @@ const items: AccordionItem[] = [
     question: "How long does a website take to build?",
     answer: (
       <p>
-        Most projects ship in 2–6 weeks. A simple marketing site can be live
-        in under three weeks. Larger builds with custom features or a CMS
-        usually run six to eight. I always commit to a date in writing
-        before we start — and I hit it.
+        Most projects ship in 1–2 weeks. Shorter deadlines are available for
+        priority builds — just ask. I always commit to a date in writing
+        before we start, and I hit it.
       </p>
     ),
   },

@@ -97,15 +97,13 @@ In scroll order, all rendered from `app/page.tsx`:
 | #  | Section          | File                              | What it does                                                                 |
 | -- | ---------------- | --------------------------------- | ---------------------------------------------------------------------------- |
 | 1  | Navigation       | `components/nav.tsx`              | Sticky, transparent → backdrop-blur on scroll. Wordmark left, links + CTA right. Mobile drawer below 768px. |
-| 2  | Hero             | `components/hero.tsx`             | Full viewport. Massive headline. Status pill + 2 CTAs + meta strip (response/timeline/based). Gradient mesh + grid overlay + grain. |
-| 3  | Trust bar        | `components/trust-bar.tsx`        | 5 grayscale partner logos placeholder. Hover restores color.                 |
-| 4  | Services         | `components/services-section.tsx` | 3 service cards (Custom / Redesigns / Support) with icon, price, hover lift. |
-| 5  | Featured Work    | `components/work-grid.tsx`        | Asymmetric grid: 1 large featured + 2 secondary + dashed empty slots.        |
-| 6  | Process          | `components/process-section.tsx`  | 4-step horizontal timeline with connecting line. Discovery → Design → Build → Launch. |
-| 7  | Testimonials     | `components/testimonials.tsx`     | 3 cards from `content/testimonials.json`.                                    |
-| 8  | FAQ              | `components/faq.tsx`              | 6-item accordion: timeline, pricing, revisions, post-launch, hosting, existing site. |
-| 9  | Final CTA        | `components/cta-section.tsx`      | Full-width, accent gradient mesh + grid mask. Big headline + email + Start button. |
-| 10 | Footer           | `components/footer.tsx`           | 3-column: wordmark+social / nav / contact + book-call. Bottom row copyright. |
+| 2  | Hero             | `components/hero.tsx`             | Full viewport. Massive headline. Status pill + 2 CTAs + meta strip (response + timeline w/ "shorter deadlines available" note). Gradient mesh + grid overlay + grain. |
+| 3  | Services         | `components/services-section.tsx` | 3 service cards (Custom / Redesigns / Support) with icon, price, hover lift. |
+| 4  | Featured Work    | `components/work-grid.tsx`        | Asymmetric grid: 1 large featured + 2 secondary + dashed empty slots.        |
+| 5  | Process          | `components/process-section.tsx`  | 4-step horizontal timeline with connecting line. Discovery → Design → Build → Launch. |
+| 6  | FAQ              | `components/faq.tsx`              | 6-item accordion: timeline, pricing, revisions, post-launch, hosting, existing site. |
+| 7  | Final CTA        | `components/cta-section.tsx`      | Full-width, accent gradient mesh + grid mask. Big headline + email + Start button. |
+| 8  | Footer           | `components/footer.tsx`           | 3-column: wordmark+social / nav / contact + book-call. Bottom row copyright. |
 
 Plus JSON-LD (Person + ProfessionalService schema) injected at the top
 of `/`.
@@ -126,11 +124,9 @@ of `/`.
 | `reveal.tsx`                | every section that animates on scroll    |
 | `status-pill.tsx`           | hero                                     |
 | `hero.tsx`                  | home                                     |
-| `trust-bar.tsx`             | home                                     |
 | `services-section.tsx`      | home                                     |
 | `work-grid.tsx`             | home, /work                              |
 | `process-section.tsx`       | home                                     |
-| `testimonials.tsx`          | home                                     |
 | `faq.tsx`                   | home                                     |
 | `cta-section.tsx`           | home, /work, /services                   |
 | `contact-form.tsx`          | /contact                                 |
@@ -235,11 +231,6 @@ project:
 
 The MDX loader (`lib/projects.ts`) reads the directory at build time;
 new files appear automatically on `/work` and the home page.
-
-### Testimonials — `content/testimonials.json`
-
-3 sample testimonials with realistic copy in brand voice. Plain text —
-no HTML entities. Edit the JSON to add/remove.
 
 ### Hardcoded copy
 
@@ -390,10 +381,8 @@ tech-regardless/
 │   ├── reveal.tsx
 │   ├── services-section.tsx
 │   ├── status-pill.tsx
-│   ├── testimonials.tsx
 │   ├── theme-provider.tsx
 │   ├── theme-toggle.tsx
-│   ├── trust-bar.tsx
 │   ├── wordmark.tsx
 │   ├── work-grid.tsx
 │   └── ui/
@@ -404,10 +393,9 @@ tech-regardless/
 │       ├── input.tsx
 │       └── section-heading.tsx
 ├── content/
-│   ├── projects/
-│   │   ├── fleetbase.mdx
-│   │   └── olive-and-oak.mdx
-│   └── testimonials.json
+│   └── projects/
+│       ├── fleetbase.mdx
+│       └── olive-and-oak.mdx
 ├── docs/
 │   └── REFERENCE.md         ← this file
 ├── lib/
@@ -437,9 +425,6 @@ What you still need to provide / configure before going live:
 
 - [ ] **Project images** → `public/images/projects/*`, update each
       `.mdx` `heroImage` and `gallery.src`
-- [ ] **Real testimonials** → `content/testimonials.json`
-- [ ] **Partner agency logos** → `components/trust-bar.tsx`, drop SVGs
-      into `public/images/logos/`
 - [ ] **Calendly URL** → `NEXT_PUBLIC_CALENDLY_URL`
 - [ ] **Domain** → buy + connect via Vercel
 - [ ] **Resend** → sign up, verify domain, set the 3 env vars
