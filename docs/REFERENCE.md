@@ -71,11 +71,10 @@ the work from shipping.
 
 | Route               | File                              | Purpose                                          |
 | ------------------- | --------------------------------- | ------------------------------------------------ |
-| `/`                 | `app/page.tsx`                    | Single-scroll home page (11 sections)            |
+| `/`                 | `app/page.tsx`                    | Single-scroll home page (10 sections)            |
 | `/work`             | `app/work/page.tsx`               | All projects index                               |
 | `/work/[slug]`      | `app/work/[slug]/page.tsx`        | Dynamic case study (statically generated)        |
 | `/services`         | `app/services/page.tsx`           | Pricing tiers + always-included + pricing FAQ    |
-| `/about`            | `app/about/page.tsx`              | Long-form bio, principles, tools, off-the-clock  |
 | `/contact`          | `app/contact/page.tsx`            | Form + alternative contact methods               |
 | `/api/contact`      | `app/api/contact/route.ts`        | POST handler — Zod validation + Resend send      |
 | `/sitemap.xml`      | `app/sitemap.ts`                  | Auto-generated, includes all case studies        |
@@ -102,12 +101,11 @@ In scroll order, all rendered from `app/page.tsx`:
 | 3  | Trust bar        | `components/trust-bar.tsx`        | 5 grayscale partner logos placeholder. Hover restores color.                 |
 | 4  | Services         | `components/services-section.tsx` | 3 service cards (Custom / Redesigns / Support) with icon, price, hover lift. |
 | 5  | Featured Work    | `components/work-grid.tsx`        | Asymmetric grid: 1 large featured + 2 secondary + dashed empty slots.        |
-| 6  | About preview    | `components/about-section.tsx`    | Headshot left, bio + stat row right. Stats: projects shipped, industries, avg load time. |
-| 7  | Process          | `components/process-section.tsx`  | 4-step horizontal timeline with connecting line. Discovery → Design → Build → Launch. |
-| 8  | Testimonials     | `components/testimonials.tsx`     | 3 cards from `content/testimonials.json`.                                    |
-| 9  | FAQ              | `components/faq.tsx`              | 6-item accordion: timeline, pricing, revisions, post-launch, hosting, existing site. |
-| 10 | Final CTA        | `components/cta-section.tsx`      | Full-width, accent gradient mesh + grid mask. Big headline + email + Start button. |
-| 11 | Footer           | `components/footer.tsx`           | 3-column: wordmark+social / nav / contact + book-call. Bottom row copyright. |
+| 6  | Process          | `components/process-section.tsx`  | 4-step horizontal timeline with connecting line. Discovery → Design → Build → Launch. |
+| 7  | Testimonials     | `components/testimonials.tsx`     | 3 cards from `content/testimonials.json`.                                    |
+| 8  | FAQ              | `components/faq.tsx`              | 6-item accordion: timeline, pricing, revisions, post-launch, hosting, existing site. |
+| 9  | Final CTA        | `components/cta-section.tsx`      | Full-width, accent gradient mesh + grid mask. Big headline + email + Start button. |
+| 10 | Footer           | `components/footer.tsx`           | 3-column: wordmark+social / nav / contact + book-call. Bottom row copyright. |
 
 Plus JSON-LD (Person + ProfessionalService schema) injected at the top
 of `/`.
@@ -131,11 +129,10 @@ of `/`.
 | `trust-bar.tsx`             | home                                     |
 | `services-section.tsx`      | home                                     |
 | `work-grid.tsx`             | home, /work                              |
-| `about-section.tsx`         | home                                     |
 | `process-section.tsx`       | home                                     |
 | `testimonials.tsx`          | home                                     |
 | `faq.tsx`                   | home                                     |
-| `cta-section.tsx`           | home, /work, /services, /about           |
+| `cta-section.tsx`           | home, /work, /services                   |
 | `contact-form.tsx`          | /contact                                 |
 
 ### UI primitives (`components/ui/`)
@@ -251,9 +248,7 @@ These live inside component files (intentional — they're tied to layout):
 - Service tier copy → `components/services-section.tsx`
 - Process steps → `components/process-section.tsx`
 - FAQ items → `components/faq.tsx`
-- About preview bio → `components/about-section.tsx`
 - Pricing tiers + always-included + pricing FAQ → `app/services/page.tsx`
-- Long-form bio + principles + tool list → `app/about/page.tsx`
 
 ---
 
@@ -365,7 +360,6 @@ instructions → update `NEXT_PUBLIC_SITE_URL` and redeploy.
 ```
 tech-regardless/
 ├── app/
-│   ├── about/page.tsx
 │   ├── api/contact/route.ts
 │   ├── contact/page.tsx
 │   ├── globals.css
@@ -381,7 +375,6 @@ tech-regardless/
 │   │   ├── [slug]/page.tsx
 │   │   └── page.tsx
 ├── components/
-│   ├── about-section.tsx
 │   ├── contact-form.tsx
 │   ├── cta-section.tsx
 │   ├── faq.tsx
@@ -436,17 +429,11 @@ tech-regardless/
 
 What you still need to provide / configure before going live:
 
-- [ ] **Real headshot** → `public/images/headshot.jpg`, swap in
-      `components/about-section.tsx` + `app/about/page.tsx`
 - [ ] **Project images** → `public/images/projects/*`, update each
       `.mdx` `heroImage` and `gallery.src`
-- [ ] **Real bio copy** → `app/about/page.tsx` (My story, Beyond the
-      work) + `components/about-section.tsx`
 - [ ] **Real testimonials** → `content/testimonials.json`
 - [ ] **Partner agency logos** → `components/trust-bar.tsx`, drop SVGs
       into `public/images/logos/`
-- [ ] **Real stat numbers** → about-section dl row (currently 40+ / 12 /
-      <1.2s)
 - [ ] **Calendly URL** → `NEXT_PUBLIC_CALENDLY_URL`
 - [ ] **Domain** → buy + connect via Vercel
 - [ ] **Resend** → sign up, verify domain, set the 3 env vars

@@ -7,7 +7,6 @@ import { SITE } from "@/lib/utils";
 const navLinks = [
   { href: "/work", label: "Work" },
   { href: "/services", label: "Services" },
-  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact" },
   { href: "/#faq", label: "FAQ" },
 ];

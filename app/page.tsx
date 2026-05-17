@@ -2,7 +2,6 @@ import { Hero } from "@/components/hero";
 import { TrustBar } from "@/components/trust-bar";
 import { ServicesSection } from "@/components/services-section";
 import { WorkGrid } from "@/components/work-grid";
-import { AboutSection } from "@/components/about-section";
 import { ProcessSection } from "@/components/process-section";
 import { Testimonials } from "@/components/testimonials";
 import { FAQ } from "@/components/faq";
@@ -51,7 +50,6 @@ export default async function HomePage() {
       <TrustBar />
       <ServicesSection />
       <WorkGrid projects={projects} variant="home" />
-      <AboutSection />
       <ProcessSection />
       <Testimonials />
       <FAQ />
