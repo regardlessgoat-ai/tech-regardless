@@ -45,8 +45,8 @@ export function Nav() {
         aria-label="Primary"
         className="container-wide flex h-16 items-center justify-between gap-6"
       >
-        <Link href="/" className="focus-ring rounded-sm">
-          <Wordmark size="md" />
+        <Link href="/" className="focus-ring rounded-sm" aria-label="Home">
+          <Wordmark size="md" suffix="Home" />
         </Link>
 
         <ul className="hidden items-center gap-1 md:flex">
