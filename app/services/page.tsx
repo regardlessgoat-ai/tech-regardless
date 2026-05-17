@@ -228,6 +228,19 @@ export default function ServicesPage() {
               </Reveal>
             ))}
           </div>
+
+          <Reveal>
+            <div className="mx-auto mt-12 max-w-2xl text-center">
+              <p className="font-mono text-[11px] uppercase tracking-[0.2em] text-accent">
+                Flexible budget
+              </p>
+              <p className="mt-3 text-balance text-base text-muted-foreground sm:text-lg">
+                These tiers are starting points, not ceilings. Tell me what
+                you&apos;re working with — I&apos;ll shape the right scope
+                around your number.
+              </p>
+            </div>
+          </Reveal>
         </div>
       </section>
 
