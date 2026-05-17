@@ -10,7 +10,7 @@ export const SITE = {
   tagline: "Websites that work. Regardless.",
   description:
     "I design and build fast, modern websites for businesses that refuse to settle for templates.",
-  email: "hello@techregardless.com",
+  email: "tech.regardless@gmail.com",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://techregardless.com",
   calendly:
     process.env.NEXT_PUBLIC_CALENDLY_URL || "https://calendly.com/your-handle",

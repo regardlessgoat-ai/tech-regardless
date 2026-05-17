@@ -152,6 +152,7 @@ of `/`.
 | -------------- | ------------------------------------------------------------- |
 | `lib/utils.ts` | `cn()` (clsx+tailwind-merge), `SITE` constants object         |
 | `lib/projects.ts` | `getAllProjects()`, `getProjectBySlug()`, `getAdjacentProjects()` |
+| `lib/telegram.ts` | `sendTelegramMessage()`, `formatContactNotification()` — no-op without `TELEGRAM_BOT_TOKEN` + `TELEGRAM_CHAT_ID` |
 | `mdx-components.tsx` | MDX → Tailwind component overrides (h1-h3, p, a, strong) |
 
 ---
@@ -280,6 +281,8 @@ These live inside component files (intentional — they're tied to layout):
   set → sends email via Resend with `replyTo` set to the submitter.
 - Otherwise → logs the formatted submission to stdout and returns 200.
   Form keeps working in dev with no setup.
+- Always attempts a Telegram notification via `lib/telegram.ts` (no-op
+  if `TELEGRAM_BOT_TOKEN` / `TELEGRAM_CHAT_ID` aren't set).
 
 ---
 
@@ -338,6 +341,8 @@ Documented in `.env.example`:
 | `CONTACT_TO_EMAIL`          | yes                              |
 | `CONTACT_FROM_EMAIL`        | yes (must be verified in Resend) |
 | `NEXT_PUBLIC_CALENDLY_URL`  | recommended                      |
+| `TELEGRAM_BOT_TOKEN`        | recommended (push notifications) |
+| `TELEGRAM_CHAT_ID`          | recommended (push notifications) |
 
 ---
 
@@ -407,6 +412,7 @@ tech-regardless/
 │   └── REFERENCE.md         ← this file
 ├── lib/
 │   ├── projects.ts
+│   ├── telegram.ts
 │   └── utils.ts
 ├── public/
 │   ├── fonts/

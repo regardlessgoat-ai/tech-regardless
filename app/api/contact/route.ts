@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import { sendTelegramMessage, formatContactNotification } from "@/lib/telegram";
 
 const schema = z.object({
   name: z.string().min(2),
@@ -99,6 +100,17 @@ export async function POST(req: Request) {
     console.log("[contact] (dev) inquiry received — wire up Resend to send email:");
     console.log(text);
   }
+
+  await sendTelegramMessage(
+    formatContactNotification({
+      name: data.name,
+      email: data.email,
+      company: data.company,
+      projectTypeLabel: labels.projectType[data.projectType],
+      budgetLabel: labels.budget[data.budget],
+      message: data.message,
+    })
+  );
 
   return NextResponse.json({ ok: true });
 }
