@@ -224,10 +224,10 @@ Each MDX has structured frontmatter (challenge, solution, results,
 gallery, tags) plus optional long-form body. Two samples ship with the
 project:
 
-| Slug              | Industry    | Featured | Order |
-| ----------------- | ----------- | -------- | ----- |
-| `olive-and-oak`   | Hospitality | true     | 1     |
-| `fleetbase`       | SaaS        | true     | 2     |
+| Slug              | Industry         | Featured | Order |
+| ----------------- | ---------------- | -------- | ----- |
+| `socially-elisa`  | Creative Agency  | true     | 1     |
+| `fleetbase`       | SaaS             | true     | 2     |
 
 The MDX loader (`lib/projects.ts`) reads the directory at build time;
 new files appear automatically on `/work` and the home page.
@@ -395,7 +395,7 @@ tech-regardless/
 ├── content/
 │   └── projects/
 │       ├── fleetbase.mdx
-│       └── olive-and-oak.mdx
+│       └── socially-elisa.mdx
 ├── docs/
 │   └── REFERENCE.md         ← this file
 ├── lib/

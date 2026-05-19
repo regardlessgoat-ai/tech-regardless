@@ -60,7 +60,7 @@ up Resend before launching.
 
 Case studies live in `/content/projects/` as MDX files. Each project gets
 its own `.mdx` file, and the filename becomes the URL slug
-(e.g. `olive-and-oak.mdx` → `/work/olive-and-oak`).
+(e.g. `socially-elisa.mdx` → `/work/socially-elisa`).
 
 **1.** Create a new file: `/content/projects/your-project.mdx`
 
