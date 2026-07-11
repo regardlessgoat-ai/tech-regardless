@@ -1,140 +1,78 @@
 ---
 name: tech-regardless-design
-description: Use when working on tech.regardless — the operator's personal portfolio and freelance web developer hub. Engages the 6-expert panel (BRAND, COPY, FRONTEND, SEO, CONVERSION, BUSINESS) and treats every page as both portfolio AND sales asset. Pushes against generic AI-slop design.
+description: Use when working on the techregardless.com website — design, copy, pages, SEO, case studies, or conversion. Engages the 6-expert panel (BRAND, COPY, FRONTEND, SEO, CONVERSION, BUSINESS) and treats every page as both portfolio AND sales asset. Pushes against generic AI-slop design. Note - for cold email / lead gen / AI Front Desk outreach work, use the front-desk-outreach skill instead; this skill is for the site itself.
 ---
 
-# tech.regardless — Personal Brand + Sales Asset
+# tech.regardless — Site Design + Sales Asset
 
-You are working on tech.regardless. Every page serves two jobs:
+You are working on the techregardless.com website. It serves the operator's business two ways:
 
-1. **Portfolio** — showcase the operator's work (PicMenu, Socially Elisa, ForexBot)
-2. **Sales hub** — convert visitors into freelance web development clients
+1. **Credibility for AI Front Desk outreach** — cold email prospects WILL look up the domain. The site must survive that look.
+2. **Portfolio + freelance hub** — showcase real work, convert freelance leads.
 
-If a page or element doesn't serve one of these two jobs, kill it.
+Priority check before deep site work: the AI Front Desk outreach pipeline (see `front-desk-outreach` skill) outranks site polish. A good-enough site with an active send queue beats a perfect site with an empty one.
 
 ## The expert panel — engage on every change
 
 ### [BRAND] — Visual identity
 - Distinctive over generic — no AI-slop (gradient hero, glowing buttons, laptop stock photo)
-- Tone of voice: confident, plain English, no jargon padding
-- Color palette + typography consistent across pages
-- Logo treatment + favicon coherent
+- Confident, plain-English tone; consistent palette + typography; coherent logo/favicon
 
 ### [COPY] — Words on the page
 - Headlines: clear value prop in < 12 words
 - Subheads: what the visitor gets, not what the operator does
-- Microcopy: button text > "Submit" / "Click here" / "Learn more"
 - CTAs: action verb + outcome ("Start your project" beats "Contact")
-- Read aloud test: does it sound like a human?
+- Read-aloud test: does it sound like a human?
 
 ### [FRONTEND] — Code quality
-- Mobile-first (test 375px first)
-- Lighthouse score 90+ on every page
+- Mobile-first (test 375px first); Lighthouse 90+ every page
 - Accessibility: alt text, semantic HTML, keyboard nav
-- No 200KB JavaScript libraries for things CSS can do
-- Static-first (HTML/CSS); JS only where genuinely needed
+- Static-first; JS only where genuinely needed; no 200KB libraries for CSS-solvable problems
 
 ### [SEO] — Discoverability
-- Title tags unique per page, < 60 chars
-- Meta description per page, < 160 chars
-- Schema.org: Person on /about, CreativeWork on /case-studies
-- Open Graph tags for social sharing
+- Unique title (< 60 chars) + meta description (< 160) per page
+- Schema.org: Person on /about, CreativeWork on case studies; Open Graph tags
 - Sitemap.xml + robots.txt
-- No blog "for SEO" unless the operator will actually maintain it
+- No blog "for SEO" unless it'll actually be maintained
 
 ### [CONVERSION] — Lead capture
-- Every page has an obvious next step (contact, view work, hire CTA)
-- Friction-free contact form: name, email, what they need (3 fields max)
-- Social proof above the fold (case study count, testimonial, logo)
-- Trust signals: "based in Florida," real photo, real name
-- No exit-intent popups (annoying, low-converting)
+- Obvious next step on every page; contact form ≤ 3 fields
+- Trust signals: based in Kissimmee/Orlando FL, real name, real work
+- Response-time promise that's real ("within 24 hours weekdays"), not "ASAP"
+- No exit-intent popups
 
 ### [BUSINESS] — Positioning
-- Who is this for? (One specific persona — small business owners? Restaurants? Technical founders?)
-- What problem do they have? (Specific, not "they need a website")
-- Why pick the operator? (Speed? Local? Bilingual? Honest pricing? Niche expertise?)
-- Pricing: shown if productized; hidden if truly custom
+- Two audiences: home-service owners checking out the AI Front Desk sender, and web dev prospects
+- Both service lines visible: AI Front Desk ($697/mo, productized) and website builds (custom-quoted)
+- The wedge: local + real shipped production work + honest pricing
+- Pricing shown if productized (Front Desk), hidden if truly custom (website builds)
+
+## Case studies — real work only
+
+- **PicMenu** — production-audited restaurant SaaS: 15 themes, 35 languages, 13 live restaurants, full security audit closed. The anchor case study.
+- **ForexBot** — AI-governed automated trading system. Frame as an engineering showcase (architecture, safety rails, AI panel governance) — never as financial advice or a performance pitch.
+- **Socially Elisa site** — real deployed client work. Credit as client work; it's Elisa's business, not the operator's company.
+- **AI Front Desk** — flagship case study once the first client is live.
+
+Never: fake testimonials, projects the operator didn't build, aspirational numbers presented as results.
 
 ## Anti-patterns — push back
 
-### Visual
-- Hero with stock photo of laptop / handshake / arrow chart
-- Glowing button gradients
-- Floating chat widget on a portfolio site
-- 6 testimonials in a carousel that auto-rotates
-- Skeleton loaders on a static page
-- 3D animations that block scrolling
+**Visual:** stock laptop/handshake heroes, glowing gradients, auto-rotating testimonial carousels, skeleton loaders on static pages, scroll-blocking 3D
+**Copy:** "innovative solutions," "cutting-edge," "take your business to the next level," "leverage/synergize," "Welcome to…" headlines
+**Strategy:** unmaintained blog, purposeless pages ("Resources," "Insights"), buried contact info, site-polishing while outreach sits idle
 
-### Copy
-- "Innovative solutions"
-- "Cutting-edge"
-- "Take your business to the next level"
-- "Synergize / leverage / utilize"
-- "Welcome to [name]" headlines
-- Walls of text without structure
+## Recommended stack
 
-### Strategy
-- A blog you won't maintain
-- Pages with no clear purpose ("Resources," "Insights")
-- Fake testimonials
-- Showcasing projects you didn't build
-- Hiding contact info behind too many clicks
-
-## What "production-grade" looks like
-
-For each page, ask:
-
-1. Would I share this URL with a paying client confidently?
-2. Does it load in < 2 seconds on a phone with average cellular?
-3. Does it pass the accessibility checker?
-4. Is the CTA clear?
-5. Is there ONE specific person this page is for?
-
-If any answer is no, the page isn't ready.
-
-## Recommended stack (working assumption)
-
-Simpler is better for a portfolio:
-- **Static site generator:** Astro (excellent for portfolios) or pure HTML/CSS
-- **Hosting:** Vercel free tier
-- **Domain:** tech.regardless (already owned)
-- **Analytics:** Plausible free tier or Vercel Analytics
-- **Forms:** Vercel form action or Formspree free tier
-- **Images:** Cloudinary free OR self-hosted with proper compression
-- **Icons:** Phosphor / Lucide (free, distinctive)
-- **Fonts:** Inter + a serif accent (Playfair Display, EB Garamond)
-
-NOT recommended for a portfolio site:
-- Next.js with full SSR (overkill, slow build, deploy complexity)
-- WordPress (you'll fight it, and it shows)
-- Wix / Squarespace (signals "generic," limits future flexibility)
-
-## Pages worth having
-
-Order matters — these are roughly the visitor's path:
-
-1. **Home** — hero with clear value prop, immediate proof of capability, primary CTA
-2. **Work / Case Studies** — PicMenu, Socially Elisa, ForexBot (real screenshots, real outcomes when launched)
-3. **About** — short version, why operator does this, headshot
-4. **Services** — what someone can hire for, with rough pricing if productized
-5. **Contact** — frictionless form + alternate channels (email, phone if comfortable)
-
-Maybe later:
-6. **Notes / Writing** — only if operator will actually write
-7. **Process** — how operator works with clients (deliverables, timelines)
-
-## Page-specific [CONVERSION] notes
-
-- **Home:** Primary CTA above the fold. Secondary CTA at scroll end.
-- **Case studies:** Each one ends with "Want similar results? [CTA]"
-- **Services:** Tier comparison if productized. Phone call CTA if custom.
-- **Contact:** Confirmation that says when operator typically responds (not "we'll get back to you ASAP" — give a real timeframe like "within 24 hours weekdays").
+- Static-first: Astro or pure HTML/CSS · Vercel free hosting · Plausible or Vercel Analytics free tier
+- Forms: Vercel form action or Formspree free · Icons: Lucide/Phosphor · Fonts: Google Fonts (Inter + one serif accent)
+- Not recommended: full-SSR Next.js (overkill), WordPress, Wix/Squarespace
 
 ## Don't ship until
 
 - Lighthouse Mobile + Desktop both 90+
-- Every page has a unique title and meta description
-- All images have alt text
-- Contact form actually sends to operator's email (tested)
-- Mobile rendering tested on real iPhone (not just Chrome DevTools)
-- 404 page is custom, not browser default
+- Unique title + meta per page; all images have alt text
+- Contact form tested end-to-end to the operator's inbox
+- Mobile rendering checked on a real phone
+- Custom 404
+- Every page passes: "Would I share this URL with a cold-email prospect who just Googled me?"
