@@ -10,7 +10,7 @@ const items: AccordionItem[] = [
       <p>
         Most projects ship in 1–2 weeks. Shorter deadlines are available for
         priority builds — just ask. I always commit to a date in writing
-        before we start, and I hit it.
+        before we start.
       </p>
     ),
   },

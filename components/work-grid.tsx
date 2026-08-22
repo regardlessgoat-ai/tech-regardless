@@ -52,8 +52,6 @@ export function WorkGrid({ projects, variant = "home" }: Props) {
 function HomeLayout({ projects }: { projects: Project[] }) {
   const [feature, ...rest] = projects;
   const secondary = rest.slice(0, 2);
-  // Empty placeholder slots if fewer than 6 projects exist.
-  const emptySlots = Math.max(0, 3 - (1 + secondary.length));
 
   return (
     <div className="mt-16 space-y-4">
@@ -68,22 +66,6 @@ function HomeLayout({ projects }: { projects: Project[] }) {
             <ProjectCard project={project} />
           </Reveal>
         ))}
-        {Array.from({ length: emptySlots }).map((_, i) => (
-          <EmptySlot key={`empty-${i}`} />
-        ))}
-      </div>
-
-      <div className="flex justify-center pt-12">
-        <Link
-          href="/work"
-          className="group inline-flex items-center gap-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground transition-colors hover:text-foreground focus-ring"
-        >
-          View all work
-          <ArrowUpRight
-            className="size-4 transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5"
-            aria-hidden
-          />
-        </Link>
       </div>
     </div>
   );
@@ -160,13 +142,5 @@ function ProjectCard({
         </div>
       </div>
     </Link>
-  );
-}
-
-function EmptySlot() {
-  return (
-    <div className="flex aspect-[16/10] items-center justify-center rounded border border-dashed border-border bg-muted/20 p-6 text-center font-mono text-xs uppercase tracking-wider text-muted-foreground/60">
-      More work shipping soon
-    </div>
   );
 }

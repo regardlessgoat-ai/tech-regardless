@@ -19,11 +19,11 @@ export const contactSchema = z.object({
   email: z.string().email("That doesn't look like a valid email."),
   company: z.string().optional(),
   projectType: z.enum(
-    ["new-website", "redesign", "ongoing-support", "exploring"],
+    ["new-website", "redesign", "automation", "ongoing-support", "exploring"],
     { errorMap: () => ({ message: "Pick one." }) }
   ),
   budget: z.enum(
-    ["under-2k", "2k-5k", "5k-10k", "10k-plus", "not-sure"],
+    ["under-500", "under-1k", "under-2k", "2k-5k", "5k-10k", "10k-plus"],
     { errorMap: () => ({ message: "Pick one." }) }
   ),
   message: z.string().min(10, "A few sentences about the project, please."),
@@ -154,6 +154,7 @@ export function ContactForm() {
               </option>
               <option value="new-website">New website</option>
               <option value="redesign">Redesign</option>
+              <option value="automation">Automation</option>
               <option value="ongoing-support">Ongoing support</option>
               <option value="exploring">Just exploring</option>
             </Select>
@@ -179,11 +180,12 @@ export function ContactForm() {
               <option value="" disabled>
                 Pick one
               </option>
+              <option value="under-500">Under $500</option>
+              <option value="under-1k">Under $1k</option>
               <option value="under-2k">Under $2k</option>
               <option value="2k-5k">$2k – $5k</option>
               <option value="5k-10k">$5k – $10k</option>
               <option value="10k-plus">$10k+</option>
-              <option value="not-sure">Not sure yet</option>
             </Select>
             <ChevronDown
               className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"

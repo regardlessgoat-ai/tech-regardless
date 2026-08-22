@@ -9,10 +9,18 @@ const schema = z.object({
   projectType: z.enum([
     "new-website",
     "redesign",
+    "automation",
     "ongoing-support",
     "exploring",
   ]),
-  budget: z.enum(["under-2k", "2k-5k", "5k-10k", "10k-plus", "not-sure"]),
+  budget: z.enum([
+    "under-500",
+    "under-1k",
+    "under-2k",
+    "2k-5k",
+    "5k-10k",
+    "10k-plus",
+  ]),
   message: z.string().min(10),
 });
 
@@ -20,15 +28,17 @@ const labels = {
   projectType: {
     "new-website": "New website",
     redesign: "Redesign",
+    automation: "Automation",
     "ongoing-support": "Ongoing support",
     exploring: "Just exploring",
   },
   budget: {
+    "under-500": "Under $500",
+    "under-1k": "Under $1k",
     "under-2k": "Under $2k",
     "2k-5k": "$2k – $5k",
     "5k-10k": "$5k – $10k",
     "10k-plus": "$10k+",
-    "not-sure": "Not sure yet",
   },
 } as const;
 
