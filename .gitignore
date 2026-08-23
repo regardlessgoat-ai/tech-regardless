@@ -9,3 +9,6 @@ out
 .vercel
 .turbo
 coverage
+
+# client project repos live here, each with its own git
+clients/

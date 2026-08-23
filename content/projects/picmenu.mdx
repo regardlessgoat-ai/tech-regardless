@@ -1,0 +1,110 @@
+---
+title: "PicMenu"
+client: "PicMenu"
+industry: "Restaurant SaaS"
+year: "2026"
+timeline: "Ongoing build"
+role: "Product, Design + Full-Stack Development"
+liveUrl: "https://picmenu-five.vercel.app"
+heroImage: "/work/picmenu.png"
+tags: ["React", "TypeScript", "Node", "Prisma", "Postgres", "Stripe", "Vercel", "Render"]
+featured: true
+order: 2
+tagline: "A restaurant menu platform — 16 card styles, 35 languages, and an AI extractor that refuses to invent a dish."
+challenge: "A diner scans a QR code at a table and gets a PDF that opens sideways, in one language, with no photos. Restaurants know it's bad and don't have a developer to fix it. But the hard part was never displaying a menu — it's that the customer is a small restaurant with no technical staff, no time, and a menu that changes. Anything that needs babysitting doesn't get used."
+solution: "A full SaaS platform, built and run end to end. Sixteen menu card styles that are real layouts rather than recolours, validated against one allowlist shared by the server and the browser so a style can never be pickable in the UI and rejected by the API. Thirty-five languages, with the non-Latin font fallbacks wired through every theme because CJK and right-to-left are exactly where these systems break. QR codes rendered server-side at 2000px with 30% error correction, so they still scan after being printed and laminated. And an extraction engine that reads a restaurant's existing website, PDF or photo and mechanically drops any dish it cannot find in the source text."
+results:
+  - label: "Menu card styles"
+    value: "16"
+  - label: "Languages"
+    value: "35"
+  - label: "API endpoints"
+    value: "191"
+  - label: "QR error correction"
+    value: "30%"
+gallery:
+  - src: "/work/picmenu.png"
+    aspect: "wide"
+    caption: "The style picker in the owner portal — fifteen of the sixteen card styles. Each is a different layout, not a different colour."
+---
+
+## The real problem isn't the menu
+
+Almost every QR menu is a PDF. It opens sideways on a phone, it's in one language, it has no
+photos, and changing a price means someone re-exporting a file.
+
+But the constraint that shaped every decision here is that the customer is a restaurant. No
+technical staff, no spare time, and a menu that changes on a Tuesday. A tool that needs
+maintaining is a tool that quietly stops being used.
+
+## Sixteen styles, not sixteen colour schemes
+
+A menu should look like the restaurant it belongs to, so the platform ships sixteen genuinely
+different card layouts — a diner ticket, a chalkboard, a passport, a newspaper, a polaroid — each
+with its own photo card, text card and stylesheet.
+
+The part that matters structurally: the list of valid styles lives in **one allowlist, enforced
+identically on the server and in the browser.** That's the seam where this kind of system usually
+rots — a style ships in the picker, the API doesn't know about it, and a restaurant saves a menu
+that renders as nothing.
+
+## Thirty-five languages, including the ones that break layouts
+
+Live translation into thirty-five languages, cached so the same dish is never paid for twice, and
+a food glossary so *carne asada* doesn't come back as "grilled meat."
+
+The work that's invisible when it's right is the type. Every theme's font stack terminates in a
+shared fallback chain carrying Noto CJK and Noto Arabic, so a decorative Latin display face never
+leaves a diner reading Japanese looking at a page of empty boxes — the fastest way to look
+amateur in a language you can't read.
+
+There's a second one hiding in there. An early build used `word-break: anywhere`, which is
+technically correct and renders "Mozzarella" as **Mo / zza / rell / a** on a narrow phone. Long
+compound words in German and Finnish did the same thing. It now breaks on word boundaries only.
+
+## A QR code has to survive a restaurant
+
+QR codes get printed, laminated, spilled on, and scanned in bad light by someone holding a
+toddler. So they're generated server-side at 2000px with error correction level H — up to 30% of
+the code can be obscured and it still resolves — alongside an SVG and a print-ready table tent.
+
+That isn't a detail. A QR code that won't scan at the table is the entire product failing at the
+only moment it's judged.
+
+## The extractor is not allowed to invent a dish
+
+Restaurants already have a menu — on their site, in a PDF, in a photo on someone's phone. The
+platform reads it and builds a structured menu from it.
+
+This is the part I'd rebuild the same way. The rule at the top of the extraction prompt is
+*a menu item that is not in the source does not exist* — and crucially, the model isn't trusted to
+follow it. Every extracted item must carry a **verbatim evidence quote** from the source. A
+verification pass then fuzzy-matches that quote back against the original text and **drops any
+item that doesn't clear the threshold**, tagged with the reason. Prices are never guessed — no
+price in the source means no price on the menu — and an implausible number is flagged rather than
+quietly rounded.
+
+It works that way because the earlier version didn't, and generated plausible dishes a restaurant
+never sold. An extractor that invents one dish in thirty is worse than no automation at all,
+because now the owner has to check all thirty — which is the work they were trying to avoid.
+Nothing publishes without a human approving it.
+
+## Selling a dish depletes the pantry
+
+The newest layer. Define a burger as one patty, one bun, two ounces of cheddar, and every sale
+subtracts those from stock automatically.
+
+It's an append-only ledger rather than a running total, so "why does it think I have three patties
+left?" always has a readable answer. Waste, comps and deliveries get recorded too — and a physical
+count writes the *difference* as its own entry rather than overwriting the number, because the
+size of that gap is the figure a restaurant actually wants to see.
+
+## Under it
+
+React and TypeScript on Vercel; Node, Express and Prisma on Render; Postgres. Stripe for
+subscriptions, Cloudinary for media, Anthropic for extraction, Google for translation and place
+data. Fifty-three database models and 191 endpoints across 41 route modules, plus websockets — so
+a dish marked sold out greys out on every phone currently looking at that menu, with nobody
+refreshing anything.
+
+Built solo, end to end: product, design, frontend, backend, infrastructure.
