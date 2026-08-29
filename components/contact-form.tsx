@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -13,6 +13,7 @@ import {
   Label,
   FieldError,
 } from "@/components/ui/input";
+import { captureUtm } from "@/lib/utm";
 
 export const contactSchema = z.object({
   name: z.string().min(2, "Tell me your name."),
@@ -44,13 +45,26 @@ export function ContactForm() {
     resolver: zodResolver(contactSchema),
   });
 
+  // The root layout captures campaign tags on the landing page. This covers the
+  // one case it misses: a client-side navigation straight to a tagged /contact
+  // URL, where the layout's mount-only effect has already run.
+  useEffect(() => {
+    captureUtm();
+  }, []);
+
   const onSubmit = async (values: ContactValues) => {
     setServerError(null);
     try {
+      // Attribution rides along with the submission rather than living in a
+      // hidden input: nothing is added to the DOM, so the form's markup and
+      // layout are untouched, and there is no field for a bot to see or a
+      // browser to autofill. The server caps and sanitises these values and
+      // records "direct" when they are empty.
+      const utm = captureUtm();
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(values),
+        body: JSON.stringify({ ...values, ...utm }),
       });
       if (!res.ok) {
         const data = await res.json().catch(() => ({}));

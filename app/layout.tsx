@@ -5,6 +5,8 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { SITE } from "@/lib/utils";
+import { UtmCapture } from "@/components/utm-capture";
+import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const viewport: Viewport = {
@@ -74,7 +76,15 @@ export default function RootLayout({
             {children}
           </main>
           <Footer />
+          <UtmCapture />
         </ThemeProvider>
+        {/*
+          Vercel Web Analytics. Free on Hobby, cookieless, no cross-site
+          identifiers, so it needs no consent banner — which is the point: the
+          site sells "privacy-friendly analytics" and should run what it sells.
+          Deliberately not Google Analytics.
+        */}
+        <Analytics />
       </body>
     </html>
   );

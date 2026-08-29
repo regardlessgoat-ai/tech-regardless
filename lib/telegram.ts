@@ -43,6 +43,9 @@ export function formatContactNotification(payload: {
   projectTypeLabel: string;
   budgetLabel: string;
   message: string;
+  // Optional so existing callers keep working. Present for form submissions so
+  // the phone ping says which campaign produced the lead.
+  utm?: { source: string; medium: string; campaign: string };
 }) {
   const e = escapeMarkdownV2;
   const lines = [
@@ -53,6 +56,9 @@ export function formatContactNotification(payload: {
     payload.company ? `*Company:* ${e(payload.company)}` : null,
     `*Type:* ${e(payload.projectTypeLabel)}`,
     `*Budget:* ${e(payload.budgetLabel)}`,
+    payload.utm
+      ? `*Source:* ${e(`${payload.utm.source} / ${payload.utm.medium} / ${payload.utm.campaign}`)}`
+      : null,
     "",
     "*Message:*",
     e(payload.message),
