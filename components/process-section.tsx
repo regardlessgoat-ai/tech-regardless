@@ -8,28 +8,28 @@ const steps = [
     icon: Compass,
     title: "Discovery call",
     description:
-      "We talk goals, audience, what success actually looks like. No forms, no decks — just a conversation.",
+      "A short call about your business, who your customers are, and what a win looks like. No forms, no decks, just a conversation.",
   },
   {
     n: "02",
     icon: PenTool,
     title: "Design",
     description:
-      "I create a design that fits your brand, not a template. You see real screens, not mood boards.",
+      "You see real screens that look like your business, not a template and not a mood board.",
   },
   {
     n: "03",
     icon: Code2,
     title: "Build",
     description:
-      "Modern code. Fast, accessible, SEO-ready from day one. You get preview links every step of the way.",
+      "Fast on a phone and easy to find on Google from day one. You get preview links as it comes together.",
   },
   {
     n: "04",
     icon: Rocket,
-    title: "Launch & support",
+    title: "Launch and support",
     description:
-      "Site goes live with a training call. I'm still here when something needs to change — because something always does.",
+      "It goes live with a walkthrough call. I'm still here when something needs to change, because something always does.",
   },
 ];
 

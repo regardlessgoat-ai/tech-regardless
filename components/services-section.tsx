@@ -10,7 +10,7 @@ const services = [
     description:
       "Designed for your brand, built to turn visitors into calls, fast on a phone. You own the code on day one.",
     price: "From $1,800",
-    href: "/services",
+    href: "/services#websites",
   },
   {
     icon: PhoneMissed,
@@ -18,7 +18,7 @@ const services = [
     description:
       "Texts back every call you miss, books the job over SMS, and asks happy customers for a review.",
     price: "$697/mo, cancel anytime",
-    href: "/contact",
+    href: "/services#front-desk",
   },
   {
     icon: Workflow,
@@ -26,7 +26,7 @@ const services = [
     description:
       "Intake, follow ups, invoicing and reporting wired together so the business keeps moving while you are on a job.",
     price: "Custom quote",
-    href: "/contact",
+    href: "/services#automation",
   },
 ];
 
