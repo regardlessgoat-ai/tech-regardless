@@ -1,7 +1,14 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
-import { sendTelegramMessage, formatContactNotification } from "@/lib/telegram";
+import { sendSms, formatLeadSms } from "@/lib/sms";
+import { techRegardless } from "@/lib/frontdesk/config";
+import { nextMessage } from "@/lib/frontdesk/brain";
+import { createThread, saveThread, isStoreConfigured } from "@/lib/frontdesk/store";
+import { sendAssistantEmail } from "@/lib/frontdesk/email";
 import { SITE } from "@/lib/utils";
+
+// The front desk's first message is a model call; give it room.
+export const maxDuration = 60;
 
 // Hard caps on every field. These are not UX constraints — the browser already
 // validates shape before submitting. They exist because this endpoint is public
@@ -11,6 +18,8 @@ const MAX = {
   name: 120,
   email: 254, // RFC 5321 practical maximum
   company: 160,
+  phone: 40,
+  goal: 300,
   message: 5000,
   utm: 120,
   // Values between `utm` and this ceiling are TRUNCATED, not rejected. Only a
@@ -40,6 +49,13 @@ const schema = z.object({
   name: z.string().trim().min(2).max(MAX.name),
   email: z.string().trim().email().max(MAX.email),
   company: z.string().trim().max(MAX.company).optional(),
+  phone: z
+    .string()
+    .trim()
+    .max(MAX.phone)
+    .transform((v) => v.replace(/[^\d+]/g, ""))
+    .optional(),
+  goal: z.string().trim().max(MAX.goal).optional(),
   projectType: z.enum([
     "new-website",
     "redesign",
@@ -84,6 +100,8 @@ type LeadRecord = {
   name: string;
   email: string;
   company: string | null;
+  phone: string | null;
+  goal: string | null;
   projectType: string;
   projectTypeLabel: string;
   budget: string;
@@ -149,12 +167,15 @@ function breadcrumb(record: LeadRecord, extra: Record<string, unknown> = {}) {
       name: true,
       email: true,
       company: Boolean(record.company),
+      phone: Boolean(record.phone),
+      goal: Boolean(record.goal),
       message: true,
     },
     lengths: {
       name: record.name.length,
       email: record.email.length,
       company: record.company ? record.company.length : 0,
+      goal: record.goal ? record.goal.length : 0,
       message: record.message.length,
     },
     ...extra,
@@ -214,6 +235,8 @@ export async function POST(req: Request) {
     name: data.name,
     email: data.email,
     company: data.company || null,
+    phone: data.phone || null,
+    goal: data.goal || null,
     projectType: data.projectType,
     projectTypeLabel: labels.projectType[data.projectType],
     budget: data.budget,
@@ -237,9 +260,11 @@ export async function POST(req: Request) {
   const text = [
     `Name: ${record.name}`,
     `Email: ${record.email}`,
-    record.company ? `Company: ${record.company}` : null,
+    record.company ? `Business: ${record.company}` : null,
+    record.phone ? `Phone: ${record.phone}` : null,
     `Project type: ${record.projectTypeLabel}`,
     `Budget: ${record.budgetLabel}`,
+    record.goal ? `Win looks like: ${record.goal}` : null,
     "",
     `utm_source: ${record.utm.source}`,
     `utm_medium: ${record.utm.medium}`,
@@ -251,27 +276,23 @@ export async function POST(req: Request) {
     .filter(Boolean)
     .join("\n");
 
-  // Telegram goes first, on purpose. It is a different provider on a different
-  // network path, so it is the channel most likely to still be up when Resend
-  // is not — pinging it before the email means an email failure still puts the
-  // lead in front of a human within seconds. It never throws and never blocks
-  // the response.
-  const telegram = await sendTelegramMessage(
-    formatContactNotification({
+  // The text to the operator goes first, on purpose. Twilio is a different
+  // provider on a different network path, so it is the channel most likely to
+  // still be up when Resend is not — sending it before the email means an email
+  // failure still puts the lead in front of a human within seconds. It never
+  // throws and never blocks the response.
+  const sms = await sendSms(
+    process.env[techRegardless.env.operatorPhone],
+    formatLeadSms({
       name: record.name,
-      email: record.email,
-      company: record.company || undefined,
+      company: record.company,
       projectTypeLabel: record.projectTypeLabel,
       budgetLabel: record.budgetLabel,
       message: record.message,
-      utm: record.utm,
+      source: record.utm.source,
     })
   );
-  const telegramStatus = telegram.ok
-    ? "sent"
-    : telegram.skipped
-      ? "skipped"
-      : "failed";
+  const smsStatus = sms.ok ? "sent" : sms.skipped ? "skipped" : "failed";
 
   const apiKey = process.env.RESEND_API_KEY;
   const to = process.env.CONTACT_TO_EMAIL;
@@ -290,7 +311,7 @@ export async function POST(req: Request) {
     // In production it means the env vars are missing on the deployment, the
     // operator received no email, and telling the visitor "got it, talk soon"
     // would be a lie that costs a real lead. Fail loudly instead.
-    logUnsentLead(record, "resend-not-configured", { telegram: telegramStatus });
+    logUnsentLead(record, "resend-not-configured", { sms: smsStatus });
     if (process.env.NODE_ENV === "production") {
       return NextResponse.json(
         { error: "Couldn't deliver — try emailing me directly." },
@@ -309,7 +330,7 @@ export async function POST(req: Request) {
     resend = new Resend(apiKey);
   } catch (err) {
     logUnsentLead(record, "resend-init-failed", {
-      telegram: telegramStatus,
+      sms: smsStatus,
       error: String(err),
     });
   }
@@ -333,7 +354,7 @@ export async function POST(req: Request) {
     });
     if (result.error) {
       logUnsentLead(record, "resend-rejected-notification", {
-        telegram: telegramStatus,
+        sms: smsStatus,
         error: result.error.message,
       });
       return NextResponse.json(
@@ -344,7 +365,7 @@ export async function POST(req: Request) {
   } catch (err) {
     console.error("[contact] Resend error", err);
     logUnsentLead(record, "resend-threw-on-notification", {
-      telegram: telegramStatus,
+      sms: smsStatus,
       error: String(err),
     });
     return NextResponse.json(
@@ -353,42 +374,94 @@ export async function POST(req: Request) {
     );
   }
 
-  // ── 2. Confirmation to the submitter. Best effort, never fatal. ───────────
-  // The operator already has the lead by this point, so a bounced confirmation
-  // is a courtesy failure, not a submission failure. Returning an error here
-  // would make the visitor submit the form again for no reason and would put a
-  // duplicate in the inbox. Log it and carry on.
-  let autoReply: "sent" | "failed" = "sent";
-  try {
-    const result = await resend.emails.send({
+  // ── 2. First contact from the front desk. Best effort, never fatal. ──────
+  // The operator already has the lead by this point, so anything that fails
+  // from here on is a courtesy failure, not a submission failure. Returning
+  // an error would make the visitor submit the form again for no reason.
+  //
+  // Preferred: the assistant writes a reply that reacts to what they said and
+  // asks the questions Ali needs before a call. Fallback: the plain
+  // confirmation below, which promises nothing the AI would have.
+  let firstContact: "ai" | "static" | "failed" = "failed";
+  let threadId: string | null = null;
+
+  const thread = await createThread({
+    businessId: techRegardless.id,
+    lead: {
+      name: record.name,
+      email: record.email,
+      phone: record.phone,
+      company: record.company,
+      projectType: record.projectTypeLabel,
+      budget: record.budgetLabel,
+      goal: record.goal,
+      message: record.message,
+    },
+    subject: `Your message to ${SITE.name}`,
+    messages: [],
+  });
+  threadId = thread.id;
+
+  const brain = await nextMessage(techRegardless, thread);
+  if (brain.ok && brain.output.reply.trim()) {
+    const sent = await sendAssistantEmail(resend, techRegardless, thread, brain.output.reply, {
       from: autoReplyFrom,
-      to: record.email,
-      // Replies land on the operator, not in a no-reply void. The body promises
-      // this works, so it has to.
-      replyTo: to,
-      subject: `Got it, ${record.name.split(/\s+/)[0] || record.name}. Talk soon.`,
-      text: autoReplyBody(record),
     });
-    if (result.error) {
-      throw new Error(result.error.message || "Resend rejected the auto-reply.");
+    if (sent.ok) {
+      firstContact = "ai";
+      thread.messages.push({
+        role: "assistant",
+        text: brain.output.reply.trim(),
+        at: new Date().toISOString(),
+        messageId: sent.messageId ?? undefined,
+      });
+      if (brain.output.handoff) {
+        thread.status = "handed_off";
+        thread.handoffReason = brain.output.handoff_reason || "one-shot";
+        thread.summary = brain.output.lead_summary;
+      }
+      await saveThread(thread);
+    } else {
+      console.error(`[contact] AI FIRST CONTACT SEND FAILED ${sent.error}`);
     }
-  } catch (err) {
-    autoReply = "failed";
-    // A failure path, so the full record is fair game under the privacy rule
-    // above — and the address is the only way to send the confirmation by hand.
-    // The lead itself is safe in the operator's inbox; this is not UNSENT LEAD.
-    console.error(
-      `[contact] AUTOREPLY FAILED ${JSON.stringify({
-        reason: String(err),
-        lead: record,
-      })}`
-    );
+  } else if (!brain.ok) {
+    console.warn(`[contact] front desk unavailable (${brain.reason}) — static confirmation`, brain.detail ?? "");
+  }
+
+  if (firstContact !== "ai") {
+    try {
+      const result = await resend.emails.send({
+        from: autoReplyFrom,
+        to: record.email,
+        // Replies land on the operator, not in a no-reply void. The body
+        // promises this works, so it has to.
+        replyTo: to,
+        subject: `Got it, ${record.name.split(/\s+/)[0] || record.name}. Talk soon.`,
+        text: autoReplyBody(record),
+      });
+      if (result.error) {
+        throw new Error(result.error.message || "Resend rejected the auto-reply.");
+      }
+      firstContact = "static";
+    } catch (err) {
+      // A failure path, so the full record is fair game under the privacy
+      // rule above — and the address is the only way to send the confirmation
+      // by hand. The lead itself is safe in the operator's inbox.
+      console.error(
+        `[contact] AUTOREPLY FAILED ${JSON.stringify({
+          reason: String(err),
+          lead: record,
+        })}`
+      );
+    }
   }
 
   console.log(
     `[contact] LEAD DELIVERED ${breadcrumb(record, {
-      telegram: telegramStatus,
-      autoReply,
+      sms: smsStatus,
+      firstContact,
+      threadId,
+      threadStored: isStoreConfigured(),
     })}`
   );
 

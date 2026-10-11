@@ -1,0 +1,93 @@
+import type { Resend } from "resend";
+import type { BusinessConfig } from "./config";
+import type { Thread } from "./store";
+import { SITE } from "@/lib/utils";
+
+/**
+ * Sends the assistant's messages and makes sure replies come back to us.
+ *
+ * Reply-To is a plus-addressed inbox on the receiving subdomain, e.g.
+ * frontdesk+<threadId>@reply.techregardless.com, so the inbound webhook can
+ * find the thread without parsing quoted text. In-Reply-To/References keep
+ * the lead's mail client threading the conversation.
+ */
+
+export function replyAddressFor(config: BusinessConfig, threadId: string) {
+  const base = process.env[config.env.replyAddress];
+  if (!base) return null;
+  const [local, domain] = base.split("@");
+  if (!local || !domain) return null;
+  return `${local}+${threadId}@${domain}`;
+}
+
+/** Pull the thread id back out of a plus-addressed recipient. */
+export function threadIdFromAddress(config: BusinessConfig, addresses: string[]) {
+  const base = process.env[config.env.replyAddress];
+  if (!base) return null;
+  const [local, domain] = base.toLowerCase().split("@");
+  for (const raw of addresses) {
+    const addr = raw.toLowerCase().replace(/^.*<([^>]+)>.*$/, "$1").trim();
+    const m = addr.match(/^([^+@]+)\+([^@]+)@(.+)$/);
+    if (m && m[1] === local && m[3] === domain) return m[2];
+  }
+  return null;
+}
+
+function signature(config: BusinessConfig) {
+  return [
+    "",
+    `— ${config.assistantName}`,
+    `${config.operatorName} reads every reply. ${SITE.url}`,
+  ].join("\n");
+}
+
+export async function sendAssistantEmail(
+  resend: Resend,
+  config: BusinessConfig,
+  thread: Thread,
+  text: string,
+  opts: { from: string; inReplyTo?: string }
+): Promise<{ ok: true; messageId: string | null } | { ok: false; error: string }> {
+  const replyTo = replyAddressFor(config, thread.id) ?? process.env[config.env.operatorEmail];
+  const headers: Record<string, string> = {};
+  if (opts.inReplyTo) {
+    headers["In-Reply-To"] = opts.inReplyTo;
+    headers["References"] = opts.inReplyTo;
+  }
+
+  const subject = thread.messages.length === 0 ? thread.subject : `Re: ${thread.subject}`;
+
+  try {
+    const result = await resend.emails.send({
+      from: opts.from,
+      to: thread.lead.email,
+      replyTo,
+      subject,
+      text: `${text.trim()}\n${signature(config)}`,
+      headers,
+    });
+    if (result.error) return { ok: false, error: result.error.message };
+    return { ok: true, messageId: result.data?.id ?? null };
+  } catch (err) {
+    return { ok: false, error: String(err) };
+  }
+}
+
+/**
+ * Strip quoted history from a reply so the model sees only the new words.
+ * Conservative: cuts at the first obvious quote marker; if nothing matches
+ * the whole text passes through.
+ */
+export function stripQuotedReply(text: string) {
+  const lines = text.replace(/\r\n/g, "\n").split("\n");
+  const out: string[] = [];
+  for (const line of lines) {
+    const t = line.trim();
+    if (t.startsWith(">")) break;
+    if (/^On .+ wrote:$/.test(t)) break;
+    if (/^-{2,}\s*Original Message\s*-{2,}$/i.test(t)) break;
+    if (/^From: .+$/.test(t) && out.length > 0) break;
+    out.push(line);
+  }
+  return out.join("\n").trim();
+}

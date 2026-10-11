@@ -19,6 +19,12 @@ export const contactSchema = z.object({
   name: z.string().min(2, "Tell me your name."),
   email: z.string().email("That doesn't look like a valid email."),
   company: z.string().optional(),
+  phone: z
+    .string()
+    .optional()
+    .refine((v) => !v || v.replace(/\D/g, "").length >= 10, {
+      message: "Include the area code, or leave it blank.",
+    }),
   projectType: z.enum(
     ["new-website", "redesign", "automation", "ongoing-support", "exploring"],
     { errorMap: () => ({ message: "Pick one." }) }
@@ -27,7 +33,8 @@ export const contactSchema = z.object({
     ["under-500", "under-1k", "under-2k", "2k-5k", "5k-10k", "10k-plus"],
     { errorMap: () => ({ message: "Pick one." }) }
   ),
-  message: z.string().min(10, "A few sentences about the project, please."),
+  message: z.string().min(10, "A few sentences about the problem, please."),
+  goal: z.string().max(300, "Keep it to a sentence or two.").optional(),
 });
 
 type ContactValues = z.infer<typeof contactSchema>;
@@ -87,11 +94,12 @@ export function ContactForm() {
       >
         <CheckCircle2 className="size-8 text-accent" aria-hidden />
         <h2 className="text-2xl font-medium tracking-tight">
-          Got it. Talk soon.
+          Got it. Check your email.
         </h2>
         <p className="text-muted-foreground">
-          Your message hit my inbox. I respond within 24 hours — usually
-          faster. In the meantime, no follow-up needed from your end.
+          My front desk assistant is emailing you now with a question or two
+          so I can come to the call prepared. It&apos;s software, and I read
+          every reply. You&apos;ll hear from me personally within 24 hours.
         </p>
         <Button
           type="button"
@@ -141,14 +149,28 @@ export function ContactForm() {
         <FieldError>{errors.email?.message}</FieldError>
       </div>
 
-      <div className="grid gap-2">
-        <Label htmlFor="company">Company (optional)</Label>
-        <Input
-          id="company"
-          autoComplete="organization"
-          placeholder="Where you work"
-          {...register("company")}
-        />
+      <div className="grid gap-5 sm:grid-cols-2">
+        <div className="grid gap-2">
+          <Label htmlFor="company">Business name (optional)</Label>
+          <Input
+            id="company"
+            autoComplete="organization"
+            placeholder="Your business"
+            {...register("company")}
+          />
+        </div>
+        <div className="grid gap-2">
+          <Label htmlFor="phone">Phone (optional)</Label>
+          <Input
+            id="phone"
+            type="tel"
+            autoComplete="tel"
+            placeholder="(407) 555-0100"
+            aria-invalid={!!errors.phone}
+            {...register("phone")}
+          />
+          <FieldError>{errors.phone?.message}</FieldError>
+        </div>
       </div>
 
       <div className="grid gap-5 sm:grid-cols-2">
@@ -212,15 +234,26 @@ export function ContactForm() {
 
       <div className="grid gap-2">
         <Label htmlFor="message" required>
-          Message
+          What&apos;s the problem?
         </Label>
         <Textarea
           id="message"
-          placeholder="A few sentences about the project — what you have, what you need, when you need it."
+          placeholder="A few sentences — what's broken or missing today, and what you've tried."
           aria-invalid={!!errors.message}
           {...register("message")}
         />
         <FieldError>{errors.message?.message}</FieldError>
+      </div>
+
+      <div className="grid gap-2">
+        <Label htmlFor="goal">What would a win look like? (optional)</Label>
+        <Input
+          id="goal"
+          placeholder="e.g. stop missing calls while I'm on a job"
+          aria-invalid={!!errors.goal}
+          {...register("goal")}
+        />
+        <FieldError>{errors.goal?.message}</FieldError>
       </div>
 
       {serverError && (
