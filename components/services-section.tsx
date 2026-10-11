@@ -1,4 +1,4 @@
-import { ArrowUpRight, Code2, RefreshCcw, LifeBuoy } from "lucide-react";
+import { ArrowUpRight, Code2, PhoneMissed, Workflow } from "lucide-react";
 import Link from "next/link";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/reveal";
@@ -8,25 +8,25 @@ const services = [
     icon: Code2,
     title: "Custom Websites",
     description:
-      "From scratch, designed for your brand and built to convert. Modern stack, hand-crafted code, zero templates.",
-    price: "From $2,500",
-    href: "/services#professional",
-  },
-  {
-    icon: RefreshCcw,
-    title: "Redesigns & Rebuilds",
-    description:
-      "Take your outdated site and turn it into something that actually performs. Faster, cleaner, conversion-focused.",
+      "Designed for your brand, built to convert, fast on a phone. No templates, no page builders — code you own on day one.",
     price: "From $1,800",
-    href: "/services#starter",
+    href: "/services",
   },
   {
-    icon: LifeBuoy,
-    title: "Ongoing Support",
+    icon: PhoneMissed,
+    title: "AI Front Desk",
     description:
-      "Updates, performance, hosting, security. So you can focus on running your business — not patching plugins.",
-    price: "From $200/mo",
-    href: "/services#premium",
+      "Missed-call text-back, an AI agent that books the job over SMS, and review requests that send themselves. Every missed call gets answered.",
+    price: "$697/mo · cancel anytime",
+    href: "/contact",
+  },
+  {
+    icon: Workflow,
+    title: "AI Automation",
+    description:
+      "Intake, follow-ups, invoicing, reporting — the repetitive work wired together so the business keeps moving while you're on a job.",
+    price: "Custom quote",
+    href: "/contact",
   },
 ];
 
@@ -45,10 +45,10 @@ export function ServicesSection() {
               <>
                 What I build,
                 <br />
-                <span className="text-muted-foreground">how I build it</span>
+                <span className="text-muted-foreground">and who it&apos;s for</span>
               </>
             }
-            description="Three ways to work together. Pick the one that matches where you are — I'll handle the rest."
+            description="Three service lines, one builder. Most businesses start with one and add the next when the first one pays for itself."
           />
         </Reveal>
 

@@ -1,9 +1,8 @@
 import type { Metadata } from "next";
-import { Calendar, Clock, Mail } from "lucide-react";
+import { Clock, Mail } from "lucide-react";
 import { Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
 import { Reveal } from "@/components/reveal";
-import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/utils";
 
 export const metadata: Metadata = {
@@ -50,11 +49,11 @@ export default function ContactPage() {
                 Other ways
               </p>
               <h2 className="mt-3 text-2xl font-medium tracking-tight">
-                Prefer email or a call?
+                Prefer email?
               </h2>
               <p className="mt-2 text-sm text-muted-foreground">
-                Both work. The form is fastest because I see budget and
-                project type up front.
+                That works too. The form is fastest because I see budget and
+                project type up front, and I&apos;ll suggest a call from there.
               </p>
             </div>
 
@@ -74,22 +73,6 @@ export default function ContactPage() {
                 </div>
               </li>
               <li className="flex items-start gap-3">
-                <Calendar className="mt-0.5 size-4 text-accent" aria-hidden />
-                <div>
-                  <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-                    Discovery call (free, 30 min)
-                  </p>
-                  <a
-                    href={SITE.calendly}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="text-foreground hover:text-accent"
-                  >
-                    Book on Calendly
-                  </a>
-                </div>
-              </li>
-              <li className="flex items-start gap-3">
                 <Clock className="mt-0.5 size-4 text-accent" aria-hidden />
                 <div>
                   <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
@@ -101,17 +84,6 @@ export default function ContactPage() {
                 </div>
               </li>
             </ul>
-
-            <div className="mt-2">
-              <Button href={SITE.calendly} size="md" className="w-full">
-                Book a discovery call
-              </Button>
-              {/*
-                TODO: To embed the Calendly widget directly, add the inline-embed iframe here:
-                  <div className="calendly-inline-widget" data-url={SITE.calendly} />
-                and load https://assets.calendly.com/assets/external/widget.js once.
-              */}
-            </div>
 
             <div className="border-t border-border pt-5">
               <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">

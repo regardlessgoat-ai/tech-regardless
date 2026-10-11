@@ -7,13 +7,11 @@ export function cn(...inputs: ClassValue[]) {
 
 export const SITE = {
   name: "Tech.Regardless",
-  tagline: "Websites that work. Regardless.",
+  tagline: "Solutions that work. Regardless.",
   description:
-    "I design and build fast, modern websites for businesses that refuse to settle for templates.",
+    "Tech solutions for businesses: custom websites, an AI front desk that answers missed calls, and automation for the busywork in between. Built and run by one person in Kissimmee, FL.",
   email: "tech.regardless@gmail.com",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://techregardless.com",
-  calendly:
-    process.env.NEXT_PUBLIC_CALENDLY_URL || "https://calendly.com/your-handle",
   social: {
     twitter: "https://twitter.com/techregardless",
     github: "https://github.com/techregardless",

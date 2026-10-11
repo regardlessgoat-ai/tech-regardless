@@ -7,6 +7,7 @@ import { MDXRemote } from "next-mdx-remote/rsc";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/reveal";
+import { ProjectBrief } from "@/components/project-brief";
 import {
   getAdjacentProjects,
   getAllProjects,
@@ -33,7 +34,7 @@ export async function generateMetadata({
     openGraph: {
       title,
       description: tagline,
-      images: [{ url: heroImage }],
+      ...(heroImage ? { images: [{ url: heroImage }] } : {}),
     },
   };
 }
@@ -67,7 +68,6 @@ export default async function CaseStudyPage({
           <div className="flex flex-wrap items-center gap-2">
             <Badge variant="accent">{frontmatter.industry}</Badge>
             <Badge variant="outline">{frontmatter.year}</Badge>
-            <Badge variant="outline">{frontmatter.timeline}</Badge>
           </div>
           <h1 className="mt-6 text-balance text-5xl font-medium tracking-tight sm:text-6xl md:text-7xl">
             {frontmatter.title}
@@ -77,41 +77,33 @@ export default async function CaseStudyPage({
           </p>
         </Reveal>
 
-        <Reveal delay={0.1} className="mt-12">
-          <div className="relative aspect-[16/9] w-full overflow-hidden rounded border border-border bg-muted">
-            <Image
-              src={frontmatter.heroImage}
-              alt={`${frontmatter.title} — hero image`}
-              fill
-              priority
-              sizes="(min-width: 1280px) 1200px, 100vw"
-              className="object-cover"
-            />
-          </div>
-        </Reveal>
+        {frontmatter.heroImage && (
+          <Reveal delay={0.1} className="mt-12">
+            <div className="relative aspect-[16/9] w-full overflow-hidden rounded border border-border bg-muted">
+              <Image
+                src={frontmatter.heroImage}
+                alt={`${frontmatter.title} — hero image`}
+                fill
+                priority
+                sizes="(min-width: 1280px) 1200px, 100vw"
+                className="object-cover"
+              />
+            </div>
+          </Reveal>
+        )}
       </header>
 
       {/* Two-column meta */}
       <section className="container-wide mt-20 grid gap-12 lg:grid-cols-12 lg:gap-16">
         <Reveal className="lg:col-span-8 space-y-12">
-          <div>
+          <div className="rounded border border-border bg-card p-6 sm:p-8">
             <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-              The challenge
+              The brief
             </p>
-            <p className="mt-4 text-lg leading-relaxed text-foreground">
-              {frontmatter.challenge}
-            </p>
-          </div>
-          <div>
-            <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-              The solution
-            </p>
-            <p className="mt-4 text-lg leading-relaxed text-foreground">
-              {frontmatter.solution}
-            </p>
+            <ProjectBrief frontmatter={frontmatter} className="mt-6" />
           </div>
           {content?.trim() && (
-            <div className="prose prose-invert max-w-none text-muted-foreground prose-p:text-base prose-p:leading-relaxed prose-strong:text-foreground">
+            <div className="prose prose-invert max-w-none space-y-5 text-muted-foreground prose-p:text-base prose-p:leading-relaxed prose-strong:text-foreground">
               <MDXRemote source={content} />
             </div>
           )}
@@ -120,10 +112,8 @@ export default async function CaseStudyPage({
         <Reveal className="lg:col-span-4" delay={0.1}>
           <aside className="sticky top-24 rounded border border-border bg-card p-6">
             <dl className="space-y-5 text-sm">
-              <Meta label="Client" value={frontmatter.client} />
               <Meta label="Role" value={frontmatter.role} />
               <Meta label="Year" value={frontmatter.year} />
-              <Meta label="Timeline" value={frontmatter.timeline} />
               <div>
                 <dt className="font-mono text-xs uppercase tracking-wider text-muted-foreground">
                   Tech stack

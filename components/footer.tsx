@@ -74,8 +74,8 @@ export function Footer() {
               {SITE.email}
             </a>
             <div className="mt-5">
-              <Button href={SITE.calendly} variant="outline" size="sm">
-                Book a call
+              <Button href="/contact" variant="outline" size="sm">
+                Start a conversation
               </Button>
             </div>
           </div>

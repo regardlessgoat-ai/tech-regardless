@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 export const metadata: Metadata = {
   title: "Services & Pricing",
   description:
-    "Three tiers, transparent pricing, no surprises. Custom websites, redesigns, and ongoing support from Tech.Regardless.",
+    "Website build tiers with transparent pricing. AI Front Desk and automation work are scoped on a call.",
 };
 
 type Tier = {

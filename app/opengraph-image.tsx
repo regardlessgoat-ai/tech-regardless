@@ -1,7 +1,7 @@
 import { ImageResponse } from "next/og";
 
 export const runtime = "edge";
-export const alt = "Tech.Regardless — Websites that work. Regardless.";
+export const alt = "Tech.Regardless — Solutions that work. Regardless.";
 export const size = { width: 1200, height: 630 };
 export const contentType = "image/png";
 
@@ -42,7 +42,7 @@ export default function OG() {
               letterSpacing: "-0.04em",
             }}
           >
-            Websites that work.
+            Solutions that work.
           </div>
           <div
             style={{
@@ -69,8 +69,8 @@ export default function OG() {
             letterSpacing: "0.2em",
           }}
         >
-          <span>Freelance · Web Design</span>
-          <span style={{ color: "#00ff88" }}>● Available May 2026</span>
+          <span>Websites · AI Front Desk · Automation</span>
+          <span style={{ color: "#00ff88" }}>Kissimmee · Orlando</span>
         </div>
       </div>
     ),

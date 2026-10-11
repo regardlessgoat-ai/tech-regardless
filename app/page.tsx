@@ -17,7 +17,7 @@ export default async function HomePage() {
         "@type": "Person",
         name: SITE.name,
         url: SITE.url,
-        jobTitle: "Web Designer & Developer",
+        jobTitle: "Web Developer & Automation Builder",
         email: `mailto:${SITE.email}`,
         sameAs: [
           SITE.social.twitter,

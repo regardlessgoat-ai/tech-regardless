@@ -2,8 +2,6 @@
 
 import { ArrowRight, ArrowUpRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { StatusPill } from "@/components/status-pill";
-import { SITE } from "@/lib/utils";
 
 export function Hero() {
   return (
@@ -19,13 +17,11 @@ export function Hero() {
 
       <div className="container-wide relative w-full pt-24 pb-20 sm:pt-32">
         <div className="flex flex-col items-start gap-8">
-          <StatusPill>● Available for projects — May 2026</StatusPill>
-
           <h1
             id="hero-heading"
             className="text-balance font-sans text-5xl font-medium leading-[1.02] tracking-[-0.04em] sm:text-6xl md:text-7xl lg:text-[7.5rem]"
           >
-            Websites that <br className="hidden sm:block" />
+            Solutions that <br className="hidden sm:block" />
             <span className="relative">
               work
               <span className="absolute -bottom-1 left-0 right-0 h-[6px] rounded-full bg-accent/30 blur-sm" />
@@ -34,9 +30,9 @@ export function Hero() {
           </h1>
 
           <p className="max-w-2xl text-lg text-muted-foreground sm:text-xl">
-            I design and build fast, modern websites for businesses that refuse
-            to settle for templates. No hand-offs, no agencies, no excuses —
-            just code that ships.
+            Websites, an AI front desk that answers the calls you miss, and
+            automation for the busywork in between. One builder, no
+            hand-offs, no agencies — just systems that ship and keep working.
           </p>
 
           <div className="flex flex-wrap items-center gap-3">
@@ -44,8 +40,8 @@ export function Hero() {
               See the work
               <ArrowRight className="size-4" aria-hidden />
             </Button>
-            <Button href={SITE.calendly} variant="outline" size="lg">
-              Book a call
+            <Button href="/contact" variant="outline" size="lg">
+              Get in touch
               <ArrowUpRight className="size-4" aria-hidden />
             </Button>
           </div>
@@ -56,13 +52,8 @@ export function Hero() {
               <dd className="mt-1 text-foreground">&lt; 24 hours</dd>
             </div>
             <div>
-              <dt className="text-muted-foreground/70">Timeline</dt>
-              <dd className="mt-1 flex flex-wrap items-baseline gap-x-2 gap-y-1 text-foreground">
-                1–2 weeks
-                <span className="text-[10px] tracking-normal text-muted-foreground/80">
-                  Shorter deadlines available
-                </span>
-              </dd>
+              <dt className="text-muted-foreground/70">Based in</dt>
+              <dd className="mt-1 text-foreground">Kissimmee, FL</dd>
             </div>
           </dl>
         </div>

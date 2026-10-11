@@ -7,18 +7,22 @@ export type ProjectFrontmatter = {
   client: string;
   industry: string;
   year: string;
-  timeline: string;
   role: string;
   liveUrl?: string;
-  heroImage: string;
+  /** Optional. Leave it off and the card renders as a text brief. */
+  heroImage?: string;
   tags: string[];
   featured?: boolean;
   order?: number;
-  challenge: string;
-  solution: string;
+  tagline: string;
+  /** What the client does, in one line. */
+  about: string;
+  /** What was broken before. */
+  problem: string;
+  /** What shipped. */
+  solved: string;
   results: { label: string; value: string }[];
   gallery?: { src: string; caption?: string; aspect?: "wide" | "split" }[];
-  tagline: string;
 };
 
 export type Project = {

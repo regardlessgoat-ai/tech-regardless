@@ -6,7 +6,7 @@ import { getAllProjects } from "@/lib/projects";
 export const metadata: Metadata = {
   title: "Work",
   description:
-    "A selection of recent web design and development projects by Tech.Regardless.",
+    "Recent builds by Tech.Regardless: who the client is, what was broken, and what got fixed.",
 };
 
 export default async function WorkIndexPage() {
