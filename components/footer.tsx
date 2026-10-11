@@ -85,13 +85,8 @@ export function Footer() {
           <p>© {new Date().getFullYear()} Tech.Regardless. Built regardless.</p>
           <ul className="flex items-center gap-5">
             <li>
-              <Link href="/privacy" className="transition-colors hover:text-foreground">
-                Privacy
-              </Link>
-            </li>
-            <li>
-              <Link href="/terms" className="transition-colors hover:text-foreground">
-                Terms
+              <Link href="/sms-policy" className="transition-colors hover:text-foreground">
+                Privacy &amp; Terms
               </Link>
             </li>
             <li className="font-mono">v1.0 — shipped on caffeine</li>
