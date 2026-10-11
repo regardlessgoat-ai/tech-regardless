@@ -14,6 +14,14 @@ const links = [
   { href: "/contact", label: "Contact" },
 ];
 
+// Every page on the site, for the mobile menu.
+const allPages = [
+  { href: "/", label: "Home" },
+  ...links,
+  { href: "/privacy", label: "Privacy Policy" },
+  { href: "/terms", label: "Terms and Conditions" },
+];
+
 export function Nav() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
@@ -86,7 +94,7 @@ export function Nav() {
       {open && (
         <div className="border-t border-border bg-background/95 backdrop-blur-xl md:hidden">
           <ul className="container-wide flex flex-col gap-1 py-4">
-            {links.map((link) => (
+            {allPages.map((link) => (
               <li key={link.href}>
                 <Link
                   href={link.href}

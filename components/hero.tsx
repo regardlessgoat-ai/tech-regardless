@@ -22,10 +22,10 @@ export function Hero() {
           </h1>
 
           <p className="max-w-2xl text-lg text-muted-foreground sm:text-xl">
-            A website your customers trust. An AI front desk that texts back
-            every call you miss. Automation for the busywork in between. You
-            talk to one builder from the first call to launch, and everything
-            keeps working long after it ships.
+            You have a problem, we fix it. Websites, an AI front desk for the
+            calls you miss, and automation for the busywork in between,
+            delivered in four simple steps: discovery call, design, build,
+            launch and support.
           </p>
 
           <div className="flex flex-wrap items-center gap-3">

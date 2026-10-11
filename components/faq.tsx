@@ -7,7 +7,6 @@ const items: AccordionItem[] = [
     id: "timeline",
     question: "How long does a custom build take?",
     answer: <p>1 to 2 weeks.</p>,
-    ),
   },
   {
     id: "pricing",

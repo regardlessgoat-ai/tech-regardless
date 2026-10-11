@@ -10,7 +10,7 @@ export const SITE = {
   tagline: "Solutions that work. Regardless.",
   description:
     "Tech solutions for businesses: custom websites, an AI front desk that answers missed calls, and automation for the busywork in between. Built and run by one person in Kissimmee, FL.",
-  email: "tech.regardless@gmail.com",
+  email: "ali@techregardless.com",
   url: process.env.NEXT_PUBLIC_SITE_URL || "https://techregardless.com",
   social: {
     twitter: "https://twitter.com/techregardless",
