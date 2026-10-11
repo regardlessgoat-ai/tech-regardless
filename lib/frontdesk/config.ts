@@ -51,7 +51,7 @@ export const techRegardless: BusinessConfig = {
   services: [
     "Custom websites: designed for the brand, built to convert, fast on a phone.",
     "AI Front Desk for home-service businesses: missed-call text-back, an AI agent that books jobs over SMS, automated review requests.",
-    "AI automation: intake, follow-ups, invoicing and reporting wired together.",
+    "Business automation: intake, follow ups, invoicing and reporting wired together.",
   ],
   publicPricing: [
     "Websites start at $1,800.",

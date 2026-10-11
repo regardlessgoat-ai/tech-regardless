@@ -8,7 +8,7 @@ const services = [
     icon: Code2,
     title: "Custom Websites",
     description:
-      "Designed for your brand, built to convert, fast on a phone. No templates, no page builders — code you own on day one.",
+      "Designed for your brand, built to turn visitors into calls, fast on a phone. You own the code on day one.",
     price: "From $1,800",
     href: "/services",
   },
@@ -16,15 +16,15 @@ const services = [
     icon: PhoneMissed,
     title: "AI Front Desk",
     description:
-      "Missed-call text-back, an AI agent that books the job over SMS, and review requests that send themselves. Every missed call gets answered.",
-    price: "$697/mo · cancel anytime",
+      "Texts back every call you miss, books the job over SMS, and asks happy customers for a review.",
+    price: "$697/mo, cancel anytime",
     href: "/contact",
   },
   {
     icon: Workflow,
-    title: "AI Automation",
+    title: "Business Automation",
     description:
-      "Intake, follow-ups, invoicing, reporting — the repetitive work wired together so the business keeps moving while you're on a job.",
+      "Intake, follow ups, invoicing and reporting wired together so the business keeps moving while you are on a job.",
     price: "Custom quote",
     href: "/contact",
   },
@@ -52,38 +52,42 @@ export function ServicesSection() {
           />
         </Reveal>
 
-        <div className="mt-16 grid gap-4 md:grid-cols-3">
-          {services.map((service, i) => {
-            const Icon = service.icon;
-            return (
-              <Reveal key={service.title} delay={i * 0.08}>
-                <Link
-                  href={service.href}
-                  className="group relative flex h-full flex-col rounded border border-border bg-card p-7 transition-all duration-300 hover:-translate-y-1 hover:border-accent/40 hover:shadow-layered focus-ring"
-                >
-                  <div className="flex items-center justify-between">
-                    <div className="flex size-11 items-center justify-center rounded border border-border bg-muted/40 text-accent">
+        <Reveal delay={0.08}>
+          <ul className="mt-16 divide-y divide-border rounded border border-border bg-card">
+            {services.map((service) => {
+              const Icon = service.icon;
+              return (
+                <li key={service.title}>
+                  <Link
+                    href={service.href}
+                    className="group flex flex-col gap-4 p-6 transition-colors hover:bg-muted/30 focus-ring sm:flex-row sm:items-center sm:gap-6 sm:p-7"
+                  >
+                    <div className="flex size-11 shrink-0 items-center justify-center rounded border border-border bg-muted/40 text-accent">
                       <Icon className="size-5" aria-hidden />
                     </div>
-                    <ArrowUpRight
-                      className="size-5 text-muted-foreground transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
-                      aria-hidden
-                    />
-                  </div>
-                  <h3 className="mt-8 text-2xl font-medium tracking-tight">
-                    {service.title}
-                  </h3>
-                  <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
-                    {service.description}
-                  </p>
-                  <p className="mt-8 font-mono text-xs uppercase tracking-wider text-foreground">
-                    {service.price}
-                  </p>
-                </Link>
-              </Reveal>
-            );
-          })}
-        </div>
+                    <div className="min-w-0 flex-1">
+                      <h3 className="text-xl font-medium tracking-tight">
+                        {service.title}
+                      </h3>
+                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
+                        {service.description}
+                      </p>
+                    </div>
+                    <div className="flex items-center justify-between gap-4 sm:justify-end">
+                      <p className="font-mono text-xs uppercase tracking-wider text-foreground">
+                        {service.price}
+                      </p>
+                      <ArrowUpRight
+                        className="size-5 shrink-0 text-muted-foreground transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
+                        aria-hidden
+                      />
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ul>
+        </Reveal>
       </div>
     </section>
   );
