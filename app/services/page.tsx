@@ -5,6 +5,7 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/reveal";
 import { Accordion, type AccordionItem } from "@/components/ui/accordion";
 import { ProcessSection } from "@/components/process-section";
+import { ServiceMarquee } from "@/components/service-marquee";
 import { CtaSection } from "@/components/cta-section";
 
 export const metadata: Metadata = {
@@ -15,7 +16,6 @@ export const metadata: Metadata = {
 
 type Service = {
   id: string;
-  n: string;
   name: string;
   problem: string;
   outcome: string;
@@ -30,7 +30,6 @@ type Service = {
 const services: Service[] = [
   {
     id: "websites",
-    n: "01",
     name: "Custom Websites",
     problem:
       "Your website is embarrassing you, or you don't have one, and the people who Google you can tell.",
@@ -53,7 +52,6 @@ const services: Service[] = [
   },
   {
     id: "front-desk",
-    n: "02",
     name: "AI Front Desk",
     problem:
       "You're on a job, the phone rings, you can't pick up, and the customer calls the next company on the list.",
@@ -77,7 +75,6 @@ const services: Service[] = [
   },
   {
     id: "automation",
-    n: "03",
     name: "Business Automation",
     problem:
       "The same five tasks eat your evenings: chasing follow ups, sending invoices, copying things between apps.",
@@ -199,19 +196,12 @@ export default function ServicesPage() {
             />
           </Reveal>
 
-          <Reveal delay={0.08}>
-            <ol className="mt-12 flex flex-wrap gap-x-8 gap-y-2 font-mono text-xs uppercase tracking-[0.2em] text-muted-foreground">
-              {services.map((s) => (
-                <li key={s.id}>
-                  <a href={`#${s.id}`} className="hover:text-foreground">
-                    {s.n} {s.name}
-                  </a>
-                </li>
-              ))}
-            </ol>
-          </Reveal>
         </div>
       </section>
+
+      <ServiceMarquee
+        items={services.map((s) => ({ href: `#${s.id}`, label: s.name }))}
+      />
 
       {/* One block per service: price column left, detail right */}
       {services.map((s) => (
@@ -223,12 +213,9 @@ export default function ServicesPage() {
         >
           <div className="container-wide grid gap-12 lg:grid-cols-12 lg:gap-16">
             <Reveal className="lg:col-span-4">
-              <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
-                {s.n}
-              </p>
               <h2
                 id={`${s.id}-heading`}
-                className="mt-3 text-3xl font-medium tracking-tight sm:text-4xl"
+                className="text-3xl font-medium tracking-tight sm:text-4xl"
               >
                 {s.name}
               </h2>
