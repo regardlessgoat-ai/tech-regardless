@@ -160,7 +160,8 @@ const faqItems: AccordionItem[] = [
       <p>
         You run it on your real business line for 30 days at no charge. Near
         the end we give you a call, go over what it caught, and you decide
-        whether to keep it. No card up front, nothing renews on its own.
+        whether to keep it. No card until you say yes. If you do, we set up
+        billing then and it&apos;s $697 a month from there.
       </p>
     ),
   },
