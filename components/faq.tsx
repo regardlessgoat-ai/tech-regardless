@@ -52,8 +52,8 @@ const items: AccordionItem[] = [
     question: "Do you handle hosting and domains?",
     answer: (
       <p>
-        Yes. I deploy to Vercel by default. It&apos;s fast, reliable, and
-        included in the project price for the first year. I can also work
+        Yes. I deploy to Vercel by default. It&apos;s fast and reliable. I
+        can also work
         with whatever stack you already have if you&apos;d rather not
         migrate.
       </p>
