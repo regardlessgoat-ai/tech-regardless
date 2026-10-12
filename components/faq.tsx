@@ -13,10 +13,9 @@ const items: AccordionItem[] = [
     question: "What does pricing actually include?",
     answer: (
       <p>
-        Strategy, design, development, launch, and 30 days of post-launch
-        support. No design fees, no developer fees, no “oh that&apos;s an
-        add-on.” You see one number on the proposal and that&apos;s the
-        number you pay.
+        Strategy, design, development, launch, and post-launch support. No
+        design fees, no developer fees, no “oh that&apos;s an add-on.” You
+        see one number on the proposal and that&apos;s the number you pay.
       </p>
     ),
   },
