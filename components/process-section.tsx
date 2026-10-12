@@ -4,28 +4,28 @@ import { Reveal } from "@/components/reveal";
 
 const steps = [
   {
-    n: "01",
+    n: "1",
     icon: Compass,
     title: "Discovery call",
     description:
       "A short call about your business, who your customers are, and what a win looks like. No forms, no decks, just a conversation.",
   },
   {
-    n: "02",
+    n: "2",
     icon: PenTool,
     title: "Design",
     description:
       "You see real screens that look like your business, not a template and not a mood board.",
   },
   {
-    n: "03",
+    n: "3",
     icon: Code2,
     title: "Build",
     description:
       "Fast on a phone and easy to find on Google from day one. You get preview links as it comes together.",
   },
   {
-    n: "04",
+    n: "4",
     icon: Rocket,
     title: "Launch and support",
     description:
