@@ -8,32 +8,38 @@ liveUrl: "https://picmenu-five.vercel.app"
 tags: ["React", "TypeScript", "Node", "Prisma", "Postgres", "Stripe", "Vercel", "Render"]
 featured: true
 order: 2
-tagline: "A restaurant menu platform — 16 card styles, 35 languages, and an AI extractor that refuses to invent a dish."
-about: "Small independent restaurants. No technical staff, no spare time, and a menu that changes on a Tuesday."
-problem: "The QR code at the table opens a sideways PDF in one language with no photos. Changing a price means someone re-exports a file, so the menu quietly stops getting updated."
-solved: "A menu the owner runs from a phone. Sixteen real card layouts, live translation into 35 languages, QR codes that still scan after lamination, and an extractor that reads the old menu and drops any dish it can't find in the source."
+tagline: "A QR menu for restaurants in tourist areas: 35 languages, a photo of every dish, 16 menu looks, and 15 games to play while you wait."
+about: "Independent restaurants in tourist areas like Kissimmee and Orlando, where one dinner service seats tables from Brazil, Japan, Germany and Quebec."
+problem: "A family sits down, can't read the menu, and orders less or walks out. The menu itself is a sideways PDF with no photos that nobody has time to update."
+solved: "A QR menu that opens in the diner's own language, 35 of them, with a photo of every dish so nobody guesses. The owner picks from 16 menu looks to match the restaurant, edits prices from a phone, and every table gets 15 games to play while the food comes."
 results:
-  - label: "Menu card styles"
-    value: "16"
   - label: "Languages"
     value: "35"
-  - label: "API endpoints"
-    value: "191"
+  - label: "Menu looks"
+    value: "16"
+  - label: "Games while you wait"
+    value: "15"
   - label: "QR error correction"
     value: "30%"
 ---
 
-The hard part was never displaying a menu. It's that the customer is a restaurant with
-nobody on staff to babysit software. Anything that needs maintaining is a tool that quietly
-stops being used, so every decision came back to one question: can the owner do this from a
-phone between lunch and dinner?
+Kissimmee sits next to the parks, so a Tuesday dinner service can seat a table from
+São Paulo, a table from Osaka and a table from Montreal in the same hour. A paper menu in
+English with no pictures means pointing, guessing and smaller orders. That is the problem
+PicMenu was built for. The diner scans the code, the menu opens in their language with a
+photo of every dish, and the order gets placed with confidence.
 
-The sixteen card styles are genuinely different layouts, not recolours, and the list of
-valid styles lives in **one allowlist enforced identically on the server and in the browser.**
-That seam is where these systems usually rot: a style ships in the picker, the API rejects it,
-and a restaurant saves a menu that renders as nothing.
+The owner side had to be just as simple, because a restaurant has nobody on staff to
+babysit software. Everything is done from a phone between lunch and dinner: change a price,
+swap a photo onto a dish, pick a different look for the menu. The sixteen looks are genuinely
+different layouts, not recolours, and the list of valid looks lives in **one allowlist
+enforced identically on the server and in the browser** so a menu can never save as nothing.
 
 Translation covers thirty-five languages, cached so the same dish is never paid for twice,
 with a food glossary so *carne asada* doesn't come back as "grilled meat." Every theme's font
 stack ends in a shared fallback chain carrying Noto CJK and Noto Arabic, so a diner reading
 Japanese never sees a page of empty boxes.
+
+The games came from watching families wait. Fifteen of them run inside the menu itself,
+from Tic Tac Toe and Connect Four for two people to Solitaire and a drawing pad for one,
+so the kids are occupied and the table stays relaxed until the food arrives.
