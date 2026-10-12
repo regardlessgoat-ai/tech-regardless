@@ -1,5 +1,14 @@
 import { NextResponse } from "next/server";
 import { z } from "zod";
+import {
+  PROJECT_TYPES,
+  PROJECT_TYPE_VALUES,
+  BUDGETS,
+  BUDGET_VALUES,
+  researchSchema,
+  describeResearch,
+  type ResearchAnswers,
+} from "@/lib/contact-questions";
 import { sendSms, formatLeadSms } from "@/lib/sms";
 import { techRegardless } from "@/lib/frontdesk/config";
 import { nextMessage } from "@/lib/frontdesk/brain";
@@ -55,44 +64,25 @@ const schema = z.object({
     .max(MAX.phone)
     .transform((v) => v.replace(/[^\d+]/g, ""))
     .refine((v) => v.replace(/\D/g, "").length >= 10),
-  goal: z.string().trim().max(MAX.goal).optional(),
-  projectType: z.enum([
-    "new-website",
-    "redesign",
-    "automation",
-    "ongoing-support",
-    "exploring",
-  ]),
-  budget: z.enum([
-    "under-500",
-    "under-1k",
-    "under-2k",
-    "2k-5k",
-    "5k-10k",
-    "10k-plus",
-  ]),
+  goal: z.string().trim().min(3).max(MAX.goal),
+  projectType: z.enum(PROJECT_TYPE_VALUES),
+  budget: z.enum(BUDGET_VALUES),
   message: z.string().trim().min(10).max(MAX.message),
+  research: researchSchema,
   utmSource: utmField,
   utmMedium: utmField,
   utmCampaign: utmField,
 });
 
 const labels = {
-  projectType: {
-    "new-website": "New website",
-    redesign: "Redesign",
-    automation: "Automation",
-    "ongoing-support": "Ongoing support",
-    exploring: "Just exploring",
-  },
-  budget: {
-    "under-500": "Under $500",
-    "under-1k": "Under $1k",
-    "under-2k": "Under $2k",
-    "2k-5k": "$2k – $5k",
-    "5k-10k": "$5k – $10k",
-    "10k-plus": "$10k+",
-  },
+  projectType: Object.fromEntries(PROJECT_TYPES.map((p) => [p.value, p.label])) as Record<
+    (typeof PROJECT_TYPES)[number]["value"],
+    string
+  >,
+  budget: Object.fromEntries(BUDGETS.map((b) => [b.value, b.label])) as Record<
+    (typeof BUDGETS)[number]["value"],
+    string
+  >,
 } as const;
 
 type LeadRecord = {
@@ -101,7 +91,8 @@ type LeadRecord = {
   email: string;
   company: string | null;
   phone: string | null;
-  goal: string | null;
+  goal: string;
+  research: ResearchAnswers;
   projectType: string;
   projectTypeLabel: string;
   budget: string;
@@ -163,19 +154,20 @@ function breadcrumb(record: LeadRecord, extra: Record<string, unknown> = {}) {
     projectType: record.projectType,
     budget: record.budget,
     utm: record.utm,
+    research: record.research,
     present: {
       name: true,
       email: true,
       company: Boolean(record.company),
       phone: Boolean(record.phone),
-      goal: Boolean(record.goal),
+      goal: true,
       message: true,
     },
     lengths: {
       name: record.name.length,
       email: record.email.length,
       company: record.company ? record.company.length : 0,
-      goal: record.goal ? record.goal.length : 0,
+      goal: record.goal.length,
       message: record.message.length,
     },
     ...extra,
@@ -236,7 +228,8 @@ export async function POST(req: Request) {
     email: data.email,
     company: data.company || null,
     phone: data.phone || null,
-    goal: data.goal || null,
+    goal: data.goal,
+    research: data.research,
     projectType: data.projectType,
     projectTypeLabel: labels.projectType[data.projectType],
     budget: data.budget,
@@ -264,7 +257,10 @@ export async function POST(req: Request) {
     record.phone ? `Phone: ${record.phone}` : null,
     `Project type: ${record.projectTypeLabel}`,
     `Budget: ${record.budgetLabel}`,
-    record.goal ? `Win looks like: ${record.goal}` : null,
+    `Win looks like: ${record.goal}`,
+    "",
+    "Five quick questions:",
+    ...describeResearch(record.research).map((line) => `  ${line}`),
     "",
     `utm_source: ${record.utm.source}`,
     `utm_medium: ${record.utm.medium}`,
@@ -395,6 +391,7 @@ export async function POST(req: Request) {
       projectType: record.projectTypeLabel,
       budget: record.budgetLabel,
       goal: record.goal,
+      research: describeResearch(record.research),
       message: record.message,
     },
     subject: `Your message to ${SITE.name}`,

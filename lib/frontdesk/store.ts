@@ -24,6 +24,8 @@ export type Lead = {
   projectType: string;
   budget: string;
   goal: string | null;
+  /** Answers to the five quick questions, already written out in words. */
+  research?: string[];
   message: string;
 };
 

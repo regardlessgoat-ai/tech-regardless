@@ -28,7 +28,7 @@ export function WorkGrid({ projects, variant = "home" }: Props) {
       <div className="container-wide">
         <Reveal>
           <SectionHeading
-            eyebrow="Selected work"
+            eyebrow="Highlighted work"
             title={
               <>
                 Real projects

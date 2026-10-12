@@ -14,6 +14,15 @@ import {
   FieldError,
 } from "@/components/ui/input";
 import { captureUtm } from "@/lib/utm";
+import {
+  PROJECT_TYPES,
+  PROJECT_TYPE_VALUES,
+  BUDGETS,
+  BUDGET_VALUES,
+  RESEARCH_QUESTIONS,
+  RESEARCH_LETTERS,
+  researchSchema,
+} from "@/lib/contact-questions";
 
 export const contactSchema = z.object({
   name: z.string().min(2, "Tell me your name."),
@@ -24,16 +33,16 @@ export const contactSchema = z.object({
     .refine((v) => v.replace(/\D/g, "").length >= 10, {
       message: "Include the area code.",
     }),
-  projectType: z.enum(
-    ["new-website", "redesign", "automation", "ongoing-support", "exploring"],
-    { errorMap: () => ({ message: "Pick one." }) }
-  ),
-  budget: z.enum(
-    ["under-500", "under-1k", "under-2k", "2k-5k", "5k-10k", "10k-plus"],
-    { errorMap: () => ({ message: "Pick one." }) }
-  ),
+  projectType: z.enum(PROJECT_TYPE_VALUES, {
+    errorMap: () => ({ message: "Pick one." }),
+  }),
+  budget: z.enum(BUDGET_VALUES, { errorMap: () => ({ message: "Pick one." }) }),
   message: z.string().min(10, "A few sentences about the problem, please."),
-  goal: z.string().max(300, "Keep it to a sentence or two.").optional(),
+  goal: z
+    .string()
+    .min(3, "One sentence is enough.")
+    .max(300, "Keep it to a sentence or two."),
+  research: researchSchema,
 });
 
 type ContactValues = z.infer<typeof contactSchema>;
@@ -193,11 +202,11 @@ export function ContactForm() {
               <option value="" disabled>
                 Pick one
               </option>
-              <option value="new-website">New website</option>
-              <option value="redesign">Redesign</option>
-              <option value="automation">Automation</option>
-              <option value="ongoing-support">Ongoing support</option>
-              <option value="exploring">Just exploring</option>
+              {PROJECT_TYPES.map((p) => (
+                <option key={p.value} value={p.value}>
+                  {p.label}
+                </option>
+              ))}
             </Select>
             <ChevronDown
               className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
@@ -221,12 +230,11 @@ export function ContactForm() {
               <option value="" disabled>
                 Pick one
               </option>
-              <option value="under-500">Under $500</option>
-              <option value="under-1k">Under $1k</option>
-              <option value="under-2k">Under $2k</option>
-              <option value="2k-5k">$2k – $5k</option>
-              <option value="5k-10k">$5k – $10k</option>
-              <option value="10k-plus">$10k+</option>
+              {BUDGETS.map((b) => (
+                <option key={b.value} value={b.value}>
+                  {b.label}
+                </option>
+              ))}
             </Select>
             <ChevronDown
               className="pointer-events-none absolute right-3 top-1/2 size-4 -translate-y-1/2 text-muted-foreground"
@@ -251,7 +259,9 @@ export function ContactForm() {
       </div>
 
       <div className="grid gap-2">
-        <Label htmlFor="goal">What would a win look like? (optional)</Label>
+        <Label htmlFor="goal" required>
+          What would a win look like?
+        </Label>
         <Input
           id="goal"
           placeholder="e.g. stop missing calls while I'm on a job"
@@ -260,6 +270,49 @@ export function ContactForm() {
         />
         <FieldError>{errors.goal?.message}</FieldError>
       </div>
+
+      <fieldset className="grid gap-6 border-t border-border pt-6">
+        <legend className="sr-only">Five quick questions</legend>
+        <div>
+          <p className="text-sm font-medium">Five quick questions</p>
+          <p className="mt-1 text-xs text-muted-foreground">
+            So we come to the call already knowing your business. Pick the
+            closest answer.
+          </p>
+        </div>
+        {RESEARCH_QUESTIONS.map((q, qi) => {
+          const err = errors.research?.[q.id]?.message;
+          return (
+            <fieldset key={q.id} className="grid gap-2">
+              <legend className="text-sm">
+                {qi + 1}. {q.question}
+              </legend>
+              <div className="grid gap-2 sm:grid-cols-2">
+                {RESEARCH_LETTERS.map((letter) => (
+                  <label
+                    key={letter}
+                    className="flex cursor-pointer items-start gap-2.5 rounded border border-border px-3 py-2 text-sm has-[:checked]:border-accent has-[:checked]:bg-accent/10"
+                  >
+                    <input
+                      type="radio"
+                      value={letter}
+                      className="mt-0.5 accent-[hsl(var(--accent))]"
+                      {...register(`research.${q.id}` as const)}
+                    />
+                    <span>
+                      <span className="font-mono text-xs uppercase text-muted-foreground">
+                        {letter}.
+                      </span>{" "}
+                      {q.options[letter]}
+                    </span>
+                  </label>
+                ))}
+              </div>
+              <FieldError>{err}</FieldError>
+            </fieldset>
+          );
+        })}
+      </fieldset>
 
       {serverError && (
         <p role="alert" className="text-sm text-red-400">

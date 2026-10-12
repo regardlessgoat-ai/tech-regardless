@@ -85,6 +85,7 @@ function leadIntro(thread: Thread) {
     `Project type: ${l.projectType}`,
     `Budget: ${l.budget}`,
     l.goal ? `What a win looks like: ${l.goal}` : null,
+    ...(l.research?.length ? ["", "Five quick questions:", ...l.research.map((r) => `  ${r}`)] : []),
     "",
     "Their message:",
     l.message,
