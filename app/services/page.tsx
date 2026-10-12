@@ -56,7 +56,7 @@ const services: Service[] = [
     problem:
       "You're on a job, the phone rings, you can't pick up, and the customer calls the next company on the list.",
     outcome:
-      "Every missed call gets a text back within seconds, the details get collected, and you confirm the job with one reply.",
+      "Every missed call gets a text back within seconds, the details get collected, you confirm the job with one reply, and happy customers get asked for reviews and referrals.",
     price: "$500 a month",
     priceNote: "one plan: the Front Desk plus ongoing website updates and support, cancel anytime",
     timeline: "Live once your business number is approved for texting",
@@ -65,7 +65,8 @@ const services: Service[] = [
       "The assistant collects name, address, the problem, and a preferred time",
       "You get one text per request and reply Y or N to confirm",
       "The customer is told when you're coming",
-      "After the job, the customer gets a review request",
+      "After the job, the customer gets a follow up asking for a review",
+      "A referral note goes with it, with a credit toward their next visit for any business they send you",
       "A short summary every Monday morning: calls caught, jobs booked, reviews sent",
       "Never quotes prices, never promises arrival times, never diagnoses",
       "Emergencies get routed straight to your phone",
