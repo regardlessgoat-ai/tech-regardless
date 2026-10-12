@@ -11,7 +11,7 @@ import { CtaSection } from "@/components/cta-section";
 export const metadata: Metadata = {
   title: "Services & Pricing",
   description:
-    "Custom websites from $1,800, an AI front desk for $697 a month, and business automation quoted per project. One builder, one flat number before any work starts.",
+    "Custom websites from $1,800, an AI front desk for $499 a month, and business automation quoted per project. One builder, one flat number before any work starts.",
 };
 
 type Service = {
@@ -57,7 +57,7 @@ const services: Service[] = [
       "You're on a job, the phone rings, you can't pick up, and the customer calls the next company on the list.",
     outcome:
       "Every missed call gets a text back within seconds, the details get collected, and you confirm the job with one reply.",
-    price: "$697 a month",
+    price: "$499 a month",
     priceNote: "first 30 days free, then month to month, cancel anytime",
     timeline: "Live once your business number is approved for texting",
     includes: [
@@ -115,7 +115,7 @@ const faqItems: AccordionItem[] = [
         Websites and automation: half to start, half on launch, invoiced
         through Stripe. Front Desk is free for the first 30 days. Near the
         end of the trial we call you to see if you want to keep it. If you
-        do, it&apos;s $697 a month and you can cancel any month.
+        do, it&apos;s $499 a month and you can cancel any month.
       </p>
     ),
   },
@@ -158,7 +158,7 @@ const faqItems: AccordionItem[] = [
         You run it on your real business line for 30 days at no charge. Near
         the end we give you a call, go over what it caught, and you decide
         whether to keep it. No card until you say yes. If you do, we set up
-        billing then and it&apos;s $697 a month from there.
+        billing then and it&apos;s $499 a month from there.
       </p>
     ),
   },

@@ -55,7 +55,7 @@ export const techRegardless: BusinessConfig = {
   ],
   publicPricing: [
     "Websites start at $1,800.",
-    "AI Front Desk is $697 a month after a free 30 day trial, cancel anytime.",
+    "AI Front Desk is $499 a month after a free 30 day trial, cancel anytime.",
     "Automation is quoted per project.",
   ],
   qualifyingGoals: [
