@@ -17,7 +17,7 @@ const services = [
     title: "AI Front Desk",
     description:
       "Texts back every call you miss, books the job over SMS, and asks happy customers for a review.",
-    price: "$499/mo, first 30 days free",
+    price: "$499/mo, cancel anytime",
     href: "/services#front-desk",
   },
   {

@@ -58,7 +58,7 @@ const services: Service[] = [
     outcome:
       "Every missed call gets a text back within seconds, the details get collected, and you confirm the job with one reply.",
     price: "$499 a month",
-    priceNote: "first 30 days free, then month to month, cancel anytime",
+    priceNote: "month to month, cancel anytime",
     timeline: "Live once your business number is approved for texting",
     includes: [
       "Missed calls get a text back from your business number",
@@ -70,7 +70,7 @@ const services: Service[] = [
       "Never quotes prices, never promises arrival times, never diagnoses",
       "Emergencies get routed straight to your phone",
     ],
-    cta: "Start the free 30 days",
+    cta: "Ask about Front Desk",
     href: "/contact",
   },
   {
@@ -113,9 +113,8 @@ const faqItems: AccordionItem[] = [
     answer: (
       <p>
         Websites and automation: half to start, half on launch, invoiced
-        through Stripe. Front Desk is free for the first 30 days. Near the
-        end of the trial we call you to see if you want to keep it. If you
-        do, it&apos;s $499 a month and you can cancel any month.
+        through Stripe. Front Desk is $499 a month, billed monthly, and you
+        can cancel any month.
       </p>
     ),
   },
@@ -147,18 +146,6 @@ const faqItems: AccordionItem[] = [
       <p>
         Sometimes. A tight deadline adds 25% and we cut scope, not corners.
         A smaller site on time beats a bigger site late.
-      </p>
-    ),
-  },
-  {
-    id: "front-desk-trial",
-    question: "How does the Front Desk free trial work?",
-    answer: (
-      <p>
-        You run it on your real business line for 30 days at no charge. Near
-        the end we give you a call, go over what it caught, and you decide
-        whether to keep it. No card until you say yes. If you do, we set up
-        billing then and it&apos;s $499 a month from there.
       </p>
     ),
   },
