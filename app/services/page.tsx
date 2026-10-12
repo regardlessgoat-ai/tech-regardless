@@ -36,7 +36,7 @@ const services: Service[] = [
     outcome:
       "A site that looks like your business, loads fast on a phone, and turns visitors into calls.",
     price: "From $1,800",
-    priceNote: "flat quote per project, agreed before work starts",
+    priceNote: "one time flat number, agreed before work starts",
     timeline: "1 to 2 weeks",
     includes: [
       "Design made for your brand, not a template",
@@ -83,7 +83,7 @@ const services: Service[] = [
     outcome:
       "The repetitive work wired together so it runs while you're on a job.",
     price: "Custom quote",
-    priceNote: "scoped on the discovery call, one flat number",
+    priceNote: "one time flat number, scoped on the discovery call",
     timeline: "Depends on scope, agreed in writing up front",
     includes: [
       "Intake forms that text you the moment they're submitted",
@@ -126,8 +126,8 @@ const faqItems: AccordionItem[] = [
     answer: (
       <p>
         Tell us anyway. We would love to know what&apos;s slowing your
-        business down, and if we can fix it we&apos;ll say so and quote one
-        flat number. If we can&apos;t, we&apos;ll tell you that too.
+        business down. If we can fix it we&apos;ll say so and give you a one
+        time flat number. If we can&apos;t, we&apos;ll tell you that too.
       </p>
     ),
   },
@@ -183,7 +183,7 @@ export default function ServicesPage() {
                   <span className="text-muted-foreground">Pick the fix.</span>
                 </>
               }
-              description="Three services, one builder, one flat number agreed before any work starts."
+              description="Three services, one builder. Websites and automation are a one time flat number agreed before any work starts. The Front Desk is one monthly plan."
             />
           </Reveal>
 
