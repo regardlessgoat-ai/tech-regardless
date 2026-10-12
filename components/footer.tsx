@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import { Wordmark } from "@/components/wordmark";
 import { Button } from "@/components/ui/button";
 import { SITE } from "@/lib/utils";
@@ -11,12 +10,6 @@ const navLinks = [
   { href: "/#faq", label: "FAQ" },
 ];
 
-const socials = [
-  { href: SITE.social.twitter, label: "Twitter / X", Icon: Twitter },
-  { href: SITE.social.github, label: "GitHub", Icon: Github },
-  { href: SITE.social.linkedin, label: "LinkedIn", Icon: Linkedin },
-  { href: SITE.social.instagram, label: "Instagram", Icon: Instagram },
-];
 
 export function Footer() {
   return (
@@ -28,21 +21,6 @@ export function Footer() {
             <p className="mt-4 max-w-xs text-sm text-muted-foreground">
               {SITE.tagline} Built different. Delivered regardless.
             </p>
-            <ul className="mt-6 flex items-center gap-3">
-              {socials.map(({ href, label, Icon }) => (
-                <li key={label}>
-                  <a
-                    href={href}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={label}
-                    className="inline-flex size-9 items-center justify-center rounded border border-border text-muted-foreground transition-colors hover:border-accent/50 hover:text-foreground focus-ring"
-                  >
-                    <Icon className="size-4" aria-hidden />
-                  </a>
-                </li>
-              ))}
-            </ul>
           </div>
 
           <div>
@@ -83,14 +61,9 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Tech.Regardless. Built regardless.</p>
-          <ul className="flex items-center gap-5">
-            <li>
-              <Link href="/sms-policy" className="transition-colors hover:text-foreground">
-                Privacy &amp; Terms
-              </Link>
-            </li>
-            <li className="font-mono">v1.0 — shipped on caffeine</li>
-          </ul>
+          <Link href="/sms-policy" className="transition-colors hover:text-foreground">
+            Privacy &amp; Terms
+          </Link>
         </div>
       </div>
     </footer>

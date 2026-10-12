@@ -5,8 +5,16 @@ import { Reveal } from "@/components/reveal";
 const items: AccordionItem[] = [
   {
     id: "timeline",
-    question: "How long does a custom build take?",
-    answer: <p>1 to 2 weeks.</p>,
+    question: "How long does it take?",
+    answer: (
+      <p>
+        A custom website takes 1 to 2 weeks. The AI Front Desk goes live as
+        soon as your business number is approved for texting. Business
+        automation and custom projects are scoped on the discovery call,
+        where you get the delivery date and the cost in writing before
+        anything starts.
+      </p>
+    ),
   },
   {
     id: "pricing",

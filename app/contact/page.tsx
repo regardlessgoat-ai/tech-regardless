@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { Clock, Mail } from "lucide-react";
-import { Github, Instagram, Linkedin, Twitter } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
 import { Reveal } from "@/components/reveal";
 import { SITE } from "@/lib/utils";
@@ -11,12 +10,6 @@ export const metadata: Metadata = {
     "Start a project with Tech.Regardless. One form, one email, one human reply within 24 hours.",
 };
 
-const socials = [
-  { href: SITE.social.twitter, label: "Twitter / X", Icon: Twitter },
-  { href: SITE.social.github, label: "GitHub", Icon: Github },
-  { href: SITE.social.linkedin, label: "LinkedIn", Icon: Linkedin },
-  { href: SITE.social.instagram, label: "Instagram", Icon: Instagram },
-];
 
 export default function ContactPage() {
   return (
@@ -85,26 +78,6 @@ export default function ContactPage() {
               </li>
             </ul>
 
-            <div className="border-t border-border pt-5">
-              <p className="font-mono text-[11px] uppercase tracking-wider text-muted-foreground">
-                Or find me on
-              </p>
-              <ul className="mt-3 flex items-center gap-2">
-                {socials.map(({ href, label, Icon }) => (
-                  <li key={label}>
-                    <a
-                      href={href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      aria-label={label}
-                      className="inline-flex size-9 items-center justify-center rounded border border-border text-muted-foreground hover:border-accent/50 hover:text-foreground focus-ring"
-                    >
-                      <Icon className="size-4" aria-hidden />
-                    </a>
-                  </li>
-                ))}
-              </ul>
-            </div>
           </aside>
         </Reveal>
       </div>
