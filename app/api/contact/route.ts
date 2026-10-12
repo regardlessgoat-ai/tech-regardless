@@ -48,13 +48,13 @@ const utmField = z
 const schema = z.object({
   name: z.string().trim().min(2).max(MAX.name),
   email: z.string().trim().email().max(MAX.email),
-  company: z.string().trim().max(MAX.company).optional(),
+  company: z.string().trim().min(2).max(MAX.company),
   phone: z
     .string()
     .trim()
     .max(MAX.phone)
     .transform((v) => v.replace(/[^\d+]/g, ""))
-    .optional(),
+    .refine((v) => v.replace(/\D/g, "").length >= 10),
   goal: z.string().trim().max(MAX.goal).optional(),
   projectType: z.enum([
     "new-website",

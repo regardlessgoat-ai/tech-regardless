@@ -18,12 +18,11 @@ import { captureUtm } from "@/lib/utm";
 export const contactSchema = z.object({
   name: z.string().min(2, "Tell me your name."),
   email: z.string().email("That doesn't look like a valid email."),
-  company: z.string().optional(),
+  company: z.string().trim().min(2, "Tell me the business name."),
   phone: z
     .string()
-    .optional()
-    .refine((v) => !v || v.replace(/\D/g, "").length >= 10, {
-      message: "Include the area code, or leave it blank.",
+    .refine((v) => v.replace(/\D/g, "").length >= 10, {
+      message: "Include the area code.",
     }),
   projectType: z.enum(
     ["new-website", "redesign", "automation", "ongoing-support", "exploring"],
@@ -151,16 +150,22 @@ export function ContactForm() {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <div className="grid gap-2">
-          <Label htmlFor="company">Business name (optional)</Label>
+          <Label htmlFor="company" required>
+            Business name
+          </Label>
           <Input
             id="company"
             autoComplete="organization"
             placeholder="Your business"
+            aria-invalid={!!errors.company}
             {...register("company")}
           />
+          <FieldError>{errors.company?.message}</FieldError>
         </div>
         <div className="grid gap-2">
-          <Label htmlFor="phone">Phone (optional)</Label>
+          <Label htmlFor="phone" required>
+            Phone
+          </Label>
           <Input
             id="phone"
             type="tel"
