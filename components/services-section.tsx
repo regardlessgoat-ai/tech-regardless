@@ -16,8 +16,8 @@ const services = [
     icon: PhoneMissed,
     title: "AI Front Desk",
     description:
-      "Texts back every call you miss, books the job over SMS, and asks happy customers for a review.",
-    price: "$499/mo, cancel anytime",
+      "Texts back every call you miss, books the job over SMS, and asks happy customers for a review. Ongoing website updates are part of the same monthly plan.",
+    price: "$499/mo, includes website care",
     href: "/services#front-desk",
   },
   {

@@ -11,7 +11,7 @@ import { CtaSection } from "@/components/cta-section";
 export const metadata: Metadata = {
   title: "Services & Pricing",
   description:
-    "Custom websites from $1,800, an AI front desk for $499 a month, and business automation quoted per project. One builder, one flat number before any work starts.",
+    "Custom websites from $1,800. One $499 a month plan covers the AI front desk and ongoing care of your website. Business automation quoted per project.",
 };
 
 type Service = {
@@ -45,7 +45,7 @@ const services: Service[] = [
       "A contact form that lands in your inbox",
       "Hosting and domain set up for you",
       "You own the code and the domain on day one",
-      "30 days of fixes and changes after launch",
+      "30 days of fixes and changes after launch, then covered by the $499 monthly plan if you want it",
     ],
     cta: "Start a website",
     href: "/contact",
@@ -58,7 +58,7 @@ const services: Service[] = [
     outcome:
       "Every missed call gets a text back within seconds, the details get collected, and you confirm the job with one reply.",
     price: "$499 a month",
-    priceNote: "month to month, cancel anytime",
+    priceNote: "one plan: the Front Desk plus ongoing website updates and support, cancel anytime",
     timeline: "Live once your business number is approved for texting",
     includes: [
       "Missed calls get a text back from your business number",
@@ -69,6 +69,7 @@ const services: Service[] = [
       "A short summary every Monday morning: calls caught, jobs booked, reviews sent",
       "Never quotes prices, never promises arrival times, never diagnoses",
       "Emergencies get routed straight to your phone",
+      "Ongoing website updates, fixes, and support included in the same plan",
     ],
     cta: "Ask about Front Desk",
     href: "/contact",
@@ -113,8 +114,8 @@ const faqItems: AccordionItem[] = [
     answer: (
       <p>
         Websites and automation: half to start, half on launch, invoiced
-        through Stripe. Front Desk is $499 a month, billed monthly, and you
-        can cancel any month.
+        through Stripe. The monthly plan is $499 and covers the AI Front
+        Desk plus ongoing website updates and support. Cancel any month.
       </p>
     ),
   },

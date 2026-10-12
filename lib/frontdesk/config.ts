@@ -55,7 +55,7 @@ export const techRegardless: BusinessConfig = {
   ],
   publicPricing: [
     "Websites start at $1,800.",
-    "AI Front Desk is $499 a month, cancel anytime.",
+    "The monthly plan is $499 and covers the AI Front Desk plus ongoing website updates and support, cancel anytime.",
     "Automation is quoted per project.",
   ],
   qualifyingGoals: [

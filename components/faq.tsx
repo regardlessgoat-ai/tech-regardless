@@ -37,10 +37,10 @@ const items: AccordionItem[] = [
     answer: (
       <p>
         Your first 30 days of support are included: bug fixes, copy changes,
-        anything small. After that, ongoing updates and support are a monthly
-        subscription, the same way the AI Front Desk works. You can also skip
-        the subscription and come back whenever you need something, quoted
-        flat each time.
+        anything small. After that, ongoing updates and support are part of
+        the $499 a month plan, which also gives you the AI Front Desk. You
+        can also skip the plan and come back whenever you need something,
+        quoted flat each time.
       </p>
     ),
   },
