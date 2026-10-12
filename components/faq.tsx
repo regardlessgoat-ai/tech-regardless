@@ -25,7 +25,7 @@ const items: AccordionItem[] = [
     question: "Do you offer revisions?",
     answer: (
       <p>
-        Yes — two full design rounds and unlimited tweaks during build.
+        Yes. Two full design rounds and unlimited tweaks during build.
         I&apos;d rather spend a day getting a section right than ship
         something neither of us is proud of.
       </p>
@@ -36,9 +36,11 @@ const items: AccordionItem[] = [
     question: "What happens after the site launches?",
     answer: (
       <p>
-        You get 30 days of free support — bug fixes, copy changes, anything
-        small. After that, I offer a monthly retainer for ongoing updates,
-        or you can come back as needed at my standard rate.
+        Your first 30 days of support are included: bug fixes, copy changes,
+        anything small. After that, ongoing updates and support are a monthly
+        subscription, the same way the AI Front Desk works. You can also skip
+        the subscription and come back whenever you need something, quoted
+        flat each time.
       </p>
     ),
   },
@@ -47,7 +49,7 @@ const items: AccordionItem[] = [
     question: "Do you handle hosting and domains?",
     answer: (
       <p>
-        Yes. I deploy to Vercel by default — it&apos;s fast, reliable, and
+        Yes. I deploy to Vercel by default. It&apos;s fast, reliable, and
         included in the project price for the first year. I can also work
         with whatever stack you already have if you&apos;d rather not
         migrate.
@@ -59,7 +61,7 @@ const items: AccordionItem[] = [
     question: "What if I already have a website?",
     answer: (
       <p>
-        Even better — we have a starting point. I&apos;ll audit what you
+        Even better, we have a starting point. I&apos;ll audit what you
         have, tell you honestly whether it needs a refresh or a full
         rebuild, and we go from there. No pressure to throw it all away if
         the bones are good.
