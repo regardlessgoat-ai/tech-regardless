@@ -11,7 +11,7 @@ import { CtaSection } from "@/components/cta-section";
 export const metadata: Metadata = {
   title: "Services & Pricing",
   description:
-    "Custom websites from $1,800. One $499 a month plan covers the AI front desk and ongoing care of your website. Business automation quoted per project.",
+    "Custom websites from $1,800. One $500 a month plan covers the AI front desk and ongoing care of your website. Business automation quoted per project.",
 };
 
 type Service = {
@@ -45,7 +45,7 @@ const services: Service[] = [
       "A contact form that lands in your inbox",
       "Hosting and domain set up for you",
       "You own the code and the domain on day one",
-      "30 days of fixes and changes after launch, then covered by the $499 monthly plan if you want it",
+      "30 days of fixes and changes after launch, then covered by the $500 monthly plan if you want it",
     ],
     cta: "Start a website",
     href: "/contact",
@@ -57,7 +57,7 @@ const services: Service[] = [
       "You're on a job, the phone rings, you can't pick up, and the customer calls the next company on the list.",
     outcome:
       "Every missed call gets a text back within seconds, the details get collected, and you confirm the job with one reply.",
-    price: "$499 a month",
+    price: "$500 a month",
     priceNote: "one plan: the Front Desk plus ongoing website updates and support, cancel anytime",
     timeline: "Live once your business number is approved for texting",
     includes: [
@@ -114,7 +114,7 @@ const faqItems: AccordionItem[] = [
     answer: (
       <p>
         Websites and automation: half to start, half on launch, invoiced
-        through Stripe. The monthly plan is $499 and covers the AI Front
+        through Stripe. The monthly plan is $500 and covers the AI Front
         Desk plus ongoing website updates and support. Cancel any month.
       </p>
     ),
