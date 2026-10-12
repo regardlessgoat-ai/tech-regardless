@@ -66,7 +66,7 @@ const services: Service[] = [
       "You get one text per request and reply Y or N to confirm",
       "The customer is told when you're coming",
       "After the job, the customer gets a follow up asking for a review",
-      "A referral note goes with it, with a credit toward their next visit for any business they send you",
+      "You can add your own line to that follow up, like a referral offer for their friends or a credit on their next visit",
       "A short summary every Monday morning: calls caught, jobs booked, reviews sent",
       "Never quotes prices, never promises arrival times, never diagnoses",
       "Emergencies get routed straight to your phone",
@@ -136,8 +136,10 @@ const faqItems: AccordionItem[] = [
     question: "Do I own what you build?",
     answer: (
       <p>
-        Yes. The code, the domain, the accounts. If we part ways you keep
-        everything and nothing stops working.
+        The website is yours: the code, the domain, the accounts. If we part
+        ways it keeps working without me. The Front Desk and ongoing support
+        are a monthly service, so they run as long as you&apos;re on the
+        plan, and your customer list and job history stay yours either way.
       </p>
     ),
   },
