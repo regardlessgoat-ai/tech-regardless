@@ -63,8 +63,7 @@ const items: AccordionItem[] = [
       <p>
         Even better, we have a starting point. I&apos;ll audit what you
         have, tell you honestly whether it needs a refresh or a full
-        rebuild, and we go from there. No pressure to throw it all away if
-        the bones are good.
+        rebuild, and we go from there.
       </p>
     ),
   },
