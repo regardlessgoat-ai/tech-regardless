@@ -79,7 +79,7 @@ export default function ContactPage() {
                     Response time
                   </p>
                   <p className="text-foreground">
-                    Within 24 hours, usually faster.
+                    Within 24 hours.
                   </p>
                 </div>
               </li>
