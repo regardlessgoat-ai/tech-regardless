@@ -121,6 +121,39 @@ const faqItems: AccordionItem[] = [
     ),
   },
   {
+    id: "website-prep",
+    question: "What do I need to have ready for a website?",
+    answer: (
+      <div className="space-y-3">
+        <p>
+          Not much. Come to the discovery call with rough answers to these
+          and we can quote on the spot:
+        </p>
+        <ul className="list-disc space-y-1 pl-5">
+          <li>
+            What is the site for? Getting calls, booking appointments, or
+            showing off your work.
+          </li>
+          <li>
+            What should a visitor be able to do? Call you, fill out a form,
+            book a time, see a gallery or a menu, read reviews.
+          </li>
+          <li>
+            Any logo, colors, photos of real work, and the words you already
+            use to describe your business. Rough is fine.
+          </li>
+        </ul>
+        <p>
+          That covers the websites we build: a handful of pages, a contact
+          form, a booking link, galleries, menus, reviews, and the business
+          basics. Bigger software, like customer accounts, staff logins, or a
+          full online store, is a separate project with its own quote, and
+          we&apos;ll tell you up front if what you describe is heading there.
+        </p>
+      </div>
+    ),
+  },
+  {
     id: "fit",
     question: "What if my problem doesn't fit one of these?",
     answer: (
