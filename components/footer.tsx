@@ -61,9 +61,14 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col gap-3 border-t border-border pt-6 text-xs text-muted-foreground sm:flex-row sm:items-center sm:justify-between">
           <p>© {new Date().getFullYear()} Tech.Regardless. Built regardless.</p>
-          <Link href="/sms-policy" className="transition-colors hover:text-foreground">
-            Privacy &amp; Terms
-          </Link>
+          <div className="flex gap-5">
+            <Link href="/privacy" className="transition-colors hover:text-foreground">
+              Privacy Policy
+            </Link>
+            <Link href="/terms" className="transition-colors hover:text-foreground">
+              Terms &amp; Conditions
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

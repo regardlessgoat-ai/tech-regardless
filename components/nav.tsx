@@ -18,7 +18,8 @@ const links = [
 const allPages = [
   { href: "/", label: "Home" },
   ...links,
-  { href: "/sms-policy", label: "Privacy Policy and Terms" },
+  { href: "/privacy", label: "Privacy Policy" },
+  { href: "/terms", label: "Terms & Conditions" },
 ];
 
 export function Nav() {

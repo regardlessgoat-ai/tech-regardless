@@ -31,9 +31,9 @@ const nextConfig = {
   // Adding an A record does NOT affect MX, so Workspace mail keeps working.
   async redirects() {
     return [
-      // SMS privacy + terms live on one page (Twilio 10DLC accepts one URL for both).
-      { source: "/privacy", destination: "/sms-policy#privacy", permanent: true },
-      { source: "/terms", destination: "/sms-policy#terms", permanent: true },
+      // Twilio 10DLC wants separate /privacy and /terms pages; the old combined
+      // page URL keeps working.
+      { source: "/sms-policy", destination: "/privacy", permanent: true },
       {
         source: "/:path*",
         has: [{ type: "host", value: "techregardless.com" }],
