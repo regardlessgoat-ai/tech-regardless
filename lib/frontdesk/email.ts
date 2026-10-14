@@ -2,6 +2,8 @@ import type { Resend } from "resend";
 import type { BusinessConfig } from "./config";
 import type { Thread } from "./store";
 import { SITE } from "@/lib/utils";
+import { renderLeadAutoReply } from "@/lib/emails/lead-auto-reply";
+import { firstNameOf, paragraphsOf } from "@/lib/emails/shell";
 
 /**
  * Sends the assistant's messages and makes sure replies come back to us.
@@ -55,7 +57,22 @@ export async function sendAssistantEmail(
     headers["References"] = opts.inReplyTo;
   }
 
-  const subject = thread.messages.length === 0 ? thread.subject : `Re: ${thread.subject}`;
+  const isFirst = thread.messages.length === 0;
+  const subject = isFirst ? thread.subject : `Re: ${thread.subject}`;
+
+  // The first message gets the branded template with the assistant's words as
+  // the greeting; later replies stay plain text so they thread like a
+  // conversation rather than a newsletter.
+  const html = isFirst
+    ? await renderLeadAutoReply({
+        firstName: firstNameOf(thread.lead.name),
+        greeting: paragraphsOf(text),
+        signature: signature(config).trim().split("\n"),
+        projectTypeLabel: thread.lead.projectType,
+        budgetLabel: thread.lead.budget,
+        message: thread.lead.message,
+      })
+    : undefined;
 
   try {
     const result = await resend.emails.send({
@@ -64,6 +81,7 @@ export async function sendAssistantEmail(
       replyTo,
       subject,
       text: `${text.trim()}\n${signature(config)}`,
+      ...(html ? { html } : {}),
       headers,
     });
     if (result.error) return { ok: false, error: result.error.message };

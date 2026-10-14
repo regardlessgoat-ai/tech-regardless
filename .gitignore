@@ -15,3 +15,4 @@ clients/
 tsconfig.tsbuildinfo
 
 .claude/settings.local.json
+.preview-emails/

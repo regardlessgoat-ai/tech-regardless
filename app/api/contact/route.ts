@@ -5,6 +5,7 @@ import {
   PROJECT_TYPE_VALUES,
   BUDGETS,
   BUDGET_VALUES,
+  RESEARCH_QUESTIONS,
   researchSchema,
   describeResearch,
   type ResearchAnswers,
@@ -15,6 +16,9 @@ import { nextMessage } from "@/lib/frontdesk/brain";
 import { createThread, saveThread, isStoreConfigured } from "@/lib/frontdesk/store";
 import { sendAssistantEmail } from "@/lib/frontdesk/email";
 import { SITE } from "@/lib/utils";
+import { renderOperatorNotification, operatorSubject } from "@/lib/emails/operator-notification";
+import { renderLeadAutoReply, STATIC_GREETING, SERVICE_LINES } from "@/lib/emails/lead-auto-reply";
+import { firstNameOf } from "@/lib/emails/shell";
 
 // The front desk's first message is a model call; give it room.
 export const maxDuration = 60;
@@ -174,30 +178,27 @@ function breadcrumb(record: LeadRecord, extra: Record<string, unknown> = {}) {
   });
 }
 
-// The confirmation the submitter receives. Plain text on purpose: it delivers
-// better than HTML and reads like a person wrote it, which is the register the
-// rest of the site uses. It states up front that it is automatic — pretending a
-// human typed it in four seconds is the fastest way to lose trust with someone
-// who found this site through a cold email.
+// The confirmation the submitter receives: a branded HTML part (lib/emails)
+// plus this plain-text part for clients that do not render HTML. It states up
+// front that it is automatic — pretending a human typed it in four seconds is
+// the fastest way to lose trust with someone who found this site through a
+// cold email. No hard wraps: the client decides where lines break.
 function autoReplyBody(record: LeadRecord) {
-  const firstName = record.name.split(/\s+/)[0] || record.name;
   return [
-    `Hi ${firstName},`,
+    `Hi ${firstNameOf(record.name)},`,
     "",
-    "Your message reached me. This confirmation is automatic — it fires the",
-    "moment the form submits, so you're not left wondering whether it went",
-    "through. The actual reply is written by a human, and that's me.",
+    ...STATIC_GREETING.flatMap((p) => [p, ""]),
+    "What we do:",
+    ...SERVICE_LINES.map((s) => `- ${s.title}: ${s.description}`),
     "",
-    "Here's what came through:",
+    "What came through:",
+    `${record.projectTypeLabel} · ${record.budgetLabel}`,
+    record.message,
     "",
-    `  Project type   ${record.projectTypeLabel}`,
-    `  Budget         ${record.budgetLabel}`,
-    "",
-    "I respond within 24 hours. If you left something out, just reply to",
-    "this email. It comes straight to my inbox.",
+    `Recent work: ${SITE.url}/work`,
     "",
     `— ${SITE.name}`,
-    SITE.url,
+    `${SITE.email} · Kissimmee, FL · ${SITE.url}/privacy`,
   ].join("\n");
 }
 
@@ -249,7 +250,7 @@ export async function POST(req: Request) {
   // payload follows on any failure path below.
   console.log(`[contact] LEAD RECEIVED ${breadcrumb(record)}`);
 
-  const subject = `New project inquiry — ${record.name}${record.company ? ` (${record.company})` : ""}`;
+  const subject = operatorSubject(record);
   const text = [
     `Name: ${record.name}`,
     `Email: ${record.email}`,
@@ -258,19 +259,22 @@ export async function POST(req: Request) {
     `Project type: ${record.projectTypeLabel}`,
     `Budget: ${record.budgetLabel}`,
     `Win looks like: ${record.goal}`,
+    `Received: ${new Date(record.receivedAt).toLocaleString("en-US", { timeZone: "America/New_York" })} ET`,
+    "",
+    "Message:",
+    record.message,
     "",
     "Five quick questions:",
     ...describeResearch(record.research).map((line) => `  ${line}`),
     "",
-    `utm_source: ${record.utm.source}`,
-    `utm_medium: ${record.utm.medium}`,
-    `utm_campaign: ${record.utm.campaign}`,
-    "",
-    "Message:",
-    record.message,
+    `utm_source ${record.utm.source} · utm_medium ${record.utm.medium} · utm_campaign ${record.utm.campaign}`,
   ]
     .filter(Boolean)
     .join("\n");
+  const html = await renderOperatorNotification({
+    ...record,
+    research: RESEARCH_QUESTIONS.map((q) => [q.question, q.options[record.research[q.id]]] as const),
+  });
 
   // The text to the operator goes first, on purpose. Twilio is a different
   // provider on a different network path, so it is the channel most likely to
@@ -347,6 +351,7 @@ export async function POST(req: Request) {
       replyTo: record.email,
       subject,
       text,
+      html,
     });
     if (result.error) {
       logUnsentLead(record, "resend-rejected-notification", {
@@ -433,8 +438,16 @@ export async function POST(req: Request) {
         // Replies land on the operator, not in a no-reply void. The body
         // promises this works, so it has to.
         replyTo: to,
-        subject: `Got it, ${record.name.split(/\s+/)[0] || record.name}. Talk soon.`,
+        subject: `Got it, ${firstNameOf(record.name)}. Talk soon.`,
         text: autoReplyBody(record),
+        html: await renderLeadAutoReply({
+          firstName: firstNameOf(record.name),
+          greeting: STATIC_GREETING,
+          signature: [`— ${SITE.name}`],
+          projectTypeLabel: record.projectTypeLabel,
+          budgetLabel: record.budgetLabel,
+          message: record.message,
+        }),
       });
       if (result.error) {
         throw new Error(result.error.message || "Resend rejected the auto-reply.");
