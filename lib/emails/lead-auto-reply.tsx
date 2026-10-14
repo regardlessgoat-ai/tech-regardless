@@ -23,7 +23,7 @@ export const SERVICE_LINES = [
   {
     title: "Business Automation",
     description:
-      "Intake, follow ups, invoicing and reporting wired together so the business keeps moving while you are on a job.",
+      "Intake, follow-ups, invoicing, reporting and dashboards wired together so the business keeps moving while you're on a job.",
   },
 ] as const;
 

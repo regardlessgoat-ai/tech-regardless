@@ -79,9 +79,9 @@ const services: Service[] = [
     id: "automation",
     name: "Business Automation",
     problem:
-      "The same five tasks eat your evenings: chasing follow ups, sending invoices, copying things between apps.",
+      "If you're doing the same thing by hand every week, that's a job for software, not for you. Intake, follow-ups, invoicing, reporting, dashboards, scheduling, the handoffs between your people.",
     outcome:
-      "The repetitive work wired together so it runs while you're on a job.",
+      "Wired together so the business keeps moving while you're on a job. Don't see your problem listed? Describe it in the form. We'll tell you straight whether we can solve it, and what it'd cost.",
     price: "Custom quote",
     priceNote: "one time flat number, scoped on the discovery call",
     timeline: "Depends on scope, agreed in writing up front",

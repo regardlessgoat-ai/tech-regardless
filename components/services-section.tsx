@@ -24,7 +24,7 @@ const services = [
     icon: Workflow,
     title: "Business Automation",
     description:
-      "Intake, follow ups, invoicing and reporting wired together so the business keeps moving while you are on a job.",
+      "If you're doing the same thing by hand every week, that's a job for software, not for you. Intake, follow-ups, invoicing, reporting, dashboards, scheduling, the handoffs between your people. Wired together so the business keeps moving while you're on a job. Don't see your problem listed? Describe it in the form. We'll tell you straight whether we can solve it, and what it'd cost.",
     price: "Custom quote",
     href: "/services#automation",
   },
