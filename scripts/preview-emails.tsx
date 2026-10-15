@@ -17,6 +17,7 @@ const lead = {
   email: "jordan@example.com",
   phone: "4075550100",
   company: "Rivera Garage Doors",
+  projectType: "ai-front-desk",
   projectTypeLabel: "AI Front Desk",
   budget: "2k-5k",
   budgetLabel: "$2k to $5k",

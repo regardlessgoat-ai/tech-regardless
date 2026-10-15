@@ -11,6 +11,17 @@ export type ProjectFrontmatter = {
   liveUrl?: string;
   /** Optional. Leave it off and the card renders as a text brief. */
   heroImage?: string;
+  /** Client logo for the homepage card (SVG preferred), shown contained and centered. */
+  logo?: string;
+  /** Background behind the logo, the client's brand colour. */
+  logoBg?: string;
+  /**
+   * Parked: the project is left out of every listing, the sitemap, and its
+   * case study 404s. The file and its code stay so it can come back.
+   */
+  hidden?: boolean;
+  /** A real client quote. The case study shows the block only when it's set. */
+  testimonial?: { quote: string; name: string; role?: string };
   tags: string[];
   featured?: boolean;
   order?: number;
@@ -48,9 +59,9 @@ export async function getAllProjects(): Promise<Project[]> {
       } satisfies Project;
     })
   );
-  return projects.sort(
-    (a, b) => (a.frontmatter.order ?? 99) - (b.frontmatter.order ?? 99)
-  );
+  return projects
+    .filter((p) => !p.frontmatter.hidden)
+    .sort((a, b) => (a.frontmatter.order ?? 99) - (b.frontmatter.order ?? 99));
 }
 
 export async function getProjectBySlug(slug: string): Promise<Project | null> {
@@ -60,6 +71,7 @@ export async function getProjectBySlug(slug: string): Promise<Project | null> {
       "utf8"
     );
     const { data, content } = matter(raw);
+    if ((data as ProjectFrontmatter).hidden) return null;
     return {
       slug,
       frontmatter: data as ProjectFrontmatter,

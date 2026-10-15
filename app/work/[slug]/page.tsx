@@ -84,7 +84,7 @@ export default async function CaseStudyPage({
             <div className="relative aspect-[16/9] w-full overflow-hidden rounded border border-border bg-muted">
               <Image
                 src={frontmatter.heroImage}
-                alt={`${frontmatter.title} — hero image`}
+                alt={`${frontmatter.title} hero image`}
                 fill
                 priority
                 sizes="(min-width: 1280px) 1200px, 100vw"
@@ -141,6 +141,23 @@ export default async function CaseStudyPage({
           </aside>
         </Reveal>
       </section>
+
+      {/* Testimonial: renders only once a real quote is in the frontmatter. */}
+      {frontmatter.testimonial?.quote && (
+        <section className="container-wide mt-24">
+          <Reveal>
+            <figure className="rounded border border-border bg-card p-8 sm:p-10">
+              <blockquote className="text-balance text-2xl font-medium leading-snug tracking-tight sm:text-3xl">
+                &ldquo;{frontmatter.testimonial.quote}&rdquo;
+              </blockquote>
+              <figcaption className="mt-6 text-sm text-muted-foreground">
+                <span className="text-foreground">{frontmatter.testimonial.name}</span>
+                {frontmatter.testimonial.role ? `, ${frontmatter.testimonial.role}` : null}
+              </figcaption>
+            </figure>
+          </Reveal>
+        </section>
+      )}
 
       {/* Gallery */}
       {frontmatter.gallery && frontmatter.gallery.length > 0 && (

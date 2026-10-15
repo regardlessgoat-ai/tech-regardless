@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { openGraphFor } from "@/lib/seo";
 import { Clock, Mail } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
+import { PROJECT_TYPE_VALUES } from "@/lib/contact-questions";
 import { Reveal } from "@/components/reveal";
 import { SITE } from "@/lib/utils";
 
@@ -14,9 +15,11 @@ export const metadata: Metadata = {
 };
 
 
-export default function ContactPage() {
+export default function ContactPage({ searchParams }: { searchParams: { type?: string } }) {
+  // /contact?type=free-audit presets the project type; unknown values are ignored.
+  const preset = PROJECT_TYPE_VALUES.find((v) => v === searchParams.type);
   return (
-    <section className="border-b border-border py-24 sm:py-32">
+    <section className="border-b border-border py-16 sm:py-20">
       <div className="container-wide grid gap-16 lg:grid-cols-12">
         <Reveal className="lg:col-span-7">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">
@@ -29,12 +32,12 @@ export default function ContactPage() {
           </h1>
           <p className="mt-6 max-w-xl text-lg text-muted-foreground">
             The more specific you are, the better the first reply will be.
-            Don&apos;t worry about getting it perfect — we&apos;ll figure
+            Don&apos;t worry about getting it perfect. We&apos;ll figure
             out the rest on a call.
           </p>
 
           <div className="mt-12 max-w-xl">
-            <ContactForm />
+            <ContactForm defaultProjectType={preset} />
           </div>
         </Reveal>
 

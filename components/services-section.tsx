@@ -1,41 +1,13 @@
-import { ArrowUpRight, Code2, PhoneMissed, Workflow } from "lucide-react";
-import Link from "next/link";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/reveal";
-
-const services = [
-  {
-    icon: Code2,
-    title: "Custom Websites",
-    description:
-      "Designed for your brand, built to turn visitors into calls, fast on a phone. You own the code on day one.",
-    price: "From $1,800",
-    href: "/services#websites",
-  },
-  {
-    icon: PhoneMissed,
-    title: "AI Front Desk",
-    description:
-      "Texts back every call you miss, books the job over SMS, and asks happy customers for a review. Ongoing website updates are part of the same monthly plan.",
-    price: "$500/mo, includes website care",
-    href: "/services#front-desk",
-  },
-  {
-    icon: Workflow,
-    title: "Business Automation",
-    description:
-      "If you're doing the same thing by hand every week, that's a job for software, not for you. Intake, follow-ups, invoicing, reporting, dashboards, scheduling, the handoffs between your people. Wired together so the business keeps moving while you're on a job. Don't see your problem listed? Describe it in the form. We'll tell you straight whether we can solve it, and what it'd cost.",
-    price: "Custom quote",
-    href: "/services#automation",
-  },
-];
+import { PlanCards } from "@/components/plan-cards";
 
 export function ServicesSection() {
   return (
     <section
       id="services"
       aria-labelledby="services-heading"
-      className="border-b border-border py-24 sm:py-32"
+      className="border-b border-border py-16 sm:py-20"
     >
       <div className="container-wide">
         <Reveal>
@@ -48,46 +20,13 @@ export function ServicesSection() {
                 <span className="text-muted-foreground">and who it&apos;s for</span>
               </>
             }
-            description="Three service lines, one builder. Most businesses start with one and add the next when the first one pays for itself."
+            description="One monthly plan that keeps the phone and the website working for you, plus one time builds when you need them."
           />
         </Reveal>
 
-        <Reveal delay={0.08}>
-          <ul className="mt-16 divide-y divide-border rounded border border-border bg-card">
-            {services.map((service) => {
-              const Icon = service.icon;
-              return (
-                <li key={service.title}>
-                  <Link
-                    href={service.href}
-                    className="group flex flex-col gap-4 p-6 transition-colors hover:bg-muted/30 focus-ring sm:flex-row sm:items-center sm:gap-6 sm:p-7"
-                  >
-                    <div className="flex size-11 shrink-0 items-center justify-center rounded border border-border bg-muted/40 text-accent">
-                      <Icon className="size-5" aria-hidden />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <h3 className="text-xl font-medium tracking-tight">
-                        {service.title}
-                      </h3>
-                      <p className="mt-1 text-sm leading-relaxed text-muted-foreground">
-                        {service.description}
-                      </p>
-                    </div>
-                    <div className="flex items-center justify-between gap-4 sm:justify-end">
-                      <p className="font-mono text-xs uppercase tracking-wider text-foreground">
-                        {service.price}
-                      </p>
-                      <ArrowUpRight
-                        className="size-5 shrink-0 text-muted-foreground transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
-                        aria-hidden
-                      />
-                    </div>
-                  </Link>
-                </li>
-              );
-            })}
-          </ul>
-        </Reveal>
+        <div className="mt-10">
+          <PlanCards />
+        </div>
       </div>
     </section>
   );

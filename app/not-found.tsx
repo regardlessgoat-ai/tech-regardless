@@ -12,7 +12,7 @@ export default function NotFound() {
       </h1>
       <p className="mt-5 max-w-lg text-lg text-muted-foreground">
         Either it moved, never existed, or I broke something. The fix is
-        the same in all three cases — head back home.
+        the same in all three cases: head back home.
       </p>
       <div className="mt-8 flex gap-3">
         <Button href="/">Back home</Button>

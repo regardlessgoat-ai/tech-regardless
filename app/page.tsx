@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Hero } from "@/components/hero";
 import { ServicesSection } from "@/components/services-section";
+import { AuditSection } from "@/components/audit-section";
 import { WorkGrid } from "@/components/work-grid";
 import { ProcessSection } from "@/components/process-section";
 import { FAQ } from "@/components/faq";
@@ -46,6 +47,7 @@ export default async function HomePage() {
       />
       <Hero />
       <ServicesSection />
+      <AuditSection />
       <WorkGrid projects={projects} variant="home" />
       <ProcessSection />
       <FAQ />

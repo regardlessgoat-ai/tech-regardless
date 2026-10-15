@@ -6,13 +6,13 @@ import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/reveal";
 import { Accordion, type AccordionItem } from "@/components/ui/accordion";
 import { ProcessSection } from "@/components/process-section";
-import { ServiceMarquee } from "@/components/service-marquee";
+import { PlanCards } from "@/components/plan-cards";
 import { CtaSection } from "@/components/cta-section";
 
 export const metadata: Metadata = {
   title: "Services & Pricing",
   description:
-    "Custom websites from $1,800. One $500 a month plan covers the AI front desk and ongoing care of your website. Business automation quoted per project.",
+    "Full Presence Plan, $500 a month: missed call text back, booking over text, review requests, website care. Websites from $1,800. Automation quoted.",
   alternates: { canonical: "/services" },
   openGraph: openGraphFor("/services"),
 };
@@ -55,7 +55,7 @@ const services: Service[] = [
   },
   {
     id: "front-desk",
-    name: "AI Front Desk",
+    name: "Full Presence Plan",
     problem:
       "You're on a job, the phone rings, you can't pick up, and the customer calls the next company on the list.",
     outcome:
@@ -65,18 +65,16 @@ const services: Service[] = [
     timeline: "Live once your business number is approved for texting",
     includes: [
       "Missed calls get a text back from your business number",
-      "The assistant collects name, address, the problem, and a preferred time",
+      "The assistant collects the customer's name, what they need, and a good time",
       "You get one text per request and reply Y or N to confirm",
       "The customer is told when you're coming",
       "After the job, the customer gets a follow up asking for a review",
       "You can add your own line to that follow up, like a referral offer for their friends or a credit on their next visit",
-      "A short summary every Monday morning: calls caught, jobs booked, reviews sent",
       "Never quotes prices, never promises arrival times, never diagnoses",
-      "Emergencies get routed straight to your phone",
       "Ongoing website updates, fixes, and support included in the same plan",
     ],
-    cta: "Ask about Front Desk",
-    href: "/contact",
+    cta: "Start the plan",
+    href: "/contact?type=ai-front-desk",
   },
   {
     id: "automation",
@@ -102,13 +100,13 @@ const services: Service[] = [
 
 // A sample Front Desk thread. Illustrative, not a real customer.
 const sampleThread = [
-  { from: "desk", text: "Hi, this is Cool Air HVAC. Sorry we missed your call. What's going on with your AC? Reply here and we'll get you scheduled." },
-  { from: "customer", text: "It's blowing warm air since this morning" },
-  { from: "desk", text: "Got it. What's the service address?" },
-  { from: "customer", text: "412 Oak St, Kissimmee" },
-  { from: "desk", text: "Thanks. When works best, this afternoon or tomorrow morning?" },
+  { from: "desk", text: "Hi, this is Cool Air HVAC. Sorry we missed your call. Who are we speaking with?" },
+  { from: "customer", text: "Maria" },
+  { from: "desk", text: "Thanks Maria. What do you need help with?" },
+  { from: "customer", text: "The AC is blowing warm air since this morning" },
+  { from: "desk", text: "Got it. When is a good time for us to come by?" },
   { from: "customer", text: "Tomorrow morning" },
-  { from: "desk", text: "Got it, the owner will confirm shortly." },
+  { from: "desk", text: "Thanks, we have your details and Cool Air HVAC will text you shortly." },
 ] as const;
 
 const faqItems: AccordionItem[] = [
@@ -206,7 +204,7 @@ export default function ServicesPage() {
   return (
     <>
       {/* Header */}
-      <section className="border-b border-border py-24 sm:py-32">
+      <section className="border-b border-border pt-16 pb-12 sm:pt-20 sm:pb-14">
         <div className="container-wide">
           <Reveal>
             <SectionHeading
@@ -219,16 +217,18 @@ export default function ServicesPage() {
                   <span className="text-muted-foreground">Pick the fix.</span>
                 </>
               }
-              description="Three services, one builder. Websites and automation are a one time flat number agreed before any work starts. The Front Desk is one monthly plan."
+              description="One monthly plan, plus one time builds. Websites and automation are a flat number agreed before any work starts."
             />
           </Reveal>
 
         </div>
       </section>
 
-      <ServiceMarquee
-        items={services.map((s) => ({ href: `#${s.id}`, label: s.name }))}
-      />
+      <section aria-label="Plans" className="border-b border-border py-12 sm:py-16">
+        <div className="container-wide">
+          <PlanCards headingLevel="h2" />
+        </div>
+      </section>
 
       {/* One block per service: price column left, detail right */}
       {services.map((s) => (
@@ -236,7 +236,7 @@ export default function ServicesPage() {
           key={s.id}
           id={s.id}
           aria-labelledby={`${s.id}-heading`}
-          className="scroll-mt-20 border-b border-border py-20 sm:py-24"
+          className="scroll-mt-20 border-b border-border py-16 sm:py-20"
         >
           <div className="container-wide grid gap-12 lg:grid-cols-12 lg:gap-16">
             <Reveal className="lg:col-span-4">
@@ -307,7 +307,7 @@ export default function ServicesPage() {
       <ProcessSection />
 
       {/* FAQ */}
-      <section className="border-b border-border py-24">
+      <section className="border-b border-border py-16 sm:py-20">
         <div className="container-wide grid gap-12 lg:grid-cols-12 lg:gap-16">
           <Reveal className="lg:col-span-4">
             <SectionHeading

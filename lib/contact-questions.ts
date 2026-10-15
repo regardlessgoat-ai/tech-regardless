@@ -5,6 +5,7 @@ import { z } from "zod";
 // so a new option can never exist in one place and not the others.
 
 export const PROJECT_TYPES = [
+  { value: "free-audit", label: "Free audit" },
   { value: "new-website", label: "New website" },
   { value: "redesign", label: "Redesign" },
   { value: "ai-front-desk", label: "AI Front Desk" },

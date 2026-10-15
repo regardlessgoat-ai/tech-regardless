@@ -17,7 +17,7 @@ export function CtaSection() {
         aria-hidden
         className="absolute inset-0 -z-10 [background-image:linear-gradient(to_right,hsl(var(--border)/0.4)_1px,transparent_1px)] [background-size:96px_96px] [mask-image:radial-gradient(ellipse_at_center,black_20%,transparent_70%)]"
       />
-      <div className="container-wide py-28 text-center sm:py-36">
+      <div className="container-wide py-16 text-center sm:py-24">
         <Reveal>
           <h2
             id="cta-heading"

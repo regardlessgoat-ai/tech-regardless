@@ -23,7 +23,7 @@ export function WorkGrid({ projects, variant = "home" }: Props) {
     <section
       id="work"
       aria-labelledby="work-heading"
-      className="border-b border-border py-24 sm:py-32"
+      className="border-b border-border py-16 sm:py-20"
     >
       <div className="container-wide">
         <Reveal>
@@ -55,7 +55,7 @@ function HomeLayout({ projects }: { projects: Project[] }) {
   const secondary = rest.slice(0, 2);
 
   return (
-    <div className="mt-16 space-y-4">
+    <div className="mt-10 space-y-4">
       {feature && (
         <Reveal>
           <ProjectCard project={feature} large />
@@ -76,7 +76,7 @@ function HomeLayout({ projects }: { projects: Project[] }) {
 
 function IndexLayout({ projects }: { projects: Project[] }) {
   return (
-    <div className="mt-16 grid gap-4 md:grid-cols-2">
+    <div className="mt-10 grid gap-4 md:grid-cols-2">
       {projects.map((project, i) => (
         <Reveal key={project.slug} delay={(i % 2) * 0.08}>
           <ProjectCard project={project} />
@@ -94,7 +94,7 @@ function ProjectCard({
   large?: boolean;
 }) {
   const { frontmatter, slug } = project;
-  const hasImage = Boolean(frontmatter.heroImage);
+  const hasImage = Boolean(frontmatter.logo || frontmatter.heroImage);
 
   return (
     <Link
@@ -104,7 +104,27 @@ function ProjectCard({
         large && hasImage && "md:flex md:items-stretch"
       )}
     >
-      {hasImage && (
+      {frontmatter.logo ? (
+        // Logo cards: the client's mark centred on its brand colour, contained
+        // at its own aspect ratio (never cropped). SVG, so sharp at any DPR.
+        <div
+          className={cn(
+            "flex aspect-[16/9] w-full items-center justify-center p-8",
+            large && "md:aspect-auto md:w-1/3 md:p-8"
+          )}
+          style={{ backgroundColor: frontmatter.logoBg }}
+        >
+          <Image
+            src={frontmatter.logo}
+            alt={`${frontmatter.client} logo`}
+            width={452}
+            height={320}
+            unoptimized
+            className="h-auto max-h-32 w-auto max-w-[70%] object-contain transition-transform duration-700 ease-out group-hover:scale-[1.03] md:max-h-36"
+            priority={large}
+          />
+        </div>
+      ) : hasImage && (
         <div
           className={cn(
             "relative aspect-[16/10] w-full overflow-hidden bg-muted",
@@ -113,7 +133,7 @@ function ProjectCard({
         >
           <Image
             src={frontmatter.heroImage!}
-            alt={`${frontmatter.title} — preview`}
+            alt={`${frontmatter.title} preview`}
             fill
             sizes={large ? "(min-width: 768px) 60vw, 100vw" : "(min-width: 768px) 50vw, 100vw"}
             className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
@@ -129,7 +149,8 @@ function ProjectCard({
       <div
         className={cn(
           "p-6 sm:p-8",
-          large && hasImage && "md:flex md:w-2/5 md:flex-col md:justify-between"
+          large && hasImage && "md:flex md:flex-col md:justify-between",
+          large && hasImage && (frontmatter.logo ? "md:w-2/3" : "md:w-2/5")
         )}
       >
         <div>
@@ -140,14 +161,14 @@ function ProjectCard({
           <h3
             className={cn(
               "mt-4 font-medium tracking-tight",
-              large ? "text-3xl sm:text-4xl" : "text-2xl"
+              large ? "text-2xl sm:text-3xl" : "text-2xl"
             )}
           >
             {frontmatter.title}
           </h3>
           <ProjectBrief
             frontmatter={frontmatter}
-            layout={large && hasImage ? "stack" : "grid"}
+            layout={large && hasImage && !frontmatter.logo ? "stack" : "grid"}
             className="mt-6 border-t border-border pt-6"
           />
         </div>

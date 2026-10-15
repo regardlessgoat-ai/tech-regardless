@@ -15,6 +15,8 @@ export interface OperatorNotificationProps {
   email: string;
   phone: string | null; // digits, maybe leading +
   company: string | null;
+  /** PROJECT_TYPES value, e.g. "free-audit". Drives the tag. */
+  projectType: string;
   projectTypeLabel: string;
   /** BUDGETS value, e.g. "2k-5k". Drives the tag. */
   budget: string;
@@ -31,10 +33,15 @@ export type LeadTag = "Hot" | "Warm" | "Cold";
 const BIG_BUDGETS = new Set(["2k-5k", "5k-10k", "10k-plus"]);
 const SOON: ReadonlySet<ResearchLetter> = new Set(["a", "b"]); // ASAP, within a month
 
-/** Hot: $2k+ budget AND wants it within a month. Warm: one of the two. Cold: neither. */
-export function leadTag(p: Pick<OperatorNotificationProps, "budget" | "research">): LeadTag {
+/**
+ * Hot: $2k+ budget AND wants it within a month. Warm: one of the two. Cold:
+ * neither. A free audit request is never Cold: asking for one is interest, so
+ * it is Warm unless budget and timeline make it Hot.
+ */
+export function leadTag(p: Pick<OperatorNotificationProps, "budget" | "research" | "projectType">): LeadTag {
   const score = Number(BIG_BUDGETS.has(p.budget)) + Number(SOON.has(p.research.timing));
-  return score === 2 ? "Hot" : score === 1 ? "Warm" : "Cold";
+  if (score === 2) return "Hot";
+  return score === 1 || p.projectType === "free-audit" ? "Warm" : "Cold";
 }
 
 const TAG_STYLE: Record<LeadTag, { bg: string; fg: string }> = {
@@ -44,7 +51,7 @@ const TAG_STYLE: Record<LeadTag, { bg: string; fg: string }> = {
 };
 
 export function operatorSubject(
-  p: Pick<OperatorNotificationProps, "name" | "projectTypeLabel" | "budget" | "budgetLabel" | "research">
+  p: Pick<OperatorNotificationProps, "name" | "projectType" | "projectTypeLabel" | "budget" | "budgetLabel" | "research">
 ) {
   return `${leadTag(p)} lead: ${p.name} · ${p.projectTypeLabel} · ${p.budgetLabel}`;
 }

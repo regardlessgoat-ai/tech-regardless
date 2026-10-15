@@ -1,6 +1,7 @@
 import { Accordion, type AccordionItem } from "@/components/ui/accordion";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { Reveal } from "@/components/reveal";
+import { GUARANTEE } from "@/lib/offer";
 
 const items: AccordionItem[] = [
   {
@@ -56,14 +57,17 @@ const items: AccordionItem[] = [
     ),
   },
   {
+    id: "guarantee",
+    question: "What if the AI Front Desk doesn't pay off?",
+    answer: <p>{GUARANTEE}</p>,
+  },
+  {
     id: "hosting",
     question: "Do you handle hosting and domains?",
     answer: (
       <p>
-        Yes. I deploy to Vercel by default. It&apos;s fast and reliable. I
-        can also work
-        with whatever stack you already have if you&apos;d rather not
-        migrate.
+        Yes. I host it, keep it fast, and keep it running. If you&apos;d
+        rather keep your current host, I&apos;ll work with it.
       </p>
     ),
   },
@@ -85,7 +89,7 @@ export function FAQ() {
     <section
       id="faq"
       aria-labelledby="faq-heading"
-      className="border-b border-border py-24 sm:py-32"
+      className="border-b border-border py-16 sm:py-20"
     >
       <div className="container-wide">
         <div className="grid gap-12 lg:grid-cols-12 lg:gap-16">

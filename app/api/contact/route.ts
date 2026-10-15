@@ -320,7 +320,7 @@ export async function POST(req: Request) {
     logUnsentLead(record, "resend-not-configured", { sms: smsStatus });
     if (process.env.NODE_ENV === "production") {
       return NextResponse.json(
-        { error: "Couldn't deliver — try emailing me directly." },
+        { error: "Couldn't deliver. Try emailing me directly." },
         { status: 502 }
       );
     }
@@ -342,7 +342,7 @@ export async function POST(req: Request) {
   }
   if (!resend) {
     return NextResponse.json(
-      { error: "Couldn't deliver — try emailing me directly." },
+      { error: "Couldn't deliver. Try emailing me directly." },
       { status: 502 }
     );
   }
@@ -376,7 +376,7 @@ export async function POST(req: Request) {
       error: String(err),
     });
     return NextResponse.json(
-      { error: "Couldn't deliver — try emailing me directly." },
+      { error: "Couldn't deliver. Try emailing me directly." },
       { status: 502 }
     );
   }

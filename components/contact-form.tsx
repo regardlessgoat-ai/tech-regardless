@@ -46,8 +46,10 @@ export const contactSchema = z.object({
 });
 
 type ContactValues = z.infer<typeof contactSchema>;
+export type ProjectTypeValue = ContactValues["projectType"];
 
-export function ContactForm() {
+/** `defaultProjectType` presets the select, e.g. from /contact?type=free-audit. */
+export function ContactForm({ defaultProjectType }: { defaultProjectType?: ProjectTypeValue }) {
   const [submitted, setSubmitted] = useState(false);
   const [serverError, setServerError] = useState<string | null>(null);
 
@@ -58,6 +60,7 @@ export function ContactForm() {
     reset,
   } = useForm<ContactValues>({
     resolver: zodResolver(contactSchema),
+    defaultValues: defaultProjectType ? { projectType: defaultProjectType } : undefined,
   });
 
   // The root layout captures campaign tags on the landing page. This covers the
@@ -105,9 +108,9 @@ export function ContactForm() {
           Got it. Check your email.
         </h2>
         <p className="text-muted-foreground">
-          My front desk assistant is emailing you now with a question or two
-          so I can come to the call prepared. It&apos;s software, and I read
-          every reply. You&apos;ll hear from me personally within 24 hours.
+          A confirmation is on its way to your inbox now. I read every
+          request myself, and you&apos;ll hear back within one business day,
+          usually the same day.
         </p>
         <Button
           type="button"
@@ -251,7 +254,7 @@ export function ContactForm() {
         </Label>
         <Textarea
           id="message"
-          placeholder="A few sentences — what's broken or missing today, and what you've tried."
+          placeholder="A few sentences: what's broken or missing today, and what you've tried."
           aria-invalid={!!errors.message}
           {...register("message")}
         />

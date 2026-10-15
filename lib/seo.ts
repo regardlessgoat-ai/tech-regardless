@@ -12,7 +12,7 @@ export const SHARE_IMAGE = {
   url: "/opengraph-image",
   width: 1200,
   height: 630,
-  alt: `${SITE.name} — ${SITE.tagline}`,
+  alt: `${SITE.name} | ${SITE.tagline}`,
   type: "image/png",
 };
 
@@ -24,7 +24,7 @@ export const SHARE_IMAGE = {
 export const BASE_OPEN_GRAPH = {
   type: "website",
   siteName: SITE.name,
-  title: `${SITE.name} — ${SITE.tagline}`,
+  title: `${SITE.name} | ${SITE.tagline}`,
   description: SITE.description,
   locale: "en_US",
 } satisfies OpenGraph;

@@ -38,7 +38,7 @@ export function ProcessSection() {
     <section
       id="process"
       aria-labelledby="process-heading"
-      className="border-b border-border py-24 sm:py-32"
+      className="border-b border-border py-16 sm:py-20"
     >
       <div className="container-wide">
         <Reveal>
@@ -55,7 +55,7 @@ export function ProcessSection() {
           />
         </Reveal>
 
-        <div className="relative mt-16">
+        <div className="relative mt-10">
           {/* Desktop connecting line */}
           <div
             aria-hidden
