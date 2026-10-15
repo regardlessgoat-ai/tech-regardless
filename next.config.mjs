@@ -11,6 +11,10 @@ const nextConfig = {
   },
   experimental: {
     mdxRs: true,
+    // The email button route reads its fonts from disk at request time.
+    outputFileTracingIncludes: {
+      "/api/email/button": ["./lib/emails/assets/**"],
+    },
   },
 
   // DOMAIN UNIFICATION (2026-08-22)

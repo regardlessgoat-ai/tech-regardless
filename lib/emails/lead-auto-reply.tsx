@@ -6,7 +6,7 @@
 import * as React from "react";
 import { Link, Section, Text, render } from "@react-email/components";
 import { SITE } from "@/lib/utils";
-import { EmailShell, MultilineText, PrimaryButton, styles, tokens } from "./shell";
+import { EmailShell, Eyebrow, MultilineText, PrimaryButton, styles, tokens } from "./shell";
 
 /** Same wording as components/services-section.tsx on the live site. */
 export const SERVICE_LINES = [
@@ -51,7 +51,7 @@ export interface LeadAutoReplyProps {
 export function LeadAutoReply(p: LeadAutoReplyProps) {
   return (
     <EmailShell preview="Your message reached me. A real reply follows within 24 hours.">
-      <Text style={styles.eyebrow}>Message received</Text>
+      <Eyebrow>Message received</Eyebrow>
       <Text style={{ ...styles.h1, marginBottom: "18px" }}>Hi {p.firstName},</Text>
       {p.greeting.map((para, i) => (
         <Text key={i} style={styles.p}>
@@ -81,7 +81,7 @@ export function LeadAutoReply(p: LeadAutoReplyProps) {
       </Section>
 
       <Section style={{ marginTop: "26px" }}>
-        <PrimaryButton href={`${SITE.url}/work`}>See recent work</PrimaryButton>
+        <PrimaryButton href={`${SITE.url}/work`} label="See recent work" alt="See recent work on the Tech.Regardless site" />
       </Section>
       <Text style={{ ...styles.pMuted, margin: "18px 0 0", fontSize: "13px" }}>
         Replies to this email come straight to{" "}

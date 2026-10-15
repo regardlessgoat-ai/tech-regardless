@@ -6,7 +6,8 @@
 import * as React from "react";
 import { Column, Link, Row, Section, Text, render } from "@react-email/components";
 import { SITE } from "@/lib/utils";
-import { EmailShell, MultilineText, PrimaryButton, firstNameOf, styles, tokens } from "./shell";
+import { isButtonLabel } from "./button-spec";
+import { EmailShell, Eyebrow, MultilineText, PrimaryButton, firstNameOf, styles, tokens } from "./shell";
 
 export interface OperatorNotificationProps {
   receivedAt: string; // ISO
@@ -74,13 +75,15 @@ function Field({ name, children }: { name: string; children: React.ReactNode }) 
 
 export function OperatorNotification(p: OperatorNotificationProps) {
   const first = firstNameOf(p.name);
+  // The button image only renders known labels; an unusual name falls back.
+  const replyLabel = isButtonLabel(`Reply to ${first}`) ? `Reply to ${first}` : "Reply to lead";
   const replyHref = `mailto:${p.email}?subject=${encodeURIComponent(`Re: your message to ${SITE.name}`)}`;
   const preview = `${p.name} · ${p.projectTypeLabel} · ${p.budgetLabel}: ${p.message.slice(0, 90)}`;
   const utmLine = `utm_source ${p.utm.source} · utm_medium ${p.utm.medium} · utm_campaign ${p.utm.campaign}`;
 
   return (
     <EmailShell preview={preview} footerNote={<Text style={styles.footerText}>{utmLine}</Text>}>
-      <Text style={styles.eyebrow}>New lead</Text>
+      <Eyebrow>New lead</Eyebrow>
       <Text style={styles.h1}>{p.name}</Text>
       <Text style={{ ...styles.pMuted, margin: "6px 0 0" }}>
         {p.company ? `${p.company} · ` : ""}
@@ -122,7 +125,7 @@ export function OperatorNotification(p: OperatorNotificationProps) {
       </Section>
 
       <Section style={{ marginTop: "26px" }}>
-        <PrimaryButton href={replyHref}>Reply to {first}</PrimaryButton>
+        <PrimaryButton href={replyHref} label={replyLabel} alt={`${replyLabel} by email`} />
       </Section>
     </EmailShell>
   );
