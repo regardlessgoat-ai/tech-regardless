@@ -25,7 +25,7 @@ import {
   sourceLine,
   timelineOf,
 } from "@/lib/emails/operator-notification";
-import { HUMAN_SIGNATURE, NEXT_STEPS, renderLeadAutoReply, signatureLines, SITE_HOST, STATIC_INTRO } from "@/lib/emails/lead-auto-reply";
+import { AUTO_REPLY_FROM, HUMAN_SIGNATURE, NEXT_STEPS, renderLeadAutoReply, signatureLines, SITE_HOST, STATIC_INTRO } from "@/lib/emails/lead-auto-reply";
 import { firstNameOf } from "@/lib/emails/shell";
 
 // The front desk's first message is a model call; give it room.
@@ -439,11 +439,12 @@ export async function POST(req: Request) {
   if (firstContact !== "ai") {
     try {
       const result = await resend.emails.send({
-        from: autoReplyFrom,
+        from: AUTO_REPLY_FROM,
         to: record.email,
-        // Replies land on the operator, not in a no-reply void. The body
-        // promises this works, so it has to.
-        replyTo: to,
+        // From Ali and replies to Ali: a personal reply, which is also what
+        // keeps it out of Gmail's Promotions tab. The body promises replies
+        // reach him, so they have to.
+        replyTo: SITE.email,
         subject: `Got it, ${firstNameOf(record.name)}. Talk soon.`,
         text: autoReplyBody(record),
         html: await renderLeadAutoReply({

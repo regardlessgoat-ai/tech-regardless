@@ -1,8 +1,10 @@
 /**
  * The confirmation the person who filled the form receives.
  *
- * Card frame, badge and image button are shared with the operator email
- * (lib/emails/shell.tsx). The footer is just the site and the privacy policy.
+ * Card frame shared with the operator email (lib/emails/shell.tsx), but kept
+ * deliberately plain so Gmail files it as a personal reply, not marketing:
+ * sent from Ali, no images (the wordmark is text, the call to action a text
+ * link), exactly two links, no hidden preview padding.
  *
  * `intro` is the only part that changes between the static confirmation and
  * the AI front desk's first message; everything around it is fixed.
@@ -10,7 +12,7 @@
 import * as React from "react";
 import { Column, Hr, Link, Row, Section, Text, render } from "@react-email/components";
 import { SITE } from "@/lib/utils";
-import { Badge, EmailShell, ImageButton, MultilineText, fonts, styles, tokens } from "./shell";
+import { EmailShell, MultilineText, fonts, styles, tokens } from "./shell";
 
 /** The line under the headline. Used verbatim in the plain-text part too. */
 export const STATIC_INTRO = [
@@ -78,7 +80,12 @@ const s = {
   stepText: { margin: 0, fontSize: "15px", lineHeight: "22px", color: tokens.text },
   sigName: { margin: 0, fontSize: "15px", lineHeight: "1.5", fontWeight: 600, color: tokens.text },
   sigLine: { margin: 0, fontSize: "14px", lineHeight: "1.5", color: tokens.muted },
+  wordmark: { margin: 0, fontFamily: fonts.mono, fontSize: "16px", fontWeight: 500, letterSpacing: "-0.01em", color: tokens.text },
+  textLink: { color: tokens.text, fontSize: "15px", fontWeight: 500, textDecoration: "underline" },
 } as const;
+
+/** The display name and address the confirmation comes from, and replies go to. */
+export const AUTO_REPLY_FROM = `Ali <${SITE.email}>`;
 
 function Step({ n, children }: { n: number; children: React.ReactNode }) {
   return (
@@ -95,11 +102,11 @@ function Step({ n, children }: { n: number; children: React.ReactNode }) {
 
 export function LeadAutoReply(p: LeadAutoReplyProps) {
   const sig = p.signature ?? HUMAN_SIGNATURE;
+  // Two links in the whole email: recent work and the privacy policy. The
+  // domain is plain text.
   const footer = (
     <>
-      <Link href={SITE.url} style={styles.footerLink}>
-        {SITE_HOST}
-      </Link>
+      {SITE_HOST}
       {" · "}
       <Link href={`${SITE.url}/privacy`} style={styles.footerLink}>
         Privacy policy
@@ -108,8 +115,10 @@ export function LeadAutoReply(p: LeadAutoReplyProps) {
   );
 
   return (
-    <EmailShell preview={STATIC_INTRO[0]} footer={footer}>
-      <Badge />
+    <EmailShell footer={footer}>
+      <Text style={s.wordmark}>
+        Tech<span style={{ color: tokens.bar }}>.</span>Regardless
+      </Text>
 
       <Text style={s.h1}>Got it, {p.firstName}.</Text>
       {p.intro.map((para, i) => (
@@ -133,9 +142,11 @@ export function LeadAutoReply(p: LeadAutoReplyProps) {
         <MultilineText text={p.message} style={{ fontSize: "15px", color: tokens.text }} />
       </Section>
 
-      <Section style={{ marginTop: "26px" }}>
-        <ImageButton href={`${SITE.url}/work`} label="See recent work" alt="See recent work on the Tech.Regardless site" />
-      </Section>
+      <Text style={{ ...styles.p, margin: "24px 0 0" }}>
+        <Link href={`${SITE.url}/work`} style={s.textLink}>
+          See recent work
+        </Link>
+      </Text>
 
       <Hr style={{ borderColor: tokens.border, borderTopWidth: "1px", margin: "28px 0 20px" }} />
       <Text style={s.sigName}>{sig.name}</Text>

@@ -92,14 +92,23 @@ export function Badge() {
  * on top, a small grey footer under the card. `children` is the card body,
  * badge included, since each email lays its top row out differently.
  */
-export function EmailShell({ preview, children, footer }: { preview: string; children: ReactNode; footer: ReactNode }) {
+export function EmailShell({
+  preview,
+  children,
+  footer,
+}: {
+  /** Inbox snippet. Omit it and clients show the first lines of the body instead. */
+  preview?: string;
+  children: ReactNode;
+  footer: ReactNode;
+}) {
   return (
     <Html lang="en">
       <Head>
         <meta name="color-scheme" content="light" />
         <meta name="supported-color-schemes" content="light" />
       </Head>
-      <Preview>{preview}</Preview>
+      {preview ? <Preview>{preview}</Preview> : null}
       <Body style={styles.body}>
         <Section style={styles.outer}>
           <Container style={styles.container}>
