@@ -25,7 +25,7 @@ import {
   sourceLine,
   timelineOf,
 } from "@/lib/emails/operator-notification";
-import { NEXT_STEPS, renderLeadAutoReply, SIGNATURE, SITE_HOST, STATIC_INTRO } from "@/lib/emails/lead-auto-reply";
+import { HUMAN_SIGNATURE, NEXT_STEPS, renderLeadAutoReply, signatureLines, SITE_HOST, STATIC_INTRO } from "@/lib/emails/lead-auto-reply";
 import { firstNameOf } from "@/lib/emails/shell";
 
 // The front desk's first message is a model call; give it room.
@@ -205,9 +205,7 @@ function autoReplyBody(record: LeadRecord) {
     "",
     `Recent work: ${SITE.url}/work`,
     "",
-    SIGNATURE.name,
-    SIGNATURE.title,
-    SIGNATURE.note,
+    ...signatureLines(HUMAN_SIGNATURE),
     "",
     `${SITE_HOST} · Privacy policy: ${SITE.url}/privacy`,
   ].join("\n");

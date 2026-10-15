@@ -56,6 +56,10 @@ async function main() {
       "lead-auto-reply-ai.html",
       await renderLeadAutoReply({
         firstName: first,
+        signature: {
+          name: "Ali's assistant, Tech.Regardless",
+          note: "Reply to this email, it comes straight to Ali.",
+        },
         intro: paragraphsOf(
           "Thanks for the detail, Jordan. Missing a third of calls while you're both on installs is exactly the gap the front desk covers: it texts the caller back within seconds and asks for the job details so nothing sits in voicemail.\n\nTwo quick questions before Ali calls you: are most of those calls new customers or existing ones, and do you want texts to go out from your current business number?\n\nAli reads every reply in this thread and will take over from here.",
         ),

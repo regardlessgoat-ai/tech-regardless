@@ -44,7 +44,7 @@ export type BusinessConfig = {
 
 export const techRegardless: BusinessConfig = {
   id: "tr",
-  name: "tech.regardless",
+  name: "Tech.Regardless",
   operatorName: "Ali",
   assistantName: "the tech.regardless front desk",
   location: "Kissimmee, Florida",

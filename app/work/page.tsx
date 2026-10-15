@@ -7,6 +7,7 @@ export const metadata: Metadata = {
   title: "Work",
   description:
     "Recent builds by Tech.Regardless: who the client is, what was broken, and what got fixed.",
+  alternates: { canonical: "/work" },
 };
 
 export default async function WorkIndexPage() {

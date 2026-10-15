@@ -1,3 +1,4 @@
+import type { Metadata } from "next";
 import { Hero } from "@/components/hero";
 import { ServicesSection } from "@/components/services-section";
 import { WorkGrid } from "@/components/work-grid";
@@ -6,6 +7,11 @@ import { FAQ } from "@/components/faq";
 import { CtaSection } from "@/components/cta-section";
 import { getAllProjects } from "@/lib/projects";
 import { SITE } from "@/lib/utils";
+
+// Every page declares its own canonical; nothing inherits one from the layout.
+export const metadata: Metadata = {
+  alternates: { canonical: "/" },
+};
 
 export default async function HomePage() {
   const projects = await getAllProjects();

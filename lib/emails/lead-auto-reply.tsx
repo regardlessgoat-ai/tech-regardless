@@ -23,11 +23,24 @@ export const NEXT_STEPS = [
   "If it's a fit, a free 15 minute call.",
 ] as const;
 
-export const SIGNATURE = {
+/** Bold name, optional title, then a grey note. */
+export interface Signature {
+  name: string;
+  title?: string;
+  note: string;
+}
+
+/** Ali signs the static confirmation. The front desk passes its own. */
+export const HUMAN_SIGNATURE: Signature = {
   name: "Ali",
   title: `Founder, ${SITE.name}`,
   note: "Reply to this email, it comes straight to me.",
-} as const;
+};
+
+/** The signature as plain-text lines, for the text part of the email. */
+export function signatureLines(sig: Signature): string[] {
+  return [sig.name, ...(sig.title ? [sig.title] : []), sig.note];
+}
 
 /**
  * The footer shows the brand domain as text. Not derived from SITE.url: in
@@ -41,6 +54,8 @@ export interface LeadAutoReplyProps {
   firstName: string;
   /** Paragraphs under the headline. STATIC_INTRO, or the front desk's reply. */
   intro: readonly string[];
+  /** Defaults to HUMAN_SIGNATURE. The front desk signs as Ali's assistant. */
+  signature?: Signature;
   projectTypeLabel: string;
   budgetLabel: string;
   message: string;
@@ -79,6 +94,7 @@ function Step({ n, children }: { n: number; children: React.ReactNode }) {
 }
 
 export function LeadAutoReply(p: LeadAutoReplyProps) {
+  const sig = p.signature ?? HUMAN_SIGNATURE;
   const footer = (
     <>
       <Link href={SITE.url} style={styles.footerLink}>
@@ -122,9 +138,9 @@ export function LeadAutoReply(p: LeadAutoReplyProps) {
       </Section>
 
       <Hr style={{ borderColor: tokens.border, borderTopWidth: "1px", margin: "28px 0 20px" }} />
-      <Text style={s.sigName}>{SIGNATURE.name}</Text>
-      <Text style={s.sigLine}>{SIGNATURE.title}</Text>
-      <Text style={{ ...s.sigLine, marginTop: "8px" }}>{SIGNATURE.note}</Text>
+      <Text style={s.sigName}>{sig.name}</Text>
+      {sig.title ? <Text style={s.sigLine}>{sig.title}</Text> : null}
+      <Text style={{ ...s.sigLine, marginTop: "8px" }}>{sig.note}</Text>
     </EmailShell>
   );
 }

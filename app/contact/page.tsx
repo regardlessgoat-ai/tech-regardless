@@ -8,6 +8,7 @@ export const metadata: Metadata = {
   title: "Contact",
   description:
     "Start a project with Tech.Regardless. One form, one email, one human reply within 24 hours.",
+  alternates: { canonical: "/contact" },
 };
 
 

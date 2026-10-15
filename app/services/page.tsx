@@ -12,6 +12,7 @@ export const metadata: Metadata = {
   title: "Services & Pricing",
   description:
     "Custom websites from $1,800. One $500 a month plan covers the AI front desk and ongoing care of your website. Business automation quoted per project.",
+  alternates: { canonical: "/services" },
 };
 
 type Service = {

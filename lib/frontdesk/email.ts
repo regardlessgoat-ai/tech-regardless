@@ -1,8 +1,7 @@
 import type { Resend } from "resend";
 import type { BusinessConfig } from "./config";
 import type { Thread } from "./store";
-import { SITE } from "@/lib/utils";
-import { renderLeadAutoReply } from "@/lib/emails/lead-auto-reply";
+import { renderLeadAutoReply, signatureLines, type Signature } from "@/lib/emails/lead-auto-reply";
 import { firstNameOf, paragraphsOf } from "@/lib/emails/shell";
 
 /**
@@ -35,12 +34,12 @@ export function threadIdFromAddress(config: BusinessConfig, addresses: string[])
   return null;
 }
 
-function signature(config: BusinessConfig) {
-  return [
-    "",
-    `${config.assistantName.charAt(0).toUpperCase()}${config.assistantName.slice(1)}`,
-    `${config.operatorName} reads every reply. ${SITE.url}`,
-  ].join("\n");
+/** Every assistant email is signed as the operator's assistant, never as the operator. */
+function signature(config: BusinessConfig): Signature {
+  return {
+    name: `${config.operatorName}'s assistant, ${config.name}`,
+    note: `Reply to this email, it comes straight to ${config.operatorName}.`,
+  };
 }
 
 export async function sendAssistantEmail(
@@ -67,6 +66,7 @@ export async function sendAssistantEmail(
     ? await renderLeadAutoReply({
         firstName: firstNameOf(thread.lead.name),
         intro: paragraphsOf(text),
+        signature: signature(config),
         projectTypeLabel: thread.lead.projectType,
         budgetLabel: thread.lead.budget,
         message: thread.lead.message,
@@ -79,7 +79,7 @@ export async function sendAssistantEmail(
       to: thread.lead.email,
       replyTo,
       subject,
-      text: `${text.trim()}\n${signature(config)}`,
+      text: [text.trim(), "", ...signatureLines(signature(config))].join("\n"),
       ...(html ? { html } : {}),
       headers,
     });
