@@ -17,7 +17,7 @@ import { createThread, saveThread, isStoreConfigured } from "@/lib/frontdesk/sto
 import { sendAssistantEmail } from "@/lib/frontdesk/email";
 import { SITE } from "@/lib/utils";
 import { renderOperatorNotification, operatorSubject } from "@/lib/emails/operator-notification";
-import { renderLeadAutoReply, STATIC_GREETING, SERVICE_LINES } from "@/lib/emails/lead-auto-reply";
+import { renderLeadAutoReply, STATIC_GREETING, STATIC_SIGNATURE, SERVICE_LINES } from "@/lib/emails/lead-auto-reply";
 import { firstNameOf } from "@/lib/emails/shell";
 
 // The front desk's first message is a model call; give it room.
@@ -189,7 +189,7 @@ function autoReplyBody(record: LeadRecord) {
     "",
     ...STATIC_GREETING.flatMap((p) => [p, ""]),
     "What we do:",
-    ...SERVICE_LINES.map((s) => `- ${s.title}: ${s.description}`),
+    ...SERVICE_LINES.map((s) => `${s.title}: ${s.description}`),
     "",
     "What came through:",
     `${record.projectTypeLabel} · ${record.budgetLabel}`,
@@ -197,7 +197,7 @@ function autoReplyBody(record: LeadRecord) {
     "",
     `Recent work: ${SITE.url}/work`,
     "",
-    `— ${SITE.name}`,
+    STATIC_SIGNATURE,
     `${SITE.email} · Kissimmee, FL · ${SITE.url}/privacy`,
   ].join("\n");
 }
@@ -443,7 +443,7 @@ export async function POST(req: Request) {
         html: await renderLeadAutoReply({
           firstName: firstNameOf(record.name),
           greeting: STATIC_GREETING,
-          signature: [`— ${SITE.name}`],
+          signature: [STATIC_SIGNATURE],
           projectTypeLabel: record.projectTypeLabel,
           budgetLabel: record.budgetLabel,
           message: record.message,

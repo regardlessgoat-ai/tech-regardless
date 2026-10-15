@@ -1,14 +1,17 @@
 /**
- * Shared shell for every email the site sends. The tokens mirror
- * app/globals.css (cream light theme, near-black header, electric green
- * accent) so a message reads as the same brand as the page it came from.
+ * Shared shell for every email the site sends. The tokens mirror the site's
+ * dark theme in app/globals.css (.dark: near-black page, #121212 cards,
+ * electric green accent) so a message reads as the same brand as the page it
+ * came from.
  *
  * Email constraints, all deliberate:
  * - inline styles only (no <style> block, no media queries)
- * - explicit background and text colours on every block so dark-mode clients
- *   do not invert half the layout
- * - the wordmark is a hosted PNG (SVG is stripped by Gmail), served from the
- *   live site, light-on-transparent so it sits on the dark header in any mode
+ * - one dark theme, declared as such in the color-scheme metas, with an
+ *   explicit background and text colour on every container, so clients that
+ *   auto-darken (Gmail iOS) have nothing light left to half-invert
+ * - the wordmark is a hosted PNG (SVG is stripped by Gmail) with the header
+ *   colour baked in, not transparent: on a transparent PNG Gmail's inversion
+ *   put the white letters on a light box
  * - 600px max width, fluid below that
  */
 import * as React from "react";
@@ -28,14 +31,13 @@ import type { ReactNode } from "react";
 import { SITE } from "@/lib/utils";
 
 export const tokens = {
-  // app/globals.css :root (light) + .dark header band
-  bg: "#fafaf7",
-  card: "#ffffff",
-  border: "#e1e1e6",
-  text: "#0a0a0a",
-  muted: "#71717a",
-  headerBg: "#0a0a0a",
-  headerMuted: "#a1a1aa",
+  // app/globals.css .dark
+  bg: "#0a0a0a",
+  card: "#121212",
+  inset: "#171717",
+  border: "#262626",
+  text: "#fafafa",
+  muted: "#a1a1aa",
   accent: "#00ff88",
   onAccent: "#0a0a0a",
   radius: "4px",
@@ -46,31 +48,27 @@ export const fonts = {
   mono: '"SF Mono", SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace',
 } as const;
 
-export const LOGO_URL = `${SITE.url}/brand/wordmark.png`;
+// public/brand/wordmark-dark.png: wordmark.png flattened onto tokens.bg.
+export const LOGO_URL = `${SITE.url}/brand/wordmark-dark.png`;
 export const LOCATION = "Kissimmee, FL";
 
 export const styles = {
   body: { margin: 0, padding: 0, backgroundColor: tokens.bg, fontFamily: fonts.sans, color: tokens.text },
   outer: { backgroundColor: tokens.bg, padding: "24px 12px" },
-  container: { maxWidth: "600px", width: "100%", margin: "0 auto" },
-  header: {
-    backgroundColor: tokens.headerBg,
-    borderRadius: `${tokens.radius} ${tokens.radius} 0 0`,
-    padding: "28px 28px 24px",
-  },
+  container: { backgroundColor: tokens.bg, maxWidth: "600px", width: "100%", margin: "0 auto" },
+  header: { backgroundColor: tokens.bg, padding: "8px 4px 24px" },
   tagline: {
     margin: "14px 0 0",
     fontFamily: fonts.mono,
     fontSize: "11px",
     letterSpacing: "0.2em",
     textTransform: "uppercase" as const,
-    color: tokens.headerMuted,
+    color: tokens.muted,
   },
   content: {
     backgroundColor: tokens.card,
     border: `1px solid ${tokens.border}`,
-    borderTop: 0,
-    borderRadius: `0 0 ${tokens.radius} ${tokens.radius}`,
+    borderRadius: tokens.radius,
     padding: "28px 28px 32px",
   },
   eyebrow: {
@@ -79,19 +77,20 @@ export const styles = {
     fontSize: "11px",
     letterSpacing: "0.2em",
     textTransform: "uppercase" as const,
-    // Pure #00ff88 is unreadable on white; the darker green keeps the hue.
-    // Buttons use the real accent as a fill with dark text.
-    color: "#00a857",
+    color: tokens.accent,
   },
   h1: { margin: 0, fontSize: "24px", lineHeight: "1.25", fontWeight: 500, letterSpacing: "-0.01em", color: tokens.text },
   p: { margin: "0 0 14px", fontSize: "16px", lineHeight: "1.55", color: tokens.text },
   pMuted: { margin: "0 0 14px", fontSize: "14px", lineHeight: "1.55", color: tokens.muted },
   h2: { margin: "28px 0 10px", fontSize: "13px", fontWeight: 600, letterSpacing: "0.08em", textTransform: "uppercase" as const, color: tokens.muted, fontFamily: fonts.mono },
-  card: { backgroundColor: tokens.bg, border: `1px solid ${tokens.border}`, borderRadius: tokens.radius, padding: "16px 18px" },
+  card: { backgroundColor: tokens.inset, border: `1px solid ${tokens.border}`, borderRadius: tokens.radius, padding: "16px 18px" },
   cardTitle: { margin: "0 0 2px", fontSize: "15px", fontWeight: 600, color: tokens.text },
   cardText: { margin: 0, fontSize: "14px", lineHeight: "1.5", color: tokens.muted },
   button: {
     backgroundColor: tokens.accent,
+    // Gmail's dark mode recolours background-color but leaves background-image
+    // alone, so the gradient keeps the fill the real brand green.
+    backgroundImage: `linear-gradient(${tokens.accent}, ${tokens.accent})`,
     color: tokens.onAccent,
     fontSize: "14px",
     fontWeight: 500,
@@ -101,13 +100,13 @@ export const styles = {
     textDecoration: "none",
     display: "inline-block",
   },
-  footer: { padding: "22px 8px 0" },
+  footer: { backgroundColor: tokens.bg, padding: "22px 4px 0" },
   footerText: { margin: "0 0 6px", fontFamily: fonts.mono, fontSize: "12px", lineHeight: "1.6", color: tokens.muted },
   footerLink: { color: tokens.muted, textDecoration: "underline" },
   link: { color: tokens.text, textDecoration: "underline" },
 } as const;
 
-/** Header band, white content card, footer. `children` is the card body. */
+/** Header, content card, footer, all on the dark page. `children` is the card body. */
 export function EmailShell({
   preview,
   children,
@@ -121,8 +120,8 @@ export function EmailShell({
   return (
     <Html lang="en">
       <Head>
-        <meta name="color-scheme" content="light" />
-        <meta name="supported-color-schemes" content="light" />
+        <meta name="color-scheme" content="dark" />
+        <meta name="supported-color-schemes" content="dark" />
       </Head>
       <Preview>{preview}</Preview>
       <Body style={styles.body}>
@@ -130,7 +129,7 @@ export function EmailShell({
           <Container style={styles.container}>
             <Section style={styles.header}>
               <Link href={SITE.url}>
-                <Img src={LOGO_URL} alt={SITE.name} width="200" height="28" style={{ display: "block", border: 0 }} />
+                <Img src={LOGO_URL} alt={SITE.name} width="200" height="28" style={{ display: "block", border: 0, backgroundColor: tokens.bg }} />
               </Link>
               <Text style={styles.tagline}>{SITE.tagline}</Text>
             </Section>

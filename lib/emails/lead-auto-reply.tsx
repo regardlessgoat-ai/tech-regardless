@@ -28,8 +28,11 @@ export const SERVICE_LINES = [
 ] as const;
 
 /** The human-written confirmation. Used verbatim in the plain-text part too. */
+/** The sign-off under the static confirmation, HTML and plain text alike. */
+export const STATIC_SIGNATURE = `Ali, ${SITE.name}`;
+
 export const STATIC_GREETING = [
-  "Your message reached me. This confirmation is automatic — it fires the moment the form submits, so you're not left wondering whether it went through. The actual reply is written by a human, and that's me.",
+  "Your message reached me. This confirmation is automatic. It fires the moment the form submits, so you're not left wondering whether it went through. The actual reply is written by a human, and that's me.",
   "I respond within 24 hours. If you left something out, just reply to this email. It comes straight to my inbox.",
 ] as const;
 
@@ -38,7 +41,7 @@ export interface LeadAutoReplyProps {
   firstName: string;
   /** Paragraphs. Static copy, or the front desk's reply. */
   greeting: readonly string[];
-  /** Sign-off lines under the greeting, e.g. ["— Tech.Regardless"]. */
+  /** Sign-off lines under the greeting, e.g. ["Ali, Tech.Regardless"]. */
   signature: readonly string[];
   projectTypeLabel: string;
   budgetLabel: string;

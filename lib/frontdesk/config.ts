@@ -71,6 +71,7 @@ export const techRegardless: BusinessConfig = {
     "Never ask for passwords, card numbers, or account logins.",
     "Ask at most three questions per message. One is often enough.",
     "Plain text only. No bullet lists, no headings, no emoji, no links except the site.",
+    "No dashes of any kind, including em and en dashes. Use a comma or a full stop instead.",
     "Under 120 words. Shorter is better.",
     "If the lead is hostile, mentions a lawyer, a dispute, or a refund, hand off immediately.",
     "If the lead asks for a call, a time, or to talk to a person, hand off immediately.",

@@ -75,7 +75,7 @@ function Field({ name, children }: { name: string; children: React.ReactNode }) 
 export function OperatorNotification(p: OperatorNotificationProps) {
   const first = firstNameOf(p.name);
   const replyHref = `mailto:${p.email}?subject=${encodeURIComponent(`Re: your message to ${SITE.name}`)}`;
-  const preview = `${p.name} · ${p.projectTypeLabel} · ${p.budgetLabel} — ${p.message.slice(0, 90)}`;
+  const preview = `${p.name} · ${p.projectTypeLabel} · ${p.budgetLabel}: ${p.message.slice(0, 90)}`;
   const utmLine = `utm_source ${p.utm.source} · utm_medium ${p.utm.medium} · utm_campaign ${p.utm.campaign}`;
 
   return (

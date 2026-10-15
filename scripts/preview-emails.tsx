@@ -4,7 +4,7 @@
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
 import { RESEARCH_QUESTIONS } from "../lib/contact-questions";
-import { renderLeadAutoReply, STATIC_GREETING } from "../lib/emails/lead-auto-reply";
+import { renderLeadAutoReply, STATIC_GREETING, STATIC_SIGNATURE } from "../lib/emails/lead-auto-reply";
 import { renderOperatorNotification } from "../lib/emails/operator-notification";
 import { firstNameOf, paragraphsOf } from "../lib/emails/shell";
 import { SITE } from "../lib/utils";
@@ -33,7 +33,7 @@ async function main() {
     ["operator-notification.html", await renderOperatorNotification(lead)],
     [
       "lead-auto-reply-static.html",
-      await renderLeadAutoReply({ firstName: first, greeting: STATIC_GREETING, signature: [`— ${SITE.name}`], ...lead }),
+      await renderLeadAutoReply({ firstName: first, greeting: STATIC_GREETING, signature: [STATIC_SIGNATURE], ...lead }),
     ],
     [
       "lead-auto-reply-ai.html",
@@ -42,7 +42,7 @@ async function main() {
         greeting: paragraphsOf(
           "Thanks for the detail, Jordan. Missing a third of calls while you're both on installs is exactly the gap the front desk covers: it texts the caller back within seconds and asks for the job details so nothing sits in voicemail.\n\nTwo quick questions before Ali calls you: are most of those calls new customers or existing ones, and do you want texts to go out from your current business number?\n\nAli reads every reply in this thread and will take over from here.",
         ),
-        signature: ["— the tech.regardless front desk", `Ali reads every reply. ${SITE.url}`],
+        signature: ["The tech.regardless front desk", `Ali reads every reply. ${SITE.url}`],
         ...lead,
       }),
     ],

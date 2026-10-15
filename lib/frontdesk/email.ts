@@ -38,7 +38,7 @@ export function threadIdFromAddress(config: BusinessConfig, addresses: string[])
 function signature(config: BusinessConfig) {
   return [
     "",
-    `— ${config.assistantName}`,
+    `${config.assistantName.charAt(0).toUpperCase()}${config.assistantName.slice(1)}`,
     `${config.operatorName} reads every reply. ${SITE.url}`,
   ].join("\n");
 }
