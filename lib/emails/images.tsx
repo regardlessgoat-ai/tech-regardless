@@ -12,7 +12,7 @@ import * as React from "react";
 import { readFile } from "node:fs/promises";
 import { join } from "node:path";
 import { ImageResponse } from "next/og";
-import { BUTTON, buttonWidth } from "./button-spec";
+import { BUTTON, buttonWidth, type ButtonVariant } from "./button-spec";
 
 // Vendored from node_modules/geist so the route bundle can trace them
 // (next.config.mjs outputFileTracingIncludes).
@@ -25,6 +25,7 @@ function font(file: string) {
 const INK = "#0a0a0a";
 const WHITE = "#ffffff";
 const GREEN = "#00ff88";
+const OUTLINE_BORDER = "#d4d4d8";
 
 // ── Badge ────────────────────────────────────────────────────────────────────
 export const BADGE = { width: 172, height: 40 } as const;
@@ -59,8 +60,9 @@ export async function renderBadge(): Promise<ImageResponse> {
 }
 
 // ── Buttons ──────────────────────────────────────────────────────────────────
-export async function renderButton(label: string): Promise<ImageResponse> {
+export async function renderButton(label: string, variant: ButtonVariant = "solid"): Promise<ImageResponse> {
   const width = buttonWidth(label);
+  const outline = variant === "outline";
   return new ImageResponse(
     (
       <div
@@ -70,9 +72,11 @@ export async function renderButton(label: string): Promise<ImageResponse> {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          backgroundColor: INK,
+          backgroundColor: outline ? WHITE : INK,
+          // 2px at 2x = a 1px border on screen
+          border: outline ? `2px solid ${OUTLINE_BORDER}` : "none",
           borderRadius: 16,
-          color: WHITE,
+          color: outline ? INK : WHITE,
           fontFamily: "Geist",
           fontSize: BUTTON.fontSize * 2,
           letterSpacing: "-0.01em",

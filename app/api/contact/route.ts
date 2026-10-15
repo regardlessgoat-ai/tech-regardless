@@ -5,7 +5,6 @@ import {
   PROJECT_TYPE_VALUES,
   BUDGETS,
   BUDGET_VALUES,
-  RESEARCH_QUESTIONS,
   researchSchema,
   describeResearch,
   type ResearchAnswers,
@@ -16,7 +15,16 @@ import { nextMessage } from "@/lib/frontdesk/brain";
 import { createThread, saveThread, isStoreConfigured } from "@/lib/frontdesk/store";
 import { sendAssistantEmail } from "@/lib/frontdesk/email";
 import { SITE } from "@/lib/utils";
-import { renderOperatorNotification, operatorSubject } from "@/lib/emails/operator-notification";
+import {
+  answerRows,
+  formatEastern,
+  leadTag,
+  operatorSubject,
+  prettyPhone,
+  renderOperatorNotification,
+  sourceLine,
+  timelineOf,
+} from "@/lib/emails/operator-notification";
 import { NEXT_STEPS, renderLeadAutoReply, SIGNATURE, SITE_HOST, STATIC_INTRO } from "@/lib/emails/lead-auto-reply";
 import { firstNameOf } from "@/lib/emails/shell";
 
@@ -255,29 +263,26 @@ export async function POST(req: Request) {
 
   const subject = operatorSubject(record);
   const text = [
-    `Name: ${record.name}`,
+    `${leadTag(record)} lead`,
+    record.name,
+    record.company,
+    `${record.projectTypeLabel} · ${record.budgetLabel} · ${timelineOf(record.research)}`,
+    `Received: ${formatEastern(record.receivedAt)}`,
+    record.phone ? `Phone: ${prettyPhone(record.phone)}` : null,
     `Email: ${record.email}`,
-    record.company ? `Business: ${record.company}` : null,
-    record.phone ? `Phone: ${record.phone}` : null,
-    `Project type: ${record.projectTypeLabel}`,
-    `Budget: ${record.budgetLabel}`,
-    `Win looks like: ${record.goal}`,
-    `Received: ${new Date(record.receivedAt).toLocaleString("en-US", { timeZone: "America/New_York" })} ET`,
     "",
-    "Message:",
+    "Their message:",
     record.message,
+    `Win looks like: ${record.goal}`,
     "",
-    "Five quick questions:",
-    ...describeResearch(record.research).map((line) => `  ${line}`),
+    "Their answers:",
+    ...answerRows(record.research).map(([label, value]) => `  ${label}: ${value}`),
     "",
-    `utm_source ${record.utm.source} · utm_medium ${record.utm.medium} · utm_campaign ${record.utm.campaign}`,
+    sourceLine(record.utm),
   ]
     .filter(Boolean)
     .join("\n");
-  const html = await renderOperatorNotification({
-    ...record,
-    research: RESEARCH_QUESTIONS.map((q) => [q.question, q.options[record.research[q.id]]] as const),
-  });
+  const html = await renderOperatorNotification(record);
 
   // The text to the operator goes first, on purpose. Twilio is a different
   // provider on a different network path, so it is the channel most likely to

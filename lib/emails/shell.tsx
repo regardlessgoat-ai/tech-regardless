@@ -1,7 +1,7 @@
 /**
  * Shared shell for every email the site sends: an intentional light theme
  * (the site's :root tokens in app/globals.css), with the brand green as an
- * accent only, a thin bar on the card and a dot on the eyebrow.
+ * accent only: the thin bar on the card and the small step circles.
  *
  * Why light, and why images: Gmail iOS repaints dark emails light and forces
  * button text white in its dark mode, so a dark design can't survive it. A
@@ -20,7 +20,7 @@ import * as React from "react";
 import { Body, Container, Head, Html, Img, Link, Preview, Section, Text } from "@react-email/components";
 import type { ReactNode } from "react";
 import { SITE } from "@/lib/utils";
-import { BUTTON, buttonSrc, buttonWidth } from "./button-spec";
+import { BUTTON, buttonSrc, buttonWidth, type ButtonVariant } from "./button-spec";
 
 export const tokens = {
   // app/globals.css :root
@@ -30,7 +30,9 @@ export const tokens = {
   border: "#e1e1e6",
   text: "#0a0a0a",
   muted: "#71717a",
-  accent: "#00ff88",
+  // Slightly deeper than the site accent (#00ff88) so the bar and the step
+  // circles hold up on white.
+  bar: "#00d673",
   radius: "8px",
 } as const;
 
@@ -41,7 +43,6 @@ export const fonts = {
 
 // public/brand/email-badge.png, transparent, 2x. scripts/email-assets.tsx.
 export const BADGE_URL = `${SITE.url}/brand/email-badge.png`;
-export const LOCATION = "Kissimmee, FL";
 
 const label = {
   fontFamily: fonts.sans,
@@ -57,51 +58,41 @@ export const styles = {
   body: { margin: 0, padding: 0, backgroundColor: tokens.bg, fontFamily: fonts.sans, color: tokens.text },
   outer: { backgroundColor: tokens.bg, padding: "28px 12px" },
   container: { backgroundColor: tokens.bg, maxWidth: "600px", width: "100%", margin: "0 auto" },
-  header: { backgroundColor: tokens.bg, padding: "0 4px 20px" },
-  tagline: { ...label, margin: "12px 0 0" },
   content: {
     backgroundColor: tokens.card,
     border: `1px solid ${tokens.border}`,
-    borderTop: `3px solid ${tokens.accent}`,
+    borderTop: `3px solid ${tokens.bar}`,
     borderRadius: tokens.radius,
-    padding: "28px 28px 32px",
+    padding: "28px 28px 30px",
   },
-  eyebrow: { ...label, margin: "0 0 10px" },
-  eyebrowDot: { color: tokens.accent, fontSize: "10px", letterSpacing: 0, marginRight: "6px", verticalAlign: "1px" },
+  label: { ...label, margin: 0 },
   h1: { margin: 0, fontSize: "24px", lineHeight: "1.25", fontWeight: 500, letterSpacing: "-0.01em", color: tokens.text },
   p: { margin: "0 0 14px", fontSize: "16px", lineHeight: "1.55", color: tokens.text },
   pMuted: { margin: "0 0 14px", fontSize: "14px", lineHeight: "1.55", color: tokens.muted },
   h2: { ...label, margin: "30px 0 10px" },
   card: { backgroundColor: tokens.inset, border: `1px solid ${tokens.border}`, borderRadius: tokens.radius, padding: "16px 18px" },
-  cardTitle: { margin: "0 0 2px", fontSize: "15px", fontWeight: 600, color: tokens.text },
   cardText: { margin: 0, fontSize: "14px", lineHeight: "1.5", color: tokens.muted },
-  footer: { backgroundColor: tokens.bg, padding: "22px 4px 0" },
-  footerText: { margin: "0 0 6px", fontFamily: fonts.sans, fontSize: "12px", lineHeight: "1.6", color: tokens.muted },
+  footer: { backgroundColor: tokens.bg, padding: "18px 4px 0" },
+  footerText: { margin: 0, fontFamily: fonts.sans, fontSize: "12px", lineHeight: "1.6", color: tokens.muted },
   footerLink: { color: tokens.muted, textDecoration: "underline" },
   link: { color: tokens.text, textDecoration: "underline" },
 } as const;
 
-/** Small grey label with the green accent dot, above the headline. */
-export function Eyebrow({ children }: { children: ReactNode }) {
+/** The badge PNG, linked to the site. */
+export function Badge() {
   return (
-    <Text style={styles.eyebrow}>
-      <span style={styles.eyebrowDot}>●</span>
-      {children}
-    </Text>
+    <Link href={SITE.url}>
+      <Img src={BADGE_URL} alt={SITE.name} width="172" height="40" style={{ display: "block", border: 0 }} />
+    </Link>
   );
 }
 
-/** Badge on the page, content card with the green top bar, footer. `children` is the card body. */
-export function EmailShell({
-  preview,
-  children,
-  footerNote,
-}: {
-  preview: string;
-  children: ReactNode;
-  /** Optional extra line above the standard footer (e.g. campaign tags). */
-  footerNote?: ReactNode;
-}) {
+/**
+ * The frame both emails share: off-white page, white card with the green bar
+ * on top, a small grey footer under the card. `children` is the card body,
+ * badge included, since each email lays its top row out differently.
+ */
+export function EmailShell({ preview, children, footer }: { preview: string; children: ReactNode; footer: ReactNode }) {
   return (
     <Html lang="en">
       <Head>
@@ -112,26 +103,9 @@ export function EmailShell({
       <Body style={styles.body}>
         <Section style={styles.outer}>
           <Container style={styles.container}>
-            <Section style={styles.header}>
-              <Link href={SITE.url}>
-                <Img src={BADGE_URL} alt={SITE.name} width="172" height="40" style={{ display: "block", border: 0 }} />
-              </Link>
-              <Text style={styles.tagline}>{SITE.tagline}</Text>
-            </Section>
             <Section style={styles.content}>{children}</Section>
             <Section style={styles.footer}>
-              {footerNote}
-              <Text style={styles.footerText}>
-                <Link href={`mailto:${SITE.email}`} style={styles.footerLink}>
-                  {SITE.email}
-                </Link>
-                {" · "}
-                {LOCATION}
-                {" · "}
-                <Link href={`${SITE.url}/privacy`} style={styles.footerLink}>
-                  Privacy Policy
-                </Link>
-              </Text>
+              <Text style={styles.footerText}>{footer}</Text>
             </Section>
           </Container>
         </Section>
@@ -144,11 +118,21 @@ export function EmailShell({
  * A call to action drawn as an image (app/api/email/button), wrapped in the
  * link. `alt` says where it goes, for clients that block images.
  */
-export function PrimaryButton({ href, label, alt }: { href: string; label: string; alt: string }) {
+export function ImageButton({
+  href,
+  label,
+  alt,
+  variant = "solid",
+}: {
+  href: string;
+  label: string;
+  alt: string;
+  variant?: ButtonVariant;
+}) {
   return (
     <Link href={href} style={{ display: "inline-block", textDecoration: "none" }}>
       <Img
-        src={buttonSrc(label)}
+        src={buttonSrc(label, variant)}
         alt={alt}
         width={String(buttonWidth(label))}
         height={String(BUTTON.height)}

@@ -1,9 +1,9 @@
-// Render both contact-form emails to HTML files so they can be opened in a
-// browser or mail client without submitting the form.
+// Render every variant of the contact-form emails to HTML files so they can
+// be opened in a browser or mail client without submitting the form.
 //   npx tsx scripts/preview-emails.tsx [outDir]      (default: .preview-emails/)
 import { mkdirSync, writeFileSync } from "node:fs";
 import { join } from "node:path";
-import { RESEARCH_QUESTIONS } from "../lib/contact-questions";
+import type { ResearchAnswers } from "../lib/contact-questions";
 import { renderLeadAutoReply, STATIC_INTRO } from "../lib/emails/lead-auto-reply";
 import { renderOperatorNotification } from "../lib/emails/operator-notification";
 import { firstNameOf, paragraphsOf } from "../lib/emails/shell";
@@ -18,11 +18,12 @@ const lead = {
   phone: "4075550100",
   company: "Rivera Garage Doors",
   projectTypeLabel: "AI Front Desk",
+  budget: "2k-5k",
   budgetLabel: "$2k to $5k",
   goal: "stop missing calls while I'm on a job",
   message:
     "We miss maybe a third of our calls during the day because both of us are on installs.\n\nVoicemail doesn't get returned fast enough and I know we're losing jobs to whoever picks up first.",
-  research: RESEARCH_QUESTIONS.map((q) => [q.question, q.options.b] as const),
+  research: { findYou: "b", missedCall: "b", booking: "b", callVolume: "b", timing: "b" } as ResearchAnswers,
   utm: { source: "direct", medium: "direct", campaign: "direct" },
 };
 
@@ -30,6 +31,23 @@ async function main() {
   const first = firstNameOf(lead.name);
   const files: [string, string][] = [
     ["operator-notification.html", await renderOperatorNotification(lead)],
+    // Warm: big budget, no rush. Cold: small budget, no rush, no phone.
+    [
+      "operator-notification-warm.html",
+      await renderOperatorNotification({ ...lead, research: { ...lead.research, timing: "c" } }),
+    ],
+    [
+      "operator-notification-cold.html",
+      await renderOperatorNotification({
+        ...lead,
+        phone: null,
+        company: null,
+        budget: "under-1k",
+        budgetLabel: "Under $1k",
+        research: { ...lead.research, timing: "d" },
+        utm: { source: "cold-email", medium: "email", campaign: "hvac-osceola" },
+      }),
+    ],
     [
       "lead-auto-reply-static.html",
       await renderLeadAutoReply({ firstName: first, intro: STATIC_INTRO, ...lead }),
