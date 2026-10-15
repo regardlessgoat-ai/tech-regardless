@@ -45,7 +45,8 @@ export type Thread = {
 
 const TTL_SECONDS = 60 * 60 * 24 * 60; // 60 days
 
-function client(): Redis | null {
+/** The shared Upstash client, or null when the store isn't configured. */
+export function client(): Redis | null {
   const url = process.env.UPSTASH_REDIS_REST_URL || process.env.KV_REST_API_URL;
   const token =
     process.env.UPSTASH_REDIS_REST_TOKEN || process.env.KV_REST_API_TOKEN;

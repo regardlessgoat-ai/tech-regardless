@@ -27,6 +27,8 @@ import {
 } from "@/lib/emails/operator-notification";
 import { AUTO_REPLY_FROM, HUMAN_SIGNATURE, NEXT_STEPS, renderLeadAutoReply, signatureLines, SITE_HOST, STATIC_INTRO } from "@/lib/emails/lead-auto-reply";
 import { firstNameOf } from "@/lib/emails/shell";
+import { isGmailConfigured, sendGmail } from "@/lib/gmail";
+import { claimAutoReply } from "@/lib/autoreply-cap";
 
 // The front desk's first message is a model call; give it room.
 export const maxDuration = 60;
@@ -389,61 +391,73 @@ export async function POST(req: Request) {
   // Preferred: the assistant writes a reply that reacts to what they said and
   // asks the questions Ali needs before a call. Fallback: the plain
   // confirmation below, which promises nothing the AI would have.
-  let firstContact: "ai" | "static" | "failed" = "failed";
+  //
+  // Capped first (lib/autoreply-cap.ts): 50 a day, one a day per address.
+  // Over the cap the lead still reaches the operator; only the reply is
+  // skipped.
+  let firstContact: "ai" | "static" | "failed" | "capped" = "failed";
+  let autoReplyVia: "gmail" | "resend" | null = null;
   let threadId: string | null = null;
 
-  const thread = await createThread({
-    businessId: techRegardless.id,
-    lead: {
-      name: record.name,
-      email: record.email,
-      phone: record.phone,
-      company: record.company,
-      projectType: record.projectTypeLabel,
-      budget: record.budgetLabel,
-      goal: record.goal,
-      research: describeResearch(record.research),
-      message: record.message,
-    },
-    subject: `Your message to ${SITE.name}`,
-    messages: [],
-  });
-  threadId = thread.id;
-
-  const brain = await nextMessage(techRegardless, thread);
-  if (brain.ok && brain.output.reply.trim()) {
-    const sent = await sendAssistantEmail(resend, techRegardless, thread, brain.output.reply, {
-      from: autoReplyFrom,
-    });
-    if (sent.ok) {
-      firstContact = "ai";
-      thread.messages.push({
-        role: "assistant",
-        text: brain.output.reply.trim(),
-        at: new Date().toISOString(),
-        messageId: sent.messageId ?? undefined,
-      });
-      if (brain.output.handoff) {
-        thread.status = "handed_off";
-        thread.handoffReason = brain.output.handoff_reason || "one-shot";
-        thread.summary = brain.output.lead_summary;
-      }
-      await saveThread(thread);
-    } else {
-      console.error(`[contact] AI FIRST CONTACT SEND FAILED ${sent.error}`);
-    }
-  } else if (!brain.ok) {
-    console.warn(`[contact] front desk unavailable (${brain.reason}) — static confirmation`, brain.detail ?? "");
+  const cap = await claimAutoReply(record.email);
+  if (!cap.allowed) {
+    firstContact = "capped";
+    console.warn(`[contact] AUTOREPLY SKIPPED ${cap.reason}`);
   }
 
-  if (firstContact !== "ai") {
+  if (cap.allowed) {
+    const thread = await createThread({
+      businessId: techRegardless.id,
+      lead: {
+        name: record.name,
+        email: record.email,
+        phone: record.phone,
+        company: record.company,
+        projectType: record.projectTypeLabel,
+        budget: record.budgetLabel,
+        goal: record.goal,
+        research: describeResearch(record.research),
+        message: record.message,
+      },
+      subject: `Your message to ${SITE.name}`,
+      messages: [],
+    });
+    threadId = thread.id;
+
+    const brain = await nextMessage(techRegardless, thread);
+    if (brain.ok && brain.output.reply.trim()) {
+      const sent = await sendAssistantEmail(resend, techRegardless, thread, brain.output.reply, {
+        from: autoReplyFrom,
+      });
+      if (sent.ok) {
+        firstContact = "ai";
+        thread.messages.push({
+          role: "assistant",
+          text: brain.output.reply.trim(),
+          at: new Date().toISOString(),
+          messageId: sent.messageId ?? undefined,
+        });
+        if (brain.output.handoff) {
+          thread.status = "handed_off";
+          thread.handoffReason = brain.output.handoff_reason || "one-shot";
+          thread.summary = brain.output.lead_summary;
+        }
+        await saveThread(thread);
+      } else {
+        console.error(`[contact] AI FIRST CONTACT SEND FAILED ${sent.error}`);
+      }
+    } else if (!brain.ok) {
+      console.warn(`[contact] front desk unavailable (${brain.reason}) — static confirmation`, brain.detail ?? "");
+    }
+  }
+
+  if (firstContact === "failed") {
     try {
-      const result = await resend.emails.send({
+      const mail = {
         from: AUTO_REPLY_FROM,
         to: record.email,
-        // From Ali and replies to Ali: a personal reply, which is also what
-        // keeps it out of Gmail's Promotions tab. The body promises replies
-        // reach him, so they have to.
+        // From Ali and replies to Ali. The body promises replies reach Ali,
+        // so they have to.
         replyTo: SITE.email,
         subject: `Got it, ${firstNameOf(record.name)}. Talk soon.`,
         text: autoReplyBody(record),
@@ -454,9 +468,26 @@ export async function POST(req: Request) {
           budgetLabel: record.budgetLabel,
           message: record.message,
         }),
-      });
-      if (result.error) {
-        throw new Error(result.error.message || "Resend rejected the auto-reply.");
+      };
+
+      // Preferred: the real ali@ Workspace mailbox via the Gmail API, which
+      // has a sending history a new Resend domain doesn't. Any failure falls
+      // through to Resend so no lead goes without a reply.
+      if (isGmailConfigured()) {
+        const sent = await sendGmail(mail);
+        if (sent.ok) {
+          autoReplyVia = "gmail";
+        } else {
+          console.warn(`[contact] GMAIL AUTOREPLY FAILED, using Resend: ${sent.error}`);
+        }
+      }
+
+      if (!autoReplyVia) {
+        const result = await resend.emails.send(mail);
+        if (result.error) {
+          throw new Error(result.error.message || "Resend rejected the auto-reply.");
+        }
+        autoReplyVia = "resend";
       }
       firstContact = "static";
     } catch (err) {
@@ -476,10 +507,12 @@ export async function POST(req: Request) {
     `[contact] LEAD DELIVERED ${breadcrumb(record, {
       sms: smsStatus,
       firstContact,
+      autoReplyVia,
       threadId,
       threadStored: isStoreConfigured(),
     })}`
   );
 
-  return NextResponse.json({ ok: true });
+  // Tells the thanks screen whether a confirmation actually went out.
+  return NextResponse.json({ ok: true, confirmation: firstContact === "ai" || firstContact === "static" });
 }

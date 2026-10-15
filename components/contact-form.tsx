@@ -51,6 +51,8 @@ export type ProjectTypeValue = ContactValues["projectType"];
 /** `defaultProjectType` presets the select, e.g. from /contact?type=free-audit. */
 export function ContactForm({ defaultProjectType }: { defaultProjectType?: ProjectTypeValue }) {
   const [submitted, setSubmitted] = useState(false);
+  // False when the server skipped the auto-reply (daily cap) or it failed.
+  const [confirmationSent, setConfirmationSent] = useState(true);
   const [serverError, setServerError] = useState<string | null>(null);
 
   const {
@@ -88,6 +90,8 @@ export function ContactForm({ defaultProjectType }: { defaultProjectType?: Proje
         const data = await res.json().catch(() => ({}));
         throw new Error(data?.error || "Something went wrong sending that.");
       }
+      const data = await res.json().catch(() => ({}));
+      setConfirmationSent(data?.confirmation !== false);
       reset();
       setSubmitted(true);
     } catch (err) {
@@ -104,13 +108,15 @@ export function ContactForm({ defaultProjectType }: { defaultProjectType?: Proje
         className="flex flex-col items-start gap-4 rounded border border-accent/40 bg-accent/5 p-8"
       >
         <CheckCircle2 className="size-8 text-accent" aria-hidden />
-        <h2 className="text-2xl font-medium tracking-tight">
-          Got it. Check your email.
-        </h2>
+        <h2 className="text-2xl font-medium tracking-tight">Got it.</h2>
+        {confirmationSent ? (
+          <p className="text-foreground">
+            Confirmation sent. If you don&apos;t see it, check your Promotions tab.
+          </p>
+        ) : null}
         <p className="text-muted-foreground">
-          A confirmation is on its way to your inbox now. I read every
-          request myself, and you&apos;ll hear back within one business day,
-          usually the same day.
+          I read every request myself, and you&apos;ll hear back within one
+          business day, usually the same day.
         </p>
         <Button
           type="button"
