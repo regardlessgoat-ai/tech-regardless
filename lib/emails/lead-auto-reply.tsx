@@ -29,8 +29,12 @@ export const SIGNATURE = {
   note: "Reply to this email, it comes straight to me.",
 } as const;
 
-/** "https://techregardless.com" → "techregardless.com" for the footer. */
-export const SITE_HOST = SITE.url.replace(/^https?:\/\//, "").replace(/\/$/, "");
+/**
+ * The footer shows the brand domain as text. Not derived from SITE.url: in
+ * production that comes from NEXT_PUBLIC_SITE_URL, which is the vercel.app
+ * host. The link itself still goes to SITE.url.
+ */
+export const SITE_HOST = "techregardless.com";
 
 export interface LeadAutoReplyProps {
   /** Already capitalised, first name only. */
