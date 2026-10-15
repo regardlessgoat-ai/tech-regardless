@@ -1,18 +1,17 @@
 /**
  * The confirmation the person who filled the form receives.
  *
- * Card frame shared with the operator email (lib/emails/shell.tsx), but kept
- * deliberately plain so Gmail files it as a personal reply, not marketing:
- * sent from Ali, no images (the wordmark is text, the call to action a text
- * link), exactly two links, no hidden preview padding.
+ * Plain on purpose so Gmail files it as a personal reply, not marketing: sent
+ * from Ali, no shared card frame (lib/emails/shell.tsx is the operator email's),
+ * no images, one link, no hidden preview text.
  *
  * `intro` is the only part that changes between the static confirmation and
  * the AI front desk's first message; everything around it is fixed.
  */
 import * as React from "react";
-import { Column, Hr, Link, Row, Section, Text, render } from "@react-email/components";
+import { Head, Html, Link, Text, render } from "@react-email/components";
 import { SITE } from "@/lib/utils";
-import { EmailShell, MultilineText, fonts, styles, tokens } from "./shell";
+import { fonts, tokens } from "./shell";
 
 /** The line under the headline. Used verbatim in the plain-text part too. */
 export const STATIC_INTRO = [
@@ -63,96 +62,87 @@ export interface LeadAutoReplyProps {
   message: string;
 }
 
+const sans = fonts.sans;
+
 const s = {
-  h1: { ...styles.h1, margin: "26px 0 12px", fontSize: "26px" },
-  stepNum: {
-    width: "22px",
-    height: "22px",
-    borderRadius: "11px",
-    backgroundColor: tokens.bar,
-    color: tokens.text,
-    fontSize: "12px",
-    fontWeight: 600,
-    lineHeight: "22px",
-    textAlign: "center" as const,
-    fontFamily: fonts.sans,
-  },
-  stepText: { margin: 0, fontSize: "15px", lineHeight: "22px", color: tokens.text },
-  sigName: { margin: 0, fontSize: "15px", lineHeight: "1.5", fontWeight: 600, color: tokens.text },
-  sigLine: { margin: 0, fontSize: "14px", lineHeight: "1.5", color: tokens.muted },
-  wordmark: { margin: 0, fontFamily: fonts.mono, fontSize: "16px", fontWeight: 500, letterSpacing: "-0.01em", color: tokens.text },
-  textLink: { color: tokens.text, fontSize: "15px", fontWeight: 500, textDecoration: "underline" },
+  body: { margin: 0, padding: "16px", backgroundColor: "#ffffff", color: "#111111", fontFamily: sans },
+  wrap: { maxWidth: "560px" },
+  p: { margin: "0 0 14px", fontSize: "15px", lineHeight: "1.5", color: "#111111", fontFamily: sans },
+  h1: { margin: "16px 0 12px", fontSize: "20px", lineHeight: "1.3", fontWeight: 700, color: "#111111", fontFamily: sans },
+  link: { color: "#1a0dab", textDecoration: "underline" },
 } as const;
 
 /** The display name and address the confirmation comes from, and replies go to. */
 export const AUTO_REPLY_FROM = `Ali <${SITE.email}>`;
 
-function Step({ n, children }: { n: number; children: React.ReactNode }) {
-  return (
-    <Row style={{ marginBottom: "10px" }}>
-      <Column style={{ width: "34px", verticalAlign: "top" }}>
-        <div style={s.stepNum}>{n}</div>
-      </Column>
-      <Column style={{ verticalAlign: "top" }}>
-        <Text style={s.stepText}>{children}</Text>
-      </Column>
-    </Row>
-  );
-}
-
+/**
+ * Deliberately close to a hand written reply: white page, one column, normal
+ * text, no card, no colored bar, no boxes, no label styling. The green dot in
+ * the wordmark is the only color. Exactly one link.
+ */
 export function LeadAutoReply(p: LeadAutoReplyProps) {
   const sig = p.signature ?? HUMAN_SIGNATURE;
-  // Two links in the whole email: recent work and the privacy policy. The
-  // domain is plain text.
-  const footer = (
-    <>
-      {SITE_HOST}
-      {" · "}
-      <Link href={`${SITE.url}/privacy`} style={styles.footerLink}>
-        Privacy policy
-      </Link>
-    </>
-  );
+  const lines = p.message.replace(/\r\n/g, "\n").split("\n");
 
   return (
-    <EmailShell footer={footer}>
-      <Text style={s.wordmark}>
-        Tech<span style={{ color: tokens.bar }}>.</span>Regardless
-      </Text>
+    <Html lang="en">
+      <Head />
+      {/* A bare <body>: React Email's Body wraps the content in a layout table. */}
+      <body style={s.body}>
+        <div style={s.wrap}>
+          <Text style={{ ...s.p, fontWeight: 600 }}>
+            Tech<span style={{ color: tokens.bar }}>.</span>Regardless
+          </Text>
 
-      <Text style={s.h1}>Got it, {p.firstName}.</Text>
-      {p.intro.map((para, i) => (
-        <Text key={i} style={styles.p}>
-          {para}
-        </Text>
-      ))}
+          <Text style={s.h1}>Got it, {p.firstName}.</Text>
+          {p.intro.map((para, i) => (
+            <Text key={i} style={s.p}>
+              {para}
+            </Text>
+          ))}
 
-      <Text style={styles.h2}>What happens next</Text>
-      {NEXT_STEPS.map((step, i) => (
-        <Step key={i} n={i + 1}>
-          {step}
-        </Step>
-      ))}
+          <Text style={s.p}>What happens next:</Text>
+          <Text style={s.p}>
+            {NEXT_STEPS.map((step, i) => (
+              <span key={i}>
+                {i + 1}. {step}
+                {i < NEXT_STEPS.length - 1 ? <br /> : null}
+              </span>
+            ))}
+          </Text>
 
-      <Text style={styles.h2}>What you sent</Text>
-      <Section style={styles.card}>
-        <Text style={{ ...styles.cardText, marginBottom: "10px" }}>
-          {p.projectTypeLabel} · {p.budgetLabel}
-        </Text>
-        <MultilineText text={p.message} style={{ fontSize: "15px", color: tokens.text }} />
-      </Section>
+          <Text style={s.p}>What you sent:</Text>
+          <Text style={s.p}>
+            {p.projectTypeLabel} · {p.budgetLabel}
+            <br />
+            {lines.map((line, i) => (
+              <span key={i}>
+                {line}
+                {i < lines.length - 1 ? <br /> : null}
+              </span>
+            ))}
+          </Text>
 
-      <Text style={{ ...styles.p, margin: "24px 0 0" }}>
-        <Link href={`${SITE.url}/work`} style={s.textLink}>
-          See recent work
-        </Link>
-      </Text>
+          <Text style={s.p}>
+            <Link href={`${SITE.url}/work`} style={s.link}>
+              See recent work
+            </Link>
+          </Text>
 
-      <Hr style={{ borderColor: tokens.border, borderTopWidth: "1px", margin: "28px 0 20px" }} />
-      <Text style={s.sigName}>{sig.name}</Text>
-      {sig.title ? <Text style={s.sigLine}>{sig.title}</Text> : null}
-      <Text style={{ ...s.sigLine, marginTop: "8px" }}>{sig.note}</Text>
-    </EmailShell>
+          <Text style={{ ...s.p, margin: "20px 0 0" }}>
+            {sig.name}
+            {sig.title ? (
+              <>
+                <br />
+                {sig.title}
+              </>
+            ) : null}
+            <br />
+            {sig.note}
+          </Text>
+        </div>
+      </body>
+    </Html>
   );
 }
 
