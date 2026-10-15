@@ -17,7 +17,7 @@ import { createThread, saveThread, isStoreConfigured } from "@/lib/frontdesk/sto
 import { sendAssistantEmail } from "@/lib/frontdesk/email";
 import { SITE } from "@/lib/utils";
 import { renderOperatorNotification, operatorSubject } from "@/lib/emails/operator-notification";
-import { renderLeadAutoReply, STATIC_GREETING, STATIC_SIGNATURE, SERVICE_LINES } from "@/lib/emails/lead-auto-reply";
+import { NEXT_STEPS, renderLeadAutoReply, SIGNATURE, SITE_HOST, STATIC_INTRO } from "@/lib/emails/lead-auto-reply";
 import { firstNameOf } from "@/lib/emails/shell";
 
 // The front desk's first message is a model call; give it room.
@@ -185,20 +185,23 @@ function breadcrumb(record: LeadRecord, extra: Record<string, unknown> = {}) {
 // cold email. No hard wraps: the client decides where lines break.
 function autoReplyBody(record: LeadRecord) {
   return [
-    `Hi ${firstNameOf(record.name)},`,
+    `Got it, ${firstNameOf(record.name)}.`,
     "",
-    ...STATIC_GREETING.flatMap((p) => [p, ""]),
-    "What we do:",
-    ...SERVICE_LINES.map((s) => `${s.title}: ${s.description}`),
+    ...STATIC_INTRO.flatMap((p) => [p, ""]),
+    "What happens next:",
+    ...NEXT_STEPS.map((step, i) => `${i + 1}. ${step}`),
     "",
-    "What came through:",
+    "What you sent:",
     `${record.projectTypeLabel} · ${record.budgetLabel}`,
     record.message,
     "",
     `Recent work: ${SITE.url}/work`,
     "",
-    STATIC_SIGNATURE,
-    `${SITE.email} · Kissimmee, FL · ${SITE.url}/privacy`,
+    SIGNATURE.name,
+    SIGNATURE.title,
+    SIGNATURE.note,
+    "",
+    `${SITE_HOST} · Privacy policy: ${SITE.url}/privacy`,
   ].join("\n");
 }
 
@@ -442,8 +445,7 @@ export async function POST(req: Request) {
         text: autoReplyBody(record),
         html: await renderLeadAutoReply({
           firstName: firstNameOf(record.name),
-          greeting: STATIC_GREETING,
-          signature: [STATIC_SIGNATURE],
+          intro: STATIC_INTRO,
           projectTypeLabel: record.projectTypeLabel,
           budgetLabel: record.budgetLabel,
           message: record.message,

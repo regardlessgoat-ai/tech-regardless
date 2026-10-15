@@ -66,8 +66,7 @@ export async function sendAssistantEmail(
   const html = isFirst
     ? await renderLeadAutoReply({
         firstName: firstNameOf(thread.lead.name),
-        greeting: paragraphsOf(text),
-        signature: signature(config).trim().split("\n"),
+        intro: paragraphsOf(text),
         projectTypeLabel: thread.lead.projectType,
         budgetLabel: thread.lead.budget,
         message: thread.lead.message,
