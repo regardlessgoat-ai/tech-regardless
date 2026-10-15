@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { openGraphFor } from "@/lib/seo";
 import { Clock, Mail } from "lucide-react";
 import { ContactForm } from "@/components/contact-form";
 import { Reveal } from "@/components/reveal";
@@ -9,6 +10,7 @@ export const metadata: Metadata = {
   description:
     "Start a project with Tech.Regardless. One form, one email, one human reply within 24 hours.",
   alternates: { canonical: "/contact" },
+  openGraph: openGraphFor("/contact"),
 };
 
 

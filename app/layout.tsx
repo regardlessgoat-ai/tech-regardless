@@ -5,6 +5,7 @@ import { ThemeProvider } from "@/components/theme-provider";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { SITE } from "@/lib/utils";
+import { BASE_OPEN_GRAPH } from "@/lib/seo";
 import { UtmCapture } from "@/components/utm-capture";
 import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
@@ -35,14 +36,7 @@ export const metadata: Metadata = {
   ],
   authors: [{ name: SITE.name }],
   creator: SITE.name,
-  openGraph: {
-    type: "website",
-    siteName: SITE.name,
-    title: `${SITE.name} — ${SITE.tagline}`,
-    description: SITE.description,
-    url: SITE.url,
-    locale: "en_US",
-  },
+  openGraph: { ...BASE_OPEN_GRAPH, url: SITE.url },
   twitter: {
     card: "summary_large_image",
     title: `${SITE.name} — ${SITE.tagline}`,

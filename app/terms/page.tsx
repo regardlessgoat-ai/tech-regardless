@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { openGraphFor } from "@/lib/seo";
 import Link from "next/link";
 
 export const metadata: Metadata = {
@@ -6,6 +7,7 @@ export const metadata: Metadata = {
   description:
     "The terms for receiving text messages from a business that uses tech.regardless Front Desk: consent, frequency, STOP and HELP, carrier liability.",
   alternates: { canonical: "/terms" },
+  openGraph: openGraphFor("/terms"),
 };
 
 const CONTACT = "ali@techregardless.com";

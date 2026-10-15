@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { openGraphFor } from "@/lib/seo";
 import { Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { SectionHeading } from "@/components/ui/section-heading";
@@ -13,6 +14,7 @@ export const metadata: Metadata = {
   description:
     "Custom websites from $1,800. One $500 a month plan covers the AI front desk and ongoing care of your website. Business automation quoted per project.",
   alternates: { canonical: "/services" },
+  openGraph: openGraphFor("/services"),
 };
 
 type Service = {

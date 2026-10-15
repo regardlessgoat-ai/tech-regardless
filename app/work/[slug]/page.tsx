@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { openGraphFor } from "@/lib/seo";
 import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
@@ -32,11 +33,11 @@ export async function generateMetadata({
     title,
     description: tagline,
     alternates: { canonical: `/work/${params.slug}` },
-    openGraph: {
+    openGraph: openGraphFor(`/work/${params.slug}`, {
       title,
       description: tagline,
       ...(heroImage ? { images: [{ url: heroImage }] } : {}),
-    },
+    }),
   };
 }
 

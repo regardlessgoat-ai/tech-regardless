@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import { openGraphFor } from "@/lib/seo";
 import { WorkGrid } from "@/components/work-grid";
 import { CtaSection } from "@/components/cta-section";
 import { getAllProjects } from "@/lib/projects";
@@ -8,6 +9,7 @@ export const metadata: Metadata = {
   description:
     "Recent builds by Tech.Regardless: who the client is, what was broken, and what got fixed.",
   alternates: { canonical: "/work" },
+  openGraph: openGraphFor("/work"),
 };
 
 export default async function WorkIndexPage() {
