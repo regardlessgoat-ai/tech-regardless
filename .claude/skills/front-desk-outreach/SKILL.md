@@ -5,7 +5,7 @@ description: Use for anything related to the AI Front Desk business — cold ema
 
 # AI Front Desk — Outreach Operations
 
-You are working on the operator's active revenue push: selling an AI Front Desk service (missed-call text-back + AI booking agent + automated review requests) to home-service businesses in Osceola and Orange counties, FL, at $697/month. Written cold email is the only channel. ~12 clients hits the revenue floor.
+You are working on the operator's active revenue push: selling an AI Front Desk service (missed-call text-back + AI booking agent + automated review requests) to home-service businesses in Osceola and Orange counties, FL, at $600/month with a website included. Written cold email is the only channel. ~12 clients hits the revenue floor.
 
 ## THE RULE — enforce it aggressively
 
@@ -13,7 +13,7 @@ You are working on the operator's active revenue push: selling an AI Front Desk 
 
 What IS allowed pre-sale: lead scraping, list hygiene, email copy, the outreach pipeline, a simple landing/one-pager, discovery call prep.
 
-**The second offer:** tech.regardless also sells website builds (custom-quoted). A prospect who isn't ready for $697/mo but has a bad or missing website is a website lead — pivot the thread. Website builds are exempt from the no-product rule; they're sold as builds by nature. A website client is still a client, and a foot in the door for the Front Desk later.
+**The second offer:** tech.regardless also sells website builds (custom-quoted). A prospect who isn't ready for $600/mo but has a bad or missing website is a website lead — pivot the thread. Website builds are exempt from the no-product rule; they're sold as builds by nature. A website client is still a client, and a foot in the door for the Front Desk later.
 
 ## Deliverability — the domain is the asset
 
@@ -47,7 +47,7 @@ What IS allowed pre-sale: lead scraping, list hygiene, email copy, the outreach 
 ## Discovery call → close
 
 - Goal of the email is the call, not the sale; goal of the call is fit, not pressure
-- Price is $697/month — hold it. Don't discount to land the first client; a discounted anchor client poisons the pricing forever
+- Price is $600/month with a website included — hold it. Don't discount to land the first client; a discounted anchor client poisons the pricing forever
 - If the fit is a website build instead, quote it custom with real margin — don't underprice to land it
 - First client (either offer) becomes a flagship case study
 

@@ -43,7 +43,7 @@ Priority check before deep site work: the AI Front Desk outreach pipeline (see `
 
 ### [BUSINESS] — Positioning
 - Two audiences: home-service owners checking out the AI Front Desk sender, and web dev prospects
-- Both service lines visible: AI Front Desk ($697/mo, productized) and website builds (custom-quoted)
+- Both service lines visible: AI Front Desk ($600/mo with a website included, productized) and website builds (custom-quoted)
 - The wedge: local + real shipped production work + honest pricing
 - Pricing shown if productized (Front Desk), hidden if truly custom (website builds)
 
