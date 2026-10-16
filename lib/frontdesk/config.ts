@@ -54,8 +54,8 @@ export const techRegardless: BusinessConfig = {
     "Business automation: intake, follow ups, invoicing and reporting wired together.",
   ],
   publicPricing: [
-    "Websites start at $1,800.",
-    "The monthly plan is $500 and covers the AI Front Desk plus ongoing website updates and support, cancel anytime.",
+    "A website on its own is $1,800 one-time.",
+    "The monthly plan is $600, includes a new website, and covers the AI Front Desk plus ongoing website updates and support, cancel anytime.",
     "Automation is quoted per project.",
   ],
   qualifyingGoals: [

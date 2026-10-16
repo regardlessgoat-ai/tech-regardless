@@ -12,7 +12,7 @@ import { CtaSection } from "@/components/cta-section";
 export const metadata: Metadata = {
   title: "Services & Pricing",
   description:
-    "Full Presence Plan, $500 a month: missed call text back, booking over text, review requests, website care. Websites from $1,800. Automation quoted.",
+    "Full Presence Plan, $600 a month: new website included, missed call text back, booking over text, review requests, website care. Website only: $1,800 one-time.",
   alternates: { canonical: "/services" },
   openGraph: openGraphFor("/services"),
 };
@@ -38,8 +38,8 @@ const services: Service[] = [
       "Your website is embarrassing you, or you don't have one, and the people who Google you can tell.",
     outcome:
       "A site that looks like your business, loads fast on a phone, and turns visitors into calls.",
-    price: "From $1,800",
-    priceNote: "one time flat number, agreed before work starts",
+    price: "$1,800 one-time",
+    priceNote: "flat number, agreed before work starts",
     timeline: "1 to 2 weeks",
     includes: [
       "Design made for your brand, not a template",
@@ -48,7 +48,8 @@ const services: Service[] = [
       "A contact form that lands in your inbox",
       "Hosting and domain set up for you",
       "You own the code and the domain on day one",
-      "30 days of fixes and changes after launch, then covered by the $500 monthly plan if you want it",
+      "30 days of fixes and changes after launch",
+      "Want it handled for you? The $600/mo plan includes your website, plus the AI Front Desk and ongoing care.",
     ],
     cta: "Start a website",
     href: "/contact",
@@ -60,10 +61,11 @@ const services: Service[] = [
       "You're on a job, the phone rings, you can't pick up, and the customer calls the next company on the list.",
     outcome:
       "Every missed call gets a text back within seconds, the details get collected, you confirm the job with one reply, and happy customers get asked for reviews and referrals.",
-    price: "$500 a month",
-    priceNote: "one plan: the Front Desk plus ongoing website updates and support, cancel anytime",
+    price: "$600 a month",
+    priceNote: "one plan: a new website, the Front Desk, and ongoing website care, cancel anytime",
     timeline: "Live once your business number is approved for texting",
     includes: [
+      "A new website built for you, an $1,800 value, included",
       "Missed calls get a text back from your business number",
       "The assistant collects the customer's name, what they need, and a good time",
       "You get one text per request and reply Y or N to confirm",
@@ -116,8 +118,9 @@ const faqItems: AccordionItem[] = [
     answer: (
       <p>
         Websites and automation: half to start, half on launch, invoiced
-        through Stripe. The monthly plan is $500 and covers the AI Front
-        Desk plus ongoing website updates and support. Cancel any month.
+        through Stripe. The monthly plan is $600 and covers a new website,
+        the AI Front Desk, and ongoing website updates and support. Cancel
+        any month.
       </p>
     ),
   },

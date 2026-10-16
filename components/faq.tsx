@@ -47,7 +47,7 @@ const items: AccordionItem[] = [
         Your first 30 days of support are included: bug fixes, business
         changes, personalized edits, anything small that isn&apos;t a full
         redesign. After that, ongoing updates and support are part of the
-        $500 a month plan, which also gives you the AI Front Desk. Whenever
+        $600 a month plan, which also gives you the AI Front Desk. Whenever
         you need something different, or another part of the business
         automated, that&apos;s a one time quote custom to the job. You
         explain the issue, and I tell you honestly whether it can be

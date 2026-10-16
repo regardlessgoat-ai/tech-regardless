@@ -7,7 +7,7 @@
 Sell an "AI Front Desk" service to home-service businesses (HVAC, plumbing, electrical, pest control) in the Kissimmee/Orlando area — Osceola and Orange counties.
 
 - **The offer:** missed-call text-back + AI booking agent + automated review requests
-- **Price:** $697/month
+- **Price:** $600/month (Full Presence Plan, a new website included)
 - **Channel:** written cold email, primary and only channel for now
 - **Target:** ~12 clients to hit the revenue floor
 - **THE RULE: no product gets built until someone pays.** Sell first. This rule outranks every cool implementation idea. If a task smells like building the product pre-sale, stop and flag it.
@@ -16,7 +16,7 @@ Sell an "AI Front Desk" service to home-service businesses (HVAC, plumbing, elec
 
 Custom website design and builds for businesses — the freelance web dev arm of tech.regardless.
 
-- **Who buys it:** local small businesses, freelance leads through the site, and home-service prospects from the outreach pipeline. A prospect who isn't ready for the $697/mo Front Desk but has a bad or missing website is a website lead — the two offers feed each other.
+- **Who buys it:** local small businesses, freelance leads through the site, and home-service prospects from the outreach pipeline. A prospect who isn't ready for the $600/mo Front Desk but has a bad or missing website is a website lead — the two offers feed each other.
 - **Pricing:** custom-quoted per project for now (productize with set tiers once a few builds establish the pattern)
 - **Proof it's real:** deployed client work already exists (see Clients below), plus PicMenu as a full-SaaS showcase
 - **Delivery model:** operator strategizes and sells; Claude Code builds

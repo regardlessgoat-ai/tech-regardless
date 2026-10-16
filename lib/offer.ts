@@ -3,32 +3,25 @@
 
 export const PLAN = {
   name: "Full Presence Plan",
-  price: "$500/mo",
-  title: "Full Presence Plan, $500/mo",
+  price: "$600/mo",
+  title: "Full Presence Plan, $600/mo",
+  /** The value stack, in order. */
   includes: [
-    "Texts back every missed call",
-    "Books the job over text",
-    "Asks happy customers for a review",
-    "Website updates and care included",
+    "New website built for you, an $1,800 value, included",
+    "Missed-call text-back",
+    "Job booking over text",
+    "Review requests after every job",
+    "Website care and updates",
+    "Cancel anytime.",
   ],
 } as const;
 
 export const GUARANTEE =
   "If your AI Front Desk doesn't make you money from a missed call in the first 30 days, your next 30 days are free.";
 
-export const SIDE_SERVICES = [
-  {
-    title: "Custom Websites",
-    description:
-      "Designed for your brand, built to turn visitors into calls, fast on a phone. You own the code on day one.",
-    price: "From $1,800",
-    href: "/services#websites",
-  },
-  {
-    title: "Business Automation",
-    description:
-      "The work you do by hand every week, wired together: intake, follow ups, invoicing, reporting. Tell us the problem and we'll tell you straight whether we can solve it.",
-    price: "Custom quote",
-    href: "/services#automation",
-  },
-] as const;
+/** The backup offer, shown small under the plan. */
+export const WEBSITE_ONLY = {
+  lead: "Just need a website?",
+  price: "$1,800 one-time.",
+  href: "/services#websites",
+} as const;

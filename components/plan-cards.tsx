@@ -1,12 +1,12 @@
-import { ArrowRight, ArrowUpRight, Check, ShieldCheck } from "lucide-react";
+import { ArrowRight, Check, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Reveal } from "@/components/reveal";
-import { GUARANTEE, PLAN, SIDE_SERVICES } from "@/lib/offer";
+import { GUARANTEE, PLAN, WEBSITE_ONLY } from "@/lib/offer";
 
 /**
- * The Full Presence Plan as the featured card, the guarantee right under its
- * list, and the two project services as smaller cards beside it. Used on the
+ * The Full Presence Plan as the one featured card, the guarantee right under
+ * its list, and the website-only offer as a small line below it. Used on the
  * homepage and on Services.
  */
 export function PlanCards({
@@ -19,8 +19,8 @@ export function PlanCards({
 }) {
   const H = headingLevel;
   return (
-    <div className="grid gap-4 lg:grid-cols-3">
-      <Reveal className="lg:col-span-2">
+    <div className="grid gap-4">
+      <Reveal>
         <article className="flex h-full flex-col rounded border border-accent/40 bg-card p-6 sm:p-8">
           <p className="font-mono text-xs uppercase tracking-[0.2em] text-accent">The monthly plan</p>
           <H className="mt-3 text-3xl font-medium tracking-tight sm:text-4xl">{PLAN.title}</H>
@@ -54,26 +54,21 @@ export function PlanCards({
         </article>
       </Reveal>
 
-      <div className="grid gap-4">
-        {SIDE_SERVICES.map((s, i) => (
-          <Reveal key={s.title} delay={0.06 * (i + 1)}>
-            <Link
-              href={s.href}
-              className="group flex h-full flex-col rounded border border-border bg-card p-6 transition-colors hover:bg-muted/30 focus-ring"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <H className="text-xl font-medium tracking-tight">{s.title}</H>
-                <ArrowUpRight
-                  className="size-5 shrink-0 text-muted-foreground transition-all group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-foreground"
-                  aria-hidden
-                />
-              </div>
-              <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{s.description}</p>
-              <p className="mt-auto pt-4 font-mono text-xs uppercase tracking-wider text-foreground">{s.price}</p>
-            </Link>
-          </Reveal>
-        ))}
-      </div>
+      <Reveal delay={0.06}>
+        <Link
+          href={WEBSITE_ONLY.href}
+          className="group flex min-h-11 items-center justify-between gap-4 rounded border border-border px-5 py-3 text-sm transition-colors hover:bg-muted/30 focus-ring"
+        >
+          <span>
+            <span className="text-muted-foreground">{WEBSITE_ONLY.lead} </span>
+            <span className="font-medium text-foreground">{WEBSITE_ONLY.price}</span>
+          </span>
+          <ArrowRight
+            className="size-4 shrink-0 text-muted-foreground transition-transform group-hover:translate-x-0.5 group-hover:text-foreground"
+            aria-hidden
+          />
+        </Link>
+      </Reveal>
     </div>
   );
 }
