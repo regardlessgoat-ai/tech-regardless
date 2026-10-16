@@ -20,7 +20,7 @@ import { createServer } from "node:http";
 
 const SCOPE = "https://www.googleapis.com/auth/gmail.send";
 const ACCOUNT = "ali@techregardless.com";
-const TIMEOUT_MS = 15 * 60 * 1000;
+const TIMEOUT_MS = 60 * 60 * 1000; // the Cloud console setup takes a while
 
 const CLIENT_ID_RE = /^\d+-[a-z0-9]+\.apps\.googleusercontent\.com$/;
 const SECRET_RE = /^GOCSPX-[A-Za-z0-9_-]{10,}$/;
